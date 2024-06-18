@@ -1,0 +1,35 @@
+.loaderWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loaderBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+
+.colorChange {
+  animation: colorChange 0.7s infinite alternate;
+}
+
+@keyframes colorChange {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
