@@ -9,11 +9,15 @@
   font-style: normal;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   font-family: "Poppins", sans-serif !important;
   scroll-behavior: smooth;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   margin: 0;
   padding: 0;
 }
@@ -25,7 +29,7 @@ body {
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
   box-sizing: border-box;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 .loader-container {
   display: flex;

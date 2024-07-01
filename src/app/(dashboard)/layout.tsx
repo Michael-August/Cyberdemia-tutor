@@ -23,8 +23,8 @@ function Layout({ children }: any) {
       <Image
         src="/images/backgroundImage.svg"
         alt="background image"
-        width={600}
-        height={600}
+        width={700}
+        height={700}
         className="fixed right-[-150px] bottom-[-150px]"
       />
       <div>{children}</div>
