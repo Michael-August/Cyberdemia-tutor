@@ -1,14 +1,14 @@
-import { Label } from "../label";
-import Breadcrumb from "../ui/breadcrumb";
+import { Label } from '../label';
+import Breadcrumb from '../ui/breadcrumb';
 
 const breadcrumbs = [
   {
-    url: "/student/support",
-    name: "Help & Support",
+    url: '/student/support',
+    name: 'Help & Support',
   },
   {
-    url: "",
-    name: "Get Support",
+    url: '',
+    name: 'Get Support',
   },
 ];
 

@@ -1,6 +1,6 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+'use client';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 interface SelectInputProps {
   title: string;
@@ -35,13 +35,13 @@ const SelectInput: React.FC<SelectInputProps> = ({
 
 const Page: React.FC = () => {
   const Router = useRouter();
-  const [category, setCategory] = useState<string>("");
-  const [difficulty, setDifficulty] = useState<string>("");
+  const [category, setCategory] = useState<string>('');
+  const [difficulty, setDifficulty] = useState<string>('');
 
-  const categoryOptions = ["Option 1", "Option 2", "Option 3"];
-  const difficultyOptions = ["Easy", "Medium", "Hard"];
+  const categoryOptions = ['Option 1', 'Option 2', 'Option 3'];
+  const difficultyOptions = ['Easy', 'Medium', 'Hard'];
   const handleNext = () => {
-    Router.push("/tutor/labs/confirmation");
+    Router.push('/tutor/labs/confirmation');
   };
 
   return (

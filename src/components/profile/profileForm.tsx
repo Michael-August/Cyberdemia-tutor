@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Input } from "../inputs";
+import { useForm } from 'react-hook-form';
+
+import { Input } from '../inputs';
 
 type FormValues = {
   firstname: string;
@@ -16,7 +16,7 @@ const ProfileForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const languages = ["English", "Spanish", "French", "German", "Chinese"];
+  const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
 
   const submitForm = (data: FormValues) => {
     console.log(data);
@@ -38,8 +38,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="firstname"
-              {...register("firstname", {
-                required: "First name is required",
+              {...register('firstname', {
+                required: 'First name is required',
               })}
             />
             {errors.firstname && (
@@ -56,8 +56,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="lastname"
-              {...register("lastname", {
-                required: "Last name is required",
+              {...register('lastname', {
+                required: 'Last name is required',
               })}
             />
             {errors.lastname && (
@@ -77,8 +77,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="phone"
-              {...register("phoneNumber", {
-                required: "Phone number is required",
+              {...register('phoneNumber', {
+                required: 'Phone number is required',
               })}
             />
             {errors.phoneNumber && (
@@ -91,8 +91,8 @@ const ProfileForm = () => {
             <span className="text-[12px]  text-gray-600">Language</span>
             <select
               className="text-xs text-[#000000CC] py-4 p-3 bg-[#F5F5F5] border border-solid text-gray-500 border-[#00000033] w-full text-left"
-              {...register("language", {
-                required: "Language selection is required",
+              {...register('language', {
+                required: 'Language selection is required',
               })}
             >
               <option value="">Select Language</option>
@@ -117,8 +117,8 @@ const ProfileForm = () => {
             placeholder="Enter text (250 characters)"
             autoComplete="off"
             id="bio"
-            {...register("bio", {
-              required: "Bio is required",
+            {...register('bio', {
+              required: 'Bio is required',
             })}
           />
           {errors.bio && (
