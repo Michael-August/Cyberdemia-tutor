@@ -1,75 +1,47 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
-interface AccordionInputProps {
+interface SelectInputProps {
   title: string;
   options: string[];
   selectedOption: string;
   onOptionSelect: (option: string) => void;
 }
 
-const AccordionInput: React.FC<AccordionInputProps> = ({
+const SelectInput: React.FC<SelectInputProps> = ({
   title,
   options,
   selectedOption,
   onOptionSelect,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className="relative ">
-      <button
-        className="w-full flex items-center justify-between border-[0.5px] border-slate-300 bg-[#F5F5F5] py-4 px-4 text-[13px] text-gray-400"
-        onClick={() => setIsOpen(!isOpen)}
+      <select
+        className="w-full border-[0.5px] border-slate-300 bg-[#F5F5F5] py-4 px-4 text-[13px] text-gray-400"
+        value={selectedOption}
+        onChange={(e) => onOptionSelect(e.target.value)}
       >
-        {selectedOption || title}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`w-4 h-4 text-slate-500 transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-      {isOpen && (
-        <div className="border-t border-slate-300 bg-[#F5F5F5]">
-          <ul>
-            {options.map((option, index) => (
-              <li
-                key={index}
-                className="px-4 py-2 text-gray-500 border border-b-gray-300 pb-4 text-[13px] cursor-pointer hover:bg-gray-200"
-                onClick={() => {
-                  onOptionSelect(option);
-                  setIsOpen(false);
-                }}
-              >
-                {option}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        <option value="">{title}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
 
 const Page: React.FC = () => {
   const Router = useRouter();
-  const [category, setCategory] = useState<string>('');
-  const [difficulty, setDifficulty] = useState<string>('');
+  const [category, setCategory] = useState<string>("");
+  const [difficulty, setDifficulty] = useState<string>("");
 
-  const categoryOptions = ['Option 1', 'Option 2', 'Option 3'];
-  const difficultyOptions = ['Easy', 'Medium', 'Hard'];
+  const categoryOptions = ["Option 1", "Option 2", "Option 3"];
+  const difficultyOptions = ["Easy", "Medium", "Hard"];
   const handleNext = () => {
-    Router.push('/tutor/labs/confirmation');
+    Router.push("/tutor/labs/confirmation");
   };
 
   return (
@@ -88,7 +60,7 @@ const Page: React.FC = () => {
           aliquam ac in. Urna sit mauris faucibus lectus elementum ipsum. Proin
           quis velit elementum dui aliquam euismod a placerat consectetur. Arcu
           proin et parturient nisl semper bibendum enim eget etiam. Neque
-          penatibus iaculis non ultrices augue.{' '}
+          penatibus iaculis non ultrices augue.
         </span>
       </div>
       <div className="flex flex-col gap-2">
@@ -110,7 +82,7 @@ const Page: React.FC = () => {
             <span className="text-[11px] font-normal text-gray-700">
               Category
             </span>
-            <AccordionInput
+            <SelectInput
               title="Category"
               options={categoryOptions}
               selectedOption={category}
@@ -121,7 +93,7 @@ const Page: React.FC = () => {
             <span className="text-[11px] font-normal text-gray-700">
               Difficulty
             </span>
-            <AccordionInput
+            <SelectInput
               title="Difficulty"
               options={difficultyOptions}
               selectedOption={difficulty}

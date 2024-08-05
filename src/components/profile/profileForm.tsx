@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { IoIosArrowDown } from 'react-icons/io';
-
-import { Input } from '../inputs';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Input } from "../inputs";
 
 type FormValues = {
   firstname: string;
@@ -13,17 +11,12 @@ type FormValues = {
 };
 
 const ProfileForm = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
-
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
+  const languages = ["English", "Spanish", "French", "German", "Chinese"];
 
   const submitForm = (data: FormValues) => {
     console.log(data);
@@ -45,8 +38,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="firstname"
-              {...register('firstname', {
-                required: 'First name is required',
+              {...register("firstname", {
+                required: "First name is required",
               })}
             />
             {errors.firstname && (
@@ -63,8 +56,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="lastname"
-              {...register('lastname', {
-                required: 'Last name is required',
+              {...register("lastname", {
+                required: "Last name is required",
               })}
             />
             {errors.lastname && (
@@ -84,8 +77,8 @@ const ProfileForm = () => {
               autoComplete="off"
               type="text"
               id="phone"
-              {...register('phoneNumber', {
-                required: 'Phone number is required',
+              {...register("phoneNumber", {
+                required: "Phone number is required",
               })}
             />
             {errors.phoneNumber && (
@@ -96,39 +89,23 @@ const ProfileForm = () => {
           </div>
           <div className="w-full flex flex-col gap-3">
             <span className="text-[12px]  text-gray-600">Language</span>
-            <button
-              type="button"
-              className="text-xs text-[#000000CC] !py-4 p-3 bg-[#F5F5F5] border border-solid text-gray-500 border-[#00000033] w-full text-left flex justify-between items-center"
-              onClick={toggleAccordion}
+            <select
+              className="text-xs text-[#000000CC] py-4 p-3 bg-[#F5F5F5] border border-solid text-gray-500 border-[#00000033] w-full text-left"
+              {...register("language", {
+                required: "Language selection is required",
+              })}
             >
-              Select Language
-              <IoIosArrowDown
-                className={`transition-transform duration-200 ${
-                  isOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
-            {isOpen && (
-              <div className="flex flex-col gap-3 text-[12px] text-gray-600 bg-[#F5F5F5] p-3 border border-[#00000033] mt-1">
-                {languages.map((language, index) => (
-                  <label key={index} className="flex items-center">
-                    <input
-                      type="radio"
-                      value={language}
-                      className="mr-2"
-                      {...register('language', {
-                        required: 'Language selection is required',
-                      })}
-                    />
-                    {language}
-                  </label>
-                ))}
-                {errors.language && (
-                  <p className="text-red-500 py-2 text-xs">
-                    {errors.language.message}
-                  </p>
-                )}
-              </div>
+              <option value="">Select Language</option>
+              {languages.map((language, index) => (
+                <option key={index} value={language}>
+                  {language}
+                </option>
+              ))}
+            </select>
+            {errors.language && (
+              <p className="text-red-500 py-2 text-xs">
+                {errors.language.message}
+              </p>
             )}
           </div>
         </div>
@@ -140,8 +117,8 @@ const ProfileForm = () => {
             placeholder="Enter text (250 characters)"
             autoComplete="off"
             id="bio"
-            {...register('bio', {
-              required: 'Bio is required',
+            {...register("bio", {
+              required: "Bio is required",
             })}
           />
           {errors.bio && (

@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form";
-import { Input } from "../inputs";
+import { useForm } from 'react-hook-form';
+
+import { Input } from '../inputs';
 
 type FormValues = {
   firstname: string;
@@ -38,8 +39,8 @@ const Socials = () => {
               autoComplete="off"
               type="text"
               id="firstname"
-              {...register("firstname", {
-                required: "First name is required",
+              {...register('firstname', {
+                required: 'First name is required',
               })}
             />
             {errors.firstname && (
@@ -56,8 +57,8 @@ const Socials = () => {
               autoComplete="off"
               type="text"
               id="lastname"
-              {...register("lastname", {
-                required: "Last name is required",
+              {...register('lastname', {
+                required: 'Last name is required',
               })}
             />
             {errors.lastname && (
@@ -79,8 +80,8 @@ const Socials = () => {
               autoComplete="off"
               type="text"
               id="phone"
-              {...register("phoneNumber", {
-                required: "Phone number is required",
+              {...register('phoneNumber', {
+                required: 'Phone number is required',
               })}
             />
             {errors.phoneNumber && (
