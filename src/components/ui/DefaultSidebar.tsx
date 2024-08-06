@@ -24,8 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const isSmallScreen = useMediaQuery('(max-width:768px)');
 
   const sidebarLinks = [
-    { img: PiHouseFill, link: '/student/home', text: 'Home' },
-    { img: GoBook, link: '/student/courses', text: 'My Courses' },
+    { img: PiHouseFill, link: '/tutor/home', text: 'Home' },
+    { img: GoBook, link: '/tutor/courses', text: 'My Courses' },
     {
       img: isSmallScreen ? SiSimpleanalytics : PiCertificateBold,
       link: '/tutor/certificate',
@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { img: TbCube, link: '/tutor/labs', text: 'Virtual Labs' },
     {
       img: isSmallScreen ? MdChat : TbCreditCard,
-      link: '/student/payments',
+      link: '/tutor/payments',
       text: isSmallScreen ? 'Communication' : 'Payments',
     },
     { img: CgProfile, link: '/tutor/profile', text: 'Profile' },
