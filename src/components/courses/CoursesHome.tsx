@@ -1,20 +1,9 @@
 'use client';
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@radix-ui/react-select';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { IoArrowForward, IoChevronForward } from 'react-icons/io5';
+import { IoArrowForward } from 'react-icons/io5';
 
 import { Button } from '../button';
-import { SelectGroup } from '../ui/select';
-import { Course } from './Course';
-
 export const CoursesHome = () => {
   const router = useRouter();
 
@@ -24,19 +13,30 @@ export const CoursesHome = () => {
   };
   return (
     <div>
-      {/* <div className="no-course">
-                <div className="btn-card  w-full md:w-[19.75rem] border border-cp-secondary p-4 flex flex-col items-center justify-center gap-5">
-                <Image src="/images/pluscircle.svg" alt="plus in acircle" width={80} height={80} />
-                <span className='text-xl font-bold'>Create a course</span>
-                <p className='mt-3 text-base '>Create your course and manage the contents, request virtual labs, create exams question and more.</p>
-                <Button onClick={goToCourseCreation} className='flex gap-1 items-center !bg-cp-secondary text-white rounded-none p-2'>
-                    Get Started
-                    <IoArrowForward />
-                </Button>
-                </div>
-            </div> */}
+      <div className="no-course">
+        <div className="btn-card  w-full md:w-[19.75rem] border border-cp-secondary p-4 flex flex-col items-center justify-center gap-5">
+          <Image
+            src="/images/pluscircle.svg"
+            alt="plus in acircle"
+            width={80}
+            height={80}
+          />
+          <span className="text-xl font-bold">Create a course</span>
+          <p className="mt-3 text-base ">
+            Create your course and manage the contents, request virtual labs,
+            create exams question and more.
+          </p>
+          <Button
+            onClick={goToCourseCreation}
+            className="flex gap-1 items-center !bg-cp-secondary text-white rounded-none p-2"
+          >
+            Get Started
+            <IoArrowForward />
+          </Button>
+        </div>
+      </div>
 
-      <div className="with-courses">
+      {/* <div className="with-courses">
         <div className="courselist-func">
           <div className="top flex items-center justify-between flex-wrap mb-5 w-full">
             <div className="search-filter flex gap-2">
@@ -83,7 +83,7 @@ export const CoursesHome = () => {
             <Course />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

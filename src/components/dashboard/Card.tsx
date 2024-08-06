@@ -17,7 +17,7 @@ export const Card = ({
         <p className="text-xl">{title}</p>
         <p className="text-6xl">{count}</p>
         <div className="flex justify-end">
-          <Button className="flex gap-1 items-center !bg-cp-secondary text-white rounded-none p-2">
+          <Button className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2">
             {btnText}
             <IoArrowForward />
           </Button>
