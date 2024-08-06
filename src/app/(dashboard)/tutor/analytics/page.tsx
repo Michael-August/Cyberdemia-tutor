@@ -1,21 +1,15 @@
-'use client';
 import React from 'react';
-
 import { Card } from '@/components/dashboard/Card';
 
 const Home = () => {
   const dashboardCards: { title: string; count: number; buttonText: string }[] =
     [
       {
-        title: 'Courses',
-        count: 2,
-        buttonText: 'view',
-      },
-      {
         title: 'Enrolled Students',
-        count: 163,
+        count: 162,
         buttonText: 'view',
       },
+
       {
         title: 'Reviews',
         count: 10,
@@ -26,7 +20,7 @@ const Home = () => {
   return (
     <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
       <div className="">
-        <span className="font-bold text-xl">Overview</span>
+        <span className="font-bold text-xl">Analytics</span>
       </div>
 
       <div className="cards flex flex-wrap gap-5">
