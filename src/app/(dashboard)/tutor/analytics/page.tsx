@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from '@/components/dashboard/Card';
+import { SimpleLineChart } from '../../../../components/charts';
 
 const Home = () => {
   const dashboardCards: { title: string; count: number; buttonText: string }[] =
@@ -33,6 +34,7 @@ const Home = () => {
           />
         ))}
       </div>
+      <SimpleLineChart />
     </div>
   );
 };
