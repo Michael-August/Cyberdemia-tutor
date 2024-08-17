@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { Card } from "@/components/dashboard/Card";
+import { Card } from '@/components/dashboard/Card';
 
-import { SimpleLineChart } from "../../../../components/charts";
+import { SimpleLineChart } from '../../../../components/charts';
 
 const Home = () => {
   const dashboardCards: {
@@ -12,17 +12,17 @@ const Home = () => {
     link: string;
   }[] = [
     {
-      title: "Enrolled Students",
+      title: 'Enrolled Students',
       count: 162,
-      buttonText: "view",
-      link: "analytics/students",
+      buttonText: 'view',
+      link: 'analytics/students',
     },
 
     {
-      title: "Reviews",
+      title: 'Reviews',
       count: 10,
-      buttonText: "view",
-      link: "analytics/reviews",
+      buttonText: 'view',
+      link: 'analytics/reviews',
     },
   ];
 
@@ -39,7 +39,7 @@ const Home = () => {
             title={card.title}
             count={card.count}
             btnText={card.buttonText}
-            link = {card.link}
+            link={card.link}
           />
         ))}
       </div>

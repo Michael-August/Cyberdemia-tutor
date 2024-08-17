@@ -1,32 +1,42 @@
-"use client";
-import React from "react";
-import { Breadcrumbs, Typography, Link } from "@mui/material";
-import { usePathname } from "next/navigation";
+'use client';
+import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 function capitalizeWords(str: string) {
   return str
-    .split(" ")
+    .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+    .join(' ');
 }
 
 export function NavigationCrumbs() {
   const pathname = usePathname();
 
-  // Split pathname into segments and filter out empty strings
+  // Split the pathname and remove the empty strings
   const allLinks = pathname
-    .split("/")
+    .split('/')
     .filter(Boolean)
-    .map((link) => link.replace(/-/g, " ")); // Replace hyphens with spaces for readability
+    .map((link) => link.replace(/-/g, ' '));
 
-  // Skip the first segment (e.g., "tutor")
-  const links = allLinks.slice(1);
+  // Exclude "tutor" from the display and use it to build hrefs
+  const displayLinks = allLinks.filter((link, index) => index !== 0);
+  const hrefLinks = allLinks.map(
+    (link, index) => `/${allLinks.slice(0, index + 1).join('/')}`,
+  );
 
   return (
-    <Breadcrumbs separator=">" aria-label="breadcrumb">
-      {links.map((el, index) => {
-        const href = `/${allLinks.slice(1, index + 2).join("/")}`;
-        const isLast = index === links.length - 1;
+    <Breadcrumbs
+      separator=">"
+      aria-label="breadcrumb"
+      sx={{
+        margin: '1rem 0',
+        padding: '0 1rem',
+      }}
+    >
+      {displayLinks.map((el, index) => {
+        const href = hrefLinks[index + 1] || hrefLinks[hrefLinks.length - 1];
+        const isLast = index === displayLinks.length - 1;
 
         return isLast ? (
           <Typography color="textPrimary" key={href}>

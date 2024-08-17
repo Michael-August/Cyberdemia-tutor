@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { IoChevronForward } from "react-icons/io5";
+import Link from 'next/link';
+import { IoChevronForward } from 'react-icons/io5';
 
 const Breadcrumb = ({
   breadcrumbsArray,
@@ -24,7 +24,7 @@ const Breadcrumb = ({
               <IoChevronForward size={14} className="text-[#0350C2B2]" />
             )}
           </>
-        )
+        ),
       )}
     </div>
   );
