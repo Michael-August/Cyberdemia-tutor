@@ -1,9 +1,9 @@
-import { Button } from "@/components/button";
-import { NavigationCrumbs } from "@/components/NavigationCrumbs";
-import { Chip } from "@mui/material";
-import Image from "next/image";
-import React from "react";
-import { IoArrowForward } from "react-icons/io5";
+import { Chip } from '@mui/material';
+import Image from 'next/image';
+import React from 'react';
+import { IoArrowForward } from 'react-icons/io5';
+
+import { Button } from '@/components/button';
 
 const page = () => {
   return (
@@ -28,8 +28,8 @@ const page = () => {
             <Chip
               label={25}
               style={{
-                color: "#AC1D7E",
-                backgroundColor: "#fff",
+                color: '#AC1D7E',
+                backgroundColor: '#fff',
               }}
             />
             <IoArrowForward size={20} />
