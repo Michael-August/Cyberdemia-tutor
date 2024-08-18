@@ -1,4 +1,5 @@
 import { Button, IconButton } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 import DataTable from "react-data-table-component";
 import { GoArrowRight } from "react-icons/go";
@@ -103,67 +104,6 @@ const data = [
   },
 ];
 
-const columns = [
-  {
-    name: "Course",
-    selector: (row: { course: any }) => row.course,
-    sortable: true,
-  },
-  {
-    name: "Date",
-    selector: (row: { date: any }) => row.date,
-    sortable: true,
-  },
-  {
-    name: "Comments",
-    selector: (row: { comments: any }) => row.comments,
-  },
-  {
-    name: "Actions",
-    cell: () => (
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <IconButton>
-          <IoPencilOutline />
-        </IconButton>
-        <IconButton color="error">
-          <IoTrashOutline />
-        </IconButton>
-      </div>
-    ),
-    width: "150px",
-  },
-  {
-    cell: () => (
-      <Button
-        sx={{
-          backgroundColor: "#fff",
-          color: "#AC1D7E",
-          width: "100px",
-          paddingY: "8px",
-          display: "flex",
-          border: "1px solid #AC1D7E",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          fontSize: "13px",
-          gap: "8px",
-          "&:hover": {
-            backgroundColor: "#AC1D7E",
-            color: "#fff",
-          },
-        }}
-      >
-        View
-        <GoArrowRight size={19} />
-      </Button>
-    ),
-    ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
-    width: "120px",
-  },
-];
-
 const customStyles = {
   headCells: {
     style: {
@@ -181,6 +121,70 @@ const customStyles = {
 };
 
 const AnnouncementTable = () => {
+  const router = useRouter();
+  const columns = [
+    {
+      name: "Course",
+      selector: (row: { course: any }) => row.course,
+      sortable: true,
+    },
+    {
+      name: "Date",
+      selector: (row: { date: any }) => row.date,
+      sortable: true,
+    },
+    {
+      name: "Comments",
+      selector: (row: { comments: any }) => row.comments,
+    },
+    {
+      name: "Actions",
+      cell: () => (
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <IconButton>
+            <IoPencilOutline />
+          </IconButton>
+          <IconButton color="error">
+            <IoTrashOutline />
+          </IconButton>
+        </div>
+      ),
+      width: "150px",
+    },
+    {
+      cell: (row: any) => (
+        <Button
+          sx={{
+            backgroundColor: "#fff",
+            color: "#AC1D7E",
+            width: "100px",
+            paddingY: "8px",
+            display: "flex",
+            border: "1px solid #AC1D7E",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            fontSize: "13px",
+            gap: "8px",
+            "&:hover": {
+              backgroundColor: "#AC1D7E",
+              color: "#fff",
+            },
+          }}
+          onClick={() =>
+            router.push(`/tutor/communication/announcement/${row.id}`)
+          }
+        >
+          View
+          <GoArrowRight size={19} />
+        </Button>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      width: "120px",
+    },
+  ];
   return (
     <div className="rounded-[.5rem] px-2 bg-white shadow">
       <DataTable
