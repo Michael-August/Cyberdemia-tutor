@@ -1,21 +1,21 @@
-import React, { useState } from "react";
 import {
-  Button,
-  Typography,
   Box,
-  Modal,
-  RadioGroup,
-  Radio,
+  Button,
   FormControlLabel,
   IconButton,
+  Modal,
+  Radio,
+  RadioGroup,
   TextField,
-} from "@mui/material";
-import { IoArrowForward, IoMegaphoneOutline } from "react-icons/io5";
+  Typography,
+} from '@mui/material';
+import React, { useState } from 'react';
+import { IoArrowForward, IoMegaphoneOutline } from 'react-icons/io5';
 
 const courses = [
-  "Cyber Security Defense Analyst",
-  "Data Science",
-  "Web Development",
+  'Cyber Security Defense Analyst',
+  'Data Science',
+  'Web Development',
   // Add more courses here
 ];
 
@@ -23,7 +23,7 @@ const AnnouncementCard = () => {
   const [openFirstModal, setOpenFirstModal] = useState(false);
   const [openSecondModal, setOpenSecondModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(
-    "Cyber Security Defense Analyst"
+    'Cyber Security Defense Analyst',
   );
 
   const handleOpenFirstModal = () => setOpenFirstModal(true);
@@ -43,12 +43,12 @@ const AnnouncementCard = () => {
       <Button
         variant="contained"
         sx={{
-          display: "flex",
-          gap: "8px",
-          justifyContent: "end",
-          backgroundColor: "#AC1D7E",
-          "&:hover": {
-            backgroundColor: "#8C145E",
+          display: 'flex',
+          gap: '8px',
+          justifyContent: 'end',
+          backgroundColor: '#AC1D7E',
+          '&:hover': {
+            backgroundColor: '#8C145E',
           },
         }}
         onClick={handleOpenFirstModal}
@@ -61,18 +61,18 @@ const AnnouncementCard = () => {
       <Modal open={openFirstModal} onClose={handleCloseFirstModal}>
         <Box
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             width: 600,
-            bgcolor: "background.paper",
+            bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
-            borderRadius: "8px",
+            borderRadius: '8px',
           }}
         >
-          <Box sx={{ textAlign: "center", mb: 4 }}>
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
             <IconButton color="primary">
               <IoMegaphoneOutline size={60} color="black" />
             </IconButton>
@@ -81,7 +81,7 @@ const AnnouncementCard = () => {
             </Typography>
           </Box>
 
-          <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: "bold" }}>
+          <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 'bold' }}>
             My courses
           </Typography>
 
@@ -93,8 +93,8 @@ const AnnouncementCard = () => {
                 control={
                   <Radio
                     sx={{
-                      color: "#AC1D7E",
-                      "&.Mui-checked": { color: "#AC1D7E" },
+                      color: '#AC1D7E',
+                      '&.Mui-checked': { color: '#AC1D7E' },
                     }}
                   />
                 }
@@ -103,15 +103,15 @@ const AnnouncementCard = () => {
             ))}
           </RadioGroup>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
             <Button
               variant="outlined"
               sx={{
-                borderColor: "#AC1D7E",
-                color: "#AC1D7E",
-                "&:hover": {
-                  borderColor: "#8C145E",
-                  color: "#8C145E",
+                borderColor: '#AC1D7E',
+                color: '#AC1D7E',
+                '&:hover': {
+                  borderColor: '#8C145E',
+                  color: '#8C145E',
                 },
               }}
               onClick={handleCloseFirstModal}
@@ -122,12 +122,12 @@ const AnnouncementCard = () => {
             <Button
               variant="contained"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                backgroundColor: "#AC1D7E",
-                "&:hover": {
-                  backgroundColor: "#8C145E",
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#AC1D7E',
+                '&:hover': {
+                  backgroundColor: '#8C145E',
                 },
               }}
               onClick={handleOpenSecondModal}
@@ -144,15 +144,15 @@ const AnnouncementCard = () => {
       <Modal open={openSecondModal} onClose={handleCloseSecondModal}>
         <Box
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             width: 600,
-            bgcolor: "background.paper",
+            bgcolor: 'background.paper',
             boxShadow: 24,
             p: 4,
-            borderRadius: "8px",
+            borderRadius: '8px',
           }}
         >
           <Typography variant="h6" sx={{ mb: 4 }}>
@@ -166,8 +166,8 @@ const AnnouncementCard = () => {
               control={
                 <Radio
                   sx={{
-                    color: "#AC1D7E",
-                    "&.Mui-checked": { color: "#AC1D7E" },
+                    color: '#AC1D7E',
+                    '&.Mui-checked': { color: '#AC1D7E' },
                   }}
                 />
               }
@@ -183,29 +183,29 @@ const AnnouncementCard = () => {
             placeholder="Enter your announcement here"
             sx={{
               mt: 2, // Add some margin at the top for spacing
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#AC1D7E",
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#AC1D7E',
                 },
-                "&:hover fieldset": {
-                  borderColor: "#8C145E",
+                '&:hover fieldset': {
+                  borderColor: '#8C145E',
                 },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#AC1D7E",
+                '&.Mui-focused fieldset': {
+                  borderColor: '#AC1D7E',
                 },
               },
             }}
           />
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
             <Button
               variant="outlined"
               sx={{
-                borderColor: "#AC1D7E",
-                color: "#AC1D7E",
-                "&:hover": {
-                  borderColor: "#8C145E",
-                  color: "#8C145E",
+                borderColor: '#AC1D7E',
+                color: '#AC1D7E',
+                '&:hover': {
+                  borderColor: '#8C145E',
+                  color: '#8C145E',
                 },
               }}
               onClick={handleCloseSecondModal}
@@ -216,12 +216,12 @@ const AnnouncementCard = () => {
             <Button
               variant="contained"
               sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                backgroundColor: "#AC1D7E",
-                "&:hover": {
-                  backgroundColor: "#8C145E",
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#AC1D7E',
+                '&:hover': {
+                  backgroundColor: '#8C145E',
                 },
               }}
               onClick={handleCloseSecondModal} // Implement your publish action here

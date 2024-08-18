@@ -1,5 +1,6 @@
-import AnnouncementCard from "@/components/announcement";
-import React from "react";
+import React from 'react';
+
+import AnnouncementCard from '@/components/announcement';
 
 const Page = () => {
   return (
