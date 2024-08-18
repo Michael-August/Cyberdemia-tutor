@@ -1,11 +1,11 @@
-"use client";
-import { Chip } from "@mui/material";
-import Image from "next/image";
-import React from "react";
-import { IoArrowForward } from "react-icons/io5";
+'use client';
+import { Chip } from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { IoArrowForward } from 'react-icons/io5';
 
-import { Button } from "@/components/button";
-import { useRouter } from "next/navigation";
+import { Button } from '@/components/button';
 
 const Page = () => {
   const router = useRouter();
@@ -28,14 +28,14 @@ const Page = () => {
           </p>
           <Button
             className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2"
-            onClick={() => router.push("communication/Q&AForums")}
+            onClick={() => router.push('communication/Q&AForums')}
           >
             View all
             <Chip
               label={25}
               style={{
-                color: "#AC1D7E",
-                backgroundColor: "#fff",
+                color: '#AC1D7E',
+                backgroundColor: '#fff',
               }}
             />
             <IoArrowForward size={20} />

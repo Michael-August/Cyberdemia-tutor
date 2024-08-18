@@ -36,7 +36,6 @@ const Home = () => {
             title={card.title}
             count={card.count}
             btnText={card.buttonText}
-            
           />
         ))}
       </div>

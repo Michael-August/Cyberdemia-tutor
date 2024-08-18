@@ -1,6 +1,7 @@
-import { NavigationCrumbs } from "@/components/NavigationCrumbs";
-import React from "react";
-import QACard from "@/components/qaCard";
+import React from 'react';
+
+import { NavigationCrumbs } from '@/components/NavigationCrumbs';
+import QACard from '@/components/qaCard';
 
 const Page = () => {
   return (

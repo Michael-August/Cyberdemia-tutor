@@ -1,7 +1,18 @@
+import { NavigationCrumbs } from "@/components/NavigationCrumbs";
+import ReplyCard from "@/components/qaReply";
 import React from "react";
 
 const Pages = () => {
-  return <div>Pages</div>;
+  return (
+    <div>
+      <div className="">
+        <NavigationCrumbs />
+        <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
+          <ReplyCard />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Pages;

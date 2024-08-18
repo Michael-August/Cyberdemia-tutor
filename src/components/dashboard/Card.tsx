@@ -1,8 +1,8 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { IoArrowForward } from "react-icons/io5";
+'use client';
+import { useRouter } from 'next/navigation';
+import { IoArrowForward } from 'react-icons/io5';
 
-import { Button } from "../button";
+import { Button } from '../button';
 
 export const Card = ({
   title,
