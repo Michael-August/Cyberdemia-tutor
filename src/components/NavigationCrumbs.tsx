@@ -1,13 +1,13 @@
-'use client';
-import { Breadcrumbs, Link, Typography } from '@mui/material';
-import { usePathname } from 'next/navigation';
-import React from 'react';
+"use client";
+import { Breadcrumbs, Link, Typography } from "@mui/material";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 function capitalizeWords(str: string) {
   return str
-    .split(' ')
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 }
 
 export function NavigationCrumbs() {
@@ -15,14 +15,14 @@ export function NavigationCrumbs() {
 
   // Split the pathname and remove the empty strings
   const allLinks = pathname
-    .split('/')
+    .split("/")
     .filter(Boolean)
-    .map((link) => link.replace(/-/g, ' '));
+    .map((link) => link.replace(/-/g, " "));
 
   // Exclude "tutor" from the display and use it to build hrefs
   const displayLinks = allLinks.filter((link, index) => index !== 0);
   const hrefLinks = allLinks.map(
-    (link, index) => `/${allLinks.slice(0, index + 1).join('/')}`,
+    (link, index) => `/${allLinks.slice(0, index + 1).join("/")}`
   );
 
   return (
@@ -30,8 +30,8 @@ export function NavigationCrumbs() {
       separator=">"
       aria-label="breadcrumb"
       sx={{
-        margin: '1rem 0',
-        padding: '0 1rem',
+        margin: "1rem 0",
+        padding: "0 1rem",
       }}
     >
       {displayLinks.map((el, index) => {
@@ -43,7 +43,17 @@ export function NavigationCrumbs() {
             {capitalizeWords(el)}
           </Typography>
         ) : (
-          <Link color="inherit" href={href} key={href}>
+          <Link
+            color="primary"
+            href={href}
+            key={href}
+            sx={{
+              textDecoration: "none",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+          >
             {capitalizeWords(el)}
           </Link>
         );
