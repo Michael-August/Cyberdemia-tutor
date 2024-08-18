@@ -143,7 +143,7 @@ const StudentTable: React.FC = () => {
             }}
             onClick={() => setSelectedEvent(row)}
           >
-            View
+            Message
             <GoArrowRight size={19} />
           </Button>
         </div>
@@ -165,7 +165,7 @@ const StudentTable: React.FC = () => {
         data={EventDatas}
         pagination
         fixedHeader
-        fixedHeaderScrollHeight="500px"
+        fixedHeaderScrollHeight="600px"
       />
     </div>
   );

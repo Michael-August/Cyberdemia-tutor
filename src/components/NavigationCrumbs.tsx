@@ -43,7 +43,17 @@ export function NavigationCrumbs() {
             {capitalizeWords(el)}
           </Typography>
         ) : (
-          <Link color="inherit" href={href} key={href}>
+          <Link
+            color="primary"
+            href={href}
+            key={href}
+            sx={{
+              textDecoration: 'none',
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
             {capitalizeWords(el)}
           </Link>
         );

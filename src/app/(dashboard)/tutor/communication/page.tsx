@@ -52,7 +52,10 @@ const Page = () => {
           <p className="mt-3 text-center ">
             Reach out to your enrolled students with relevant information
           </p>
-          <Button className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2">
+          <Button
+            className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2"
+            onClick={() => router.push('communication/announcement')}
+          >
             Manage Announcementsd
             <IoArrowForward size={20} />
           </Button>
