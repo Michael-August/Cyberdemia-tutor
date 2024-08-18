@@ -19,15 +19,15 @@ function Layout({ children }: any) {
   }, [dispatch]);
 
   return (
-    <div className=" overflow-y-auto">
+    <div className="relative overflow-y-auto">
       <Image
         src="/images/backgroundImage.svg"
         alt="background image"
         width={700}
         height={700}
-        className="fixed right-[-150px] bottom-[-150px]"
+        className="fixed right-[-150px] bottom-[-150px] z-0 pointer-events-none"
       />
-      <div>{children}</div>
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }

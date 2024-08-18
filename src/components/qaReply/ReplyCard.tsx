@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Avatar,
   Box,
@@ -6,93 +6,130 @@ import {
   Card,
   CardContent,
   CardHeader,
+  IconButton,
+  TextareaAutosize,
   Typography,
-} from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { GoArrowRight } from "react-icons/go";
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
+import React, { useState } from 'react';
+import { MdDelete, MdEdit } from 'react-icons/md';
 
-type ReviewCardProps = {
+type ReplyCardProps = {
   name: string;
   daysAgo: number;
   comment: string;
   id: number;
+  user: string;
 };
 
-const ReplyCard: React.FC<ReviewCardProps> = ({
+const ReplyCard: React.FC<ReplyCardProps> = ({
   name,
   daysAgo,
   comment,
-  id,
+  user,
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const router = useRouter();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const subheader = daysAgo === 0 ? 'Just now' : `${daysAgo} days ago`;
+
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
-  const shortComment = comment.slice(0, 220);
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    // Here you would typically update the comment via a backend API call
+    console.log(`Saving comment: ${editedComment}`);
+  };
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    setEditedComment(comment); // Reset to original comment if canceled
+  };
+
   return (
-    <Card sx={{ maxWidth: "100%", marginBottom: 2 }}>
+    <Card sx={{ maxWidth: '100%', marginBottom: 2 }}>
       <CardHeader
         avatar={<Avatar sx={{ bgcolor: grey[800] }}>{name.charAt(0)}</Avatar>}
         title={name}
-        subheader={
-          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            {daysAgo} days ago
-          </Box>
+        subheader={subheader}
+        action={
+          user === 'instructor' && (
+            <Box>
+              <IconButton onClick={handleEditClick}>
+                <MdEdit size={20} />
+              </IconButton>
+              <IconButton>
+                <MdDelete size={20} color="red" />
+              </IconButton>
+            </Box>
+          )
         }
       />
       <CardContent>
-        <div className="flex flex-col md:flex-row justify-between items-start flex-nowrap gap-5">
-          <div>
-            <Typography
-              variant="body2"
-              color="text.secondary"
+        {isEditing ? (
+          <Box>
+            <TextareaAutosize
+              minRows={3}
+              value={editedComment}
+              onChange={(e) => setEditedComment(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                borderRadius: '8px',
+                borderColor: '#8C145E',
+                fontSize: '16px',
+                fontFamily: 'inherit',
+                zIndex: 800,
+                cursor: 'text',
+              }}
+            />
+            <Box
               sx={{
-                textAlign: "justify",
+                display: 'flex',
+                justifyContent: 'flex-end',
+                gap: 1,
+                marginTop: 1,
               }}
             >
-              {expanded ? comment : `${shortComment}...`}
-            </Typography>
-            <Button
-              onClick={handleExpandClick}
-              size="small"
-              sx={{ marginTop: 1 }}
-            >
-              {expanded ? "See less" : "See more"}
-            </Button>
-          </div>
-          <div className="flex justify-end cursor-pointer">
-            <Button
-              sx={{
-                backgroundColor: "#fff",
-                color: "#AC1D7E",
-                width: "100px",
-                paddingY: "8px",
-                display: "flex",
-                border: "1px solid #AC1D7E",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                fontSize: "13px",
-                gap: "8px",
-                "&:hover": {
-                  backgroundColor: "#AC1D7E",
-                  color: "#fff",
-                },
-              }}
-              onClick={() =>
-                router.push(`/tutor/communication/Q&AForums/${id}`)
-              }
-            >
-              View
-              <GoArrowRight size={19} />
-            </Button>
-          </div>
-        </div>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSaveClick}
+                sx={{
+                  backgroundColor: '#AC1D7E',
+                  '&:hover': {
+                    backgroundColor: '#8C145E',
+                  },
+                }}
+              >
+                Save
+              </Button>
+              <Button
+                variant="text"
+                color="secondary"
+                onClick={handleCancelClick}
+                sx={{
+                  color: '#AC1D7E',
+                  '&:hover': {
+                    backgroundColor: '#F2E1E8',
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </Box>
+        ) : (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: 'justify' }}
+          >
+            {editedComment}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

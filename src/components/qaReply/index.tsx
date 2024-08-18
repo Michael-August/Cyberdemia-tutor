@@ -1,17 +1,33 @@
-"use client";
-import { Box, Button } from "@mui/material";
-import React from "react";
-import ReplyCard from "./ReplyCard";
-import { useRouter } from "next/navigation";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
+'use client';
+import {
+  Avatar,
+  Box,
+  Button,
+  TextareaAutosize,
+  Typography,
+} from '@mui/material';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
+
+import ReplyCard from './ReplyCard';
 
 const reviews = [
   {
-    name: "Emmanuel Sam",
+    name: 'Patrick Bateman',
     id: 1,
-    daysAgo: 2,
+    daysAgo: 8,
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Ut Confirm the Cookie is Set Before Making the RequestIf your reset password request happens too quickly after setting the cookie, the cookie might not be available yet. Make sure to confirm that the useEffect hook has run and set the cookie before making the API call.By adjusting your code to consistently use the request function for API calls, you ensure that the token is properly included in all relevant requests. porttitor et viverra malesuada fringilla. Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Ut porttitor et viverra malesuada fringilla.Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Ut Confirm the Cookie is Set Before Making the RequestIf your reset password request happens too quickly after setting the cookie, the cookie might not be available yet. Make sure to confirm that the useEffect hook has run and set the cookie before making the API call.By adjusting your code to consistently use the request function for API calls, you ensure that the token is properly included in all relevant requests. porttitor et viverra malesuada fringilla. Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Ut porttitor et viverra malesuada fringilla.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla...',
+    user: 'student',
+  },
+  {
+    name: 'Jane Doe (Course Instructor)',
+    id: 2,
+    daysAgo: 0,
+    comment:
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla...',
+    user: 'instructor',
   },
 ];
 
@@ -25,58 +41,105 @@ const Index = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
+        display: 'flex',
+        flexDirection: 'column',
         gap: 2,
         paddingTop: 2,
-        width: "100%",
-        maxWidth: "100%",
+        width: '100%',
+        maxWidth: '100%',
       }}
     >
-      <Box
+      <Button
         sx={{
-          maxWidth: "50%",
-          display: "flex",
-          gap: 2,
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: "space-between",
-          alignItems: "flex-start",
+          backgroundColor: '#fff',
+          color: 'black',
+          paddingY: '8px',
+          border: '1px solid black',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontSize: '13px',
+          width: 'fit-content',
+          '&:hover': {
+            backgroundColor: 'black',
+            color: '#fff',
+          },
         }}
+        onClick={handleBackClick}
+        startIcon={<IoArrowBackCircleOutline />}
       >
-        <Button
-          sx={{
-            backgroundColor: "#fff",
-            color: "black",
-            width: "fit-content",
-            paddingY: "8px",
-            display: "flex",
-            border: "1px solid black",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            fontSize: "13px",
-            gap: "8px",
-            "&:hover": {
-              backgroundColor: "black",
-              color: "#fff",
-            },
-          }}
-          onClick={handleBackClick}
-          startIcon={<IoArrowBackCircleOutline />}
-        >
-          Back to Q&A
-        </Button>
-      </Box>
-      {reviews.map((review, index) => (
+        Back to Q&A
+      </Button>
+
+      {reviews.map((review) => (
         <ReplyCard
-          key={index}
+          key={review.id}
           id={review.id}
           name={review.name}
           daysAgo={review.daysAgo}
           comment={review.comment}
+          user={review.user}
         />
       ))}
+
+      <Box
+        sx={{
+          backgroundColor: '#F2E1E8',
+          padding: '16px',
+          borderRadius: '8px',
+          marginTop: '16px',
+          maxWidth: '100%',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            alignItems: 'center',
+            marginBottom: '8px',
+          }}
+        >
+          <Avatar sx={{ bgcolor: 'grey.500' }}>J</Avatar>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            Write a reply?
+          </Typography>
+        </Box>
+        <TextareaAutosize
+          minRows={3}
+          placeholder="Enter a comment"
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: '8px',
+            borderColor: '#ccc',
+            fontSize: '16px',
+            fontFamily: 'inherit',
+            zIndex: 800,
+            cursor: 'text',
+          }}
+        />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'end',
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: '8px',
+              display: 'flex',
+              justifyContent: 'end',
+              backgroundColor: '#AC1D7E',
+              '&:hover': {
+                backgroundColor: '#8C145E',
+              },
+            }}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };

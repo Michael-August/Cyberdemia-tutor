@@ -1,6 +1,7 @@
-import { NavigationCrumbs } from "@/components/NavigationCrumbs";
-import ReplyCard from "@/components/qaReply";
-import React from "react";
+import React from 'react';
+
+import { NavigationCrumbs } from '@/components/NavigationCrumbs';
+import ReplyCard from '@/components/qaReply';
 
 const Pages = () => {
   return (

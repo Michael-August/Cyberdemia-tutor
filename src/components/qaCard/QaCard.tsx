@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Avatar,
   Box,
@@ -7,11 +7,11 @@ import {
   CardContent,
   CardHeader,
   Typography,
-} from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { GoArrowRight } from "react-icons/go";
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { GoArrowRight } from 'react-icons/go';
 
 type ReviewCardProps = {
   name: string;
@@ -30,12 +30,12 @@ const QaCard: React.FC<ReviewCardProps> = ({ name, daysAgo, comment, id }) => {
 
   const shortComment = comment.slice(0, 220);
   return (
-    <Card sx={{ maxWidth: "100%", marginBottom: 2 }}>
+    <Card sx={{ maxWidth: '100%', marginBottom: 2 }}>
       <CardHeader
         avatar={<Avatar sx={{ bgcolor: grey[800] }}>{name.charAt(0)}</Avatar>}
         title={name}
         subheader={
-          <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {daysAgo} days ago
           </Box>
         }
@@ -47,7 +47,7 @@ const QaCard: React.FC<ReviewCardProps> = ({ name, daysAgo, comment, id }) => {
               variant="body2"
               color="text.secondary"
               sx={{
-                textAlign: "justify",
+                textAlign: 'justify',
               }}
             >
               {expanded ? comment : `${shortComment}...`}
@@ -57,26 +57,26 @@ const QaCard: React.FC<ReviewCardProps> = ({ name, daysAgo, comment, id }) => {
               size="small"
               sx={{ marginTop: 1 }}
             >
-              {expanded ? "See less" : "See more"}
+              {expanded ? 'See less' : 'See more'}
             </Button>
           </div>
           <div className="flex justify-end cursor-pointer">
             <Button
               sx={{
-                backgroundColor: "#fff",
-                color: "#AC1D7E",
-                width: "100px",
-                paddingY: "8px",
-                display: "flex",
-                border: "1px solid #AC1D7E",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                fontSize: "13px",
-                gap: "8px",
-                "&:hover": {
-                  backgroundColor: "#AC1D7E",
-                  color: "#fff",
+                backgroundColor: '#fff',
+                color: '#AC1D7E',
+                width: '100px',
+                paddingY: '8px',
+                display: 'flex',
+                border: '1px solid #AC1D7E',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                fontSize: '13px',
+                gap: '8px',
+                '&:hover': {
+                  backgroundColor: '#AC1D7E',
+                  color: '#fff',
                 },
               }}
               onClick={() =>
