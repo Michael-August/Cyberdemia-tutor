@@ -1,11 +1,14 @@
-import { Chip } from '@mui/material';
-import Image from 'next/image';
-import React from 'react';
-import { IoArrowForward } from 'react-icons/io5';
+"use client";
+import { Chip } from "@mui/material";
+import Image from "next/image";
+import React from "react";
+import { IoArrowForward } from "react-icons/io5";
 
-import { Button } from '@/components/button';
+import { Button } from "@/components/button";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
       <div className="">
@@ -23,13 +26,16 @@ const page = () => {
           <p className="mt-3 text-center ">
             See what your students are saying and provide feedback to questions
           </p>
-          <Button className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2">
+          <Button
+            className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2"
+            onClick={() => router.push("communication/Q&AForums")}
+          >
             View all
             <Chip
               label={25}
               style={{
-                color: '#AC1D7E',
-                backgroundColor: '#fff',
+                color: "#AC1D7E",
+                backgroundColor: "#fff",
               }}
             />
             <IoArrowForward size={20} />
@@ -56,4 +62,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
