@@ -19,8 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <button onClick={() => router.replace('/signin')}>
-        {' '}
+      <button onClick={() => router.replace('/tutor/home')}>
         click me to Signin
       </button>{' '}
     </div>
