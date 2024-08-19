@@ -23,7 +23,7 @@ export const DownloadableTabContent = ({ status }: { status: string }) => {
             </label>
             <label
               htmlFor="upload"
-              className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%]"
+              className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] cursor-pointer"
             >
               Select file
             </label>

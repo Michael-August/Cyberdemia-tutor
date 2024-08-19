@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLayoutContext } from '../../../context/LayoutContext';
 import { Certification } from './course-creation/Certification';
 import { Completed } from './course-creation/completed';
-import { Curriculum } from './course-creation/curriculum';
+import { Curriculum } from './course-creation/curriculum/curriculum';
 import { Finish } from './course-creation/finish';
 import { CourseOverview } from './course-creation/overview';
 import { Price } from './course-creation/price';

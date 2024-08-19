@@ -1,0 +1,21 @@
+# Settings for Cloud Run
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 8
+  cpu: 1
+  memoryMiB: 512
+
+# Environment variables and secrets
+env:
+  - variable: NEXTAUTH_SECRET
+    value: r3M2Tq+TknA/VbcMuSbQh4DZdNCXdQmnV/LMbA6whiQ=
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXTAUTH_URL
+    value: "http://localhost:3000"
+    availability:
+      - BUILD
+      - RUNTIME
