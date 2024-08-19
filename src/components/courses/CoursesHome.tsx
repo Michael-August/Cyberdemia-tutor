@@ -9,7 +9,7 @@ export const CoursesHome = () => {
 
   const goToCourseCreation = () => {
     console.log('hello');
-    router.push('/tutor/courses/new-course');
+    router.push('/tutor/courses/manage-course');
   };
   return (
     <div>
