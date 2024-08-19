@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Paper,Typography } from '@mui/material';
+import { Avatar, Box, Divider, Paper, Typography } from '@mui/material';
 import React from 'react';
 
 import { NavigationCrumbs } from '../NavigationCrumbs';
