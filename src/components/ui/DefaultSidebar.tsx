@@ -5,13 +5,11 @@ import Link from 'next/link';
 import React from 'react';
 import { CgProfile } from 'react-icons/cg';
 import { GoBook } from 'react-icons/go';
-import { MdChat } from 'react-icons/md';
+import { MdOutlineSignalCellularAlt } from 'react-icons/md';
+import { MdOutlineChat } from 'react-icons/md';
 import { PiHouseFill } from 'react-icons/pi';
-import { PiCertificateBold } from 'react-icons/pi';
 import { PiHeadsetBold } from 'react-icons/pi';
-import { SiSimpleanalytics } from 'react-icons/si';
 import { TbCube } from 'react-icons/tb';
-import { TbCreditCard } from 'react-icons/tb';
 
 import SideItems from './SideItems';
 
@@ -27,16 +25,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { img: PiHouseFill, link: '/tutor/home', text: 'Home' },
     { img: GoBook, link: '/tutor/courses', text: 'My Courses' },
     {
-      img: isSmallScreen ? SiSimpleanalytics : PiCertificateBold,
-      link: '/tutor/certificate',
-      text: isSmallScreen ? 'Certificate' : 'Certificates',
+      img: isSmallScreen
+        ? MdOutlineSignalCellularAlt
+        : MdOutlineSignalCellularAlt,
+      link: '/tutor/analytics',
+      text: isSmallScreen ? 'Analytics' : 'Analytics',
+    },
+
+    {
+      img: isSmallScreen ? MdOutlineChat : MdOutlineChat,
+      link: '/tutor/communication',
+      text: isSmallScreen ? 'Communication' : 'Communication',
     },
     { img: TbCube, link: '/tutor/labs', text: 'Virtual Labs' },
-    {
-      img: isSmallScreen ? MdChat : TbCreditCard,
-      link: '/tutor/payments',
-      text: isSmallScreen ? 'Communication' : 'Payments',
-    },
+
     { img: CgProfile, link: '/tutor/profile', text: 'Profile' },
     { img: PiHeadsetBold, link: '/tutor/support', text: 'Help & Support' },
   ];

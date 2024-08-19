@@ -24,7 +24,7 @@ const Home = () => {
     ];
 
   return (
-    <div className="flex flex-col gap-8 h-[100%] px-4 md:px-0">
+    <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
       <div className="">
         <span className="font-bold text-xl">Overview</span>
       </div>
