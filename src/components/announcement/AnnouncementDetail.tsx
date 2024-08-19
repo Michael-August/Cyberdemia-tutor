@@ -1,42 +1,43 @@
-import React from "react";
-import { Box, Typography, Avatar, Divider, Paper } from "@mui/material";
-import { NavigationCrumbs } from "../NavigationCrumbs";
+import { Avatar, Box, Divider, Paper, Typography } from '@mui/material';
+import React from 'react';
+
+import { NavigationCrumbs } from '../NavigationCrumbs';
 
 const comments = [
   {
     id: 1,
-    name: "Blessing K.",
-    timeAgo: "2 days ago",
+    name: 'Blessing K.',
+    timeAgo: '2 days ago',
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.',
   },
   {
     id: 2,
-    name: "John Doe",
-    timeAgo: "3 days ago",
+    name: 'John Doe',
+    timeAgo: '3 days ago',
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.',
   },
   {
     id: 3,
-    name: "Jane Doe",
-    timeAgo: "4 days ago",
+    name: 'Jane Doe',
+    timeAgo: '4 days ago',
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.',
   },
   {
     id: 4,
-    name: "Blessing K.",
-    timeAgo: "5 days ago",
+    name: 'Blessing K.',
+    timeAgo: '5 days ago',
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.',
   },
   {
     id: 5,
-    name: "John Doe",
-    timeAgo: "6 days ago",
+    name: 'John Doe',
+    timeAgo: '6 days ago',
     comment:
-      "Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.",
+      'Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id pellentesque interdum. Vestibulum convallis velit feugiat aliquam pellentesque etiam.',
   },
 ];
 
@@ -52,7 +53,7 @@ const AnnouncementDetail = () => {
       </Box>
       <Box sx={{ p: 5 }}>
         {/* Announcement Header */}
-        <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <Avatar
             alt="Jane Doe"
             src="https://via.placeholder.com/150"
@@ -70,12 +71,12 @@ const AnnouncementDetail = () => {
         </Box>
 
         {/* Announcement Title */}
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+        <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
           Title of the announcement will be entered here!
         </Typography>
 
         {/* Announcement Content */}
-        <Typography variant="body2" sx={{ mb: 4, text: "12px" }}>
+        <Typography variant="body2" sx={{ mb: 4, text: '12px' }}>
           Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra
           malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id
           pellentesque interdum. Vestibulum convallis velit feugiat aliquam
@@ -110,13 +111,13 @@ const AnnouncementDetail = () => {
             sx={{
               p: 2,
               mb: 2,
-              display: "flex",
-              borderBottom: "2px solid #f0f0f0",
+              display: 'flex',
+              borderBottom: '2px solid #f0f0f0',
             }}
           >
             <Avatar sx={{ mr: 2 }}>B</Avatar>
             <Box>
-              <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                 {comment.name}
               </Typography>
               <Typography
@@ -129,7 +130,7 @@ const AnnouncementDetail = () => {
               <Typography
                 variant="body2"
                 sx={{
-                  textAlign: "justify",
+                  textAlign: 'justify',
                 }}
               >
                 {comment.comment}

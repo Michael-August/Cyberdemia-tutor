@@ -1,5 +1,6 @@
-import AnnouncementDetail from "@/components/announcement/AnnouncementDetail";
-import React from "react";
+import React from 'react';
+
+import AnnouncementDetail from '@/components/announcement/AnnouncementDetail';
 
 const Home = () => {
   return (
