@@ -1,10 +1,10 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { signOut } from "next-auth/react";
-import React, { useState } from "react";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { RxCaretDown } from "react-icons/rx";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { signOut } from 'next-auth/react';
+import React, { useState } from 'react';
+import { IoNotificationsOutline } from 'react-icons/io5';
+import { RxCaretDown } from 'react-icons/rx';
 
 interface DashboardNavbarProps {
   setSidebarOpen: any;
@@ -17,7 +17,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const data = sessionStorage.getItem("userProfile");
+  const data = sessionStorage.getItem('userProfile');
 
   const handleLogout = () => {
     localStorage.clear();

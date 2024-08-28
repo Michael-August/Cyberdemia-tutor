@@ -2,32 +2,32 @@ import type {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
-} from "next";
-import { AuthOptions, User } from "next-auth";
-import { getServerSession } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+} from 'next';
+import { AuthOptions, User } from 'next-auth';
+import { getServerSession } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { request } from "../../../../../utils/request";
-import { baseUrl } from "../../../../../utils/constants";
+import { baseUrl } from '../../../../../utils/constants';
+import { request } from '../../../../../utils/request';
 
 const credentialsProviderOptions: any = {
-  name: "Login",
+  name: 'Login',
   credentials: {
     email: {
-      label: "Email Address",
-      type: "email",
-      placeholder: "john2gmail.com",
+      label: 'Email Address',
+      type: 'email',
+      placeholder: 'john2gmail.com',
     },
-    password: { label: "Password", type: "password", placeholder: "Password" },
+    password: { label: 'Password', type: 'password', placeholder: 'Password' },
   },
   authorize: async (credentials: any) => {
-    if (credentials?.email === "" || credentials?.password === "") {
+    if (credentials?.email === '' || credentials?.password === '') {
       return null;
     }
 
-    const { email, password } = credentials || { email: "example@gmail.com" };
+    const { email, password } = credentials || { email: 'example@gmail.com' };
     try {
-      const json = await request("POST", `${baseUrl}/instructor-login`, {
+      const json = await request('POST', `${baseUrl}/instructor-login`, {
         data: { email, password },
       });
 
@@ -36,7 +36,7 @@ const credentialsProviderOptions: any = {
           data: {
             token: json.data.token,
           },
-          id: "",
+          id: '',
         };
         return user;
       }
@@ -65,13 +65,13 @@ export const authOptions: AuthOptions = {
   },
 
   pages: {
-    signIn: "/signin",
+    signIn: '/signin',
   },
 };
 
 export function auth(
   ...args:
-    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
     | [NextApiRequest, NextApiResponse]
     | []
 ) {
