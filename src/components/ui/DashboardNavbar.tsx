@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import React, { useState } from 'react';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { RxCaretDown } from 'react-icons/rx';
@@ -16,6 +17,14 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const data = sessionStorage.getItem('userProfile');
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    signOut();
+  };
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -28,14 +37,13 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
   };
 
   return (
-    <div className="bg-cp-primary py-3 md:fixed top-0 right-0 left-0 flex items-center justify-between md:px-5 px-4 shadow-md z-[10000]">
+    <div className="fixed top-0 left-0 right-0 bg-cp-primary py-3  flex items-center justify-between md:px-5 px-4 shadow-md z-[1000]">
       <Link href="/">
         <Image
           src="/images/logo2.svg"
           alt="Description of image"
           width={100}
           height={100}
-          className="w-[50px] md:w-[100px]"
         />
       </Link>
       <div className="flex items-center gap-6">
@@ -54,7 +62,9 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
             className="h-7 w-7 rounded-full"
           />
           <div>
-            <p className="text-[10px] capitalize text-gray-300">John Doe</p>
+            <p className="text-[10px] capitalize text-gray-300">
+              {data && JSON.parse(data).fullName}
+            </p>
           </div>
           <div className="relative">
             <RxCaretDown
@@ -64,12 +74,15 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
             {isDropdownOpen && (
               <div className="absolute p-3 bg-cp-primary top-full right-0 mt-1 w-50 text-white rounded shadow-lg">
                 <div className="p-2">
-                  <p className="text-gray-200 font-semibold capitalize">
-                    John Doe
+                  <p className="text-gray-200 font-semibold capitalize text-justify">
+                    {data && JSON.parse(data).fullName}
                   </p>
                   <p className="text-gray-400">JohnDoe@gmail.com</p>
                 </div>
-                <button className="block bg-cp-secondary w-full py-2 text-left px-4 bg-sa-golden rounded-lg hover:bg-cp-primary">
+                <button
+                  onClick={handleLogout}
+                  className="block bg-cp-secondary w-full py-2 text-center px-4 bg-sa-golden rounded-lg hover:bg-cp-primary"
+                >
                   Logout
                 </button>
               </div>
