@@ -8,8 +8,7 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { toast } from 'react-toastify';
-
-import { baseUrl } from '../../../utils/constants';
+import { request } from '@/hooks/request';
 import { Input } from '../inputs';
 import { Label } from '../label';
 import Loader from '../loader';
@@ -45,23 +44,22 @@ const SigninForm: React.FC = () => {
       });
 
       if (res && res.ok) {
-        const user: Session | null | undefined = await getSession();
+        const config = {
+          method: 'get',
+          url: '/get-profile',
+        };
+        const profileRes = await request(config);
         try {
-          const profileRes = await axios.get(`${baseUrl}/get-profile`, {
-            headers: {
-              Authorization: `Bearer ${user?.token}`,
-            },
-          });
           if (profileRes && profileRes?.data) {
             const { data: profileData } = profileRes;
             const userProfile = {
-              fullName: profileData?.data.fullName,
-              firstName: profileData?.data.firstName,
-              lastName: profileData?.data.lastName,
-              state: profileData?.data.state,
-              gender: profileData?.data.gender,
-              country: profileData?.data.country,
-              age: profileData?.data.age,
+              fullName: profileData?.data?.fullName,
+              firstName: profileData?.data?.firstName,
+              lastName: profileData?.data?.lastName,
+              state: profileData?.data?.state,
+              gender: profileData?.data?.gender,
+              country: profileData?.data?.country,
+              age: profileData?.data?.age,
             };
             sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
 
@@ -71,9 +69,6 @@ const SigninForm: React.FC = () => {
         } catch (error: any) {
           toast.error(error.response.data);
         }
-      }
-      if (res && !res.ok) {
-        toast.error('Invalid email or password');
       }
     } catch (error: any) {
       toast.error('Invalid email or password');

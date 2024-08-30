@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { RootLayoutInner } from '@/components/custom-hooks/useInnerLayout';
 
 import { LayoutProvider } from '../../context/LayoutContext';
-import QueryClientProvider from '../../utils/ReactQueryProvider';
+import QueryClientWrapper from '../../utils/ReactQueryProvider';
 
 const poppins = Poppins({
   weight: ['400', '700'],
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <QueryClientProvider>
+        <QueryClientWrapper>
           <LayoutProvider>
             <ToastContainer
               position="top-center"
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: any) {
             />
             <RootLayoutInner>{children}</RootLayoutInner>
           </LayoutProvider>
-        </QueryClientProvider>
+        </QueryClientWrapper>
       </body>
     </html>
   );
