@@ -1,4 +1,4 @@
-import { useMutation,useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 
 import { request } from '../request';
