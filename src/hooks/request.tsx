@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
-import { toast } from 'react-toastify';
 import { signOut } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 const client = axios.create({
   baseURL: 'https://cyberdemia-backend.onrender.com/api/v1',

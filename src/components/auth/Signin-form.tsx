@@ -1,14 +1,14 @@
 'use client';
 
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { Session } from 'next-auth';
-import { getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { toast } from 'react-toastify';
+
 import { request } from '@/hooks/request';
+
 import { Input } from '../inputs';
 import { Label } from '../label';
 import Loader from '../loader';

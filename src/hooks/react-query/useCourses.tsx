@@ -1,6 +1,7 @@
-import { useQuery, useMutation } from 'react-query';
-import { request } from '../request';
+import { useMutation,useQuery } from 'react-query';
 import { toast } from 'react-toastify';
+
+import { request } from '../request';
 
 export const useGetCourses = () => {
   return useQuery('courses', async () => {
