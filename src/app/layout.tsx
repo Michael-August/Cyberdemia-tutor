@@ -1,12 +1,13 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Poppins } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
 
 import { RootLayoutInner } from '@/components/custom-hooks/useInnerLayout';
 
 import { LayoutProvider } from '../../context/LayoutContext';
-import QueryClientProvider from '../../utils/ReactQueryProvider';
+import QueryClientWrapper from '../../utils/ReactQueryProvider';
 
 const poppins = Poppins({
   weight: ['400', '700'],
@@ -23,12 +24,18 @@ export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <QueryClientProvider>
+        <QueryClientWrapper>
           <LayoutProvider>
-            <Toaster position="top-right" />
+            <ToastContainer
+              position="top-center"
+              autoClose={4000}
+              hideProgressBar
+              closeOnClick
+              pauseOnHover
+            />
             <RootLayoutInner>{children}</RootLayoutInner>
           </LayoutProvider>
-        </QueryClientProvider>
+        </QueryClientWrapper>
       </body>
     </html>
   );
