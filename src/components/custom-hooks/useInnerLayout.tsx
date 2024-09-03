@@ -11,6 +11,7 @@ interface RootLayoutInnerProps {
 }
 
 export function RootLayoutInner({ children }: RootLayoutInnerProps) {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [client, setClient] = useState(false);
   const { state } = useLayoutContext();
 
@@ -20,17 +21,20 @@ export function RootLayoutInner({ children }: RootLayoutInnerProps) {
 
   let dynamicClass = '';
   if (state.navbarType === 'dashboardNavbar') {
-    dynamicClass += 'md:mt-[80px]';
+    dynamicClass += 'md:mt-[80px] mt-4';
   }
 
-  if (state.sidebarType === 'defaultSidebar') {
+  if (
+    state.sidebarType === 'defaultSidebar' ||
+    state.sidebarType === 'courseSideBar'
+  ) {
     dynamicClass += ' md:ml-[250px] md:mr-[30px]';
   }
 
   return (
     <div className="w-[100vw] h-[100vh] relative">
       <Navbar />
-      <Sidebar />
+      <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       <div className={` ${dynamicClass}`}>
         {!client ? (
           // <div className="h-full w-[80%] md:mt-[80px] md:ml-[250px] grid gap-10 flex-col">
