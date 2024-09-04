@@ -1,11 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import Loader from '@/components/ui/Loader';
 
 import { useLayoutContext } from '../../../context/LayoutContext';
 import { Navbar } from './useNavbar';
 import { Sidebar } from './useSidebar';
+import Loader from '../loader';
 interface RootLayoutInnerProps {
   children: React.ReactNode;
 }
