@@ -5,4 +5,4 @@ export function cn(...classes: (string | undefined)[]) {
 
 export const baseUrl = 'https://cyberdemia-backend.onrender.com/api/v1';
 
-export const genderOptions = ["Male", "Female", "Other"];
+export const genderOptions = ['Male', 'Female', 'Other'];

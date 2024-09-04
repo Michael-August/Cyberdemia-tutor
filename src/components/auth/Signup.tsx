@@ -1,7 +1,8 @@
 // Signup.tsx
-import Image from "next/image";
-import React from "react";
-import SignupForm from "./Signup-form";
+import Image from 'next/image';
+import React from 'react';
+
+import SignupForm from './Signup-form';
 
 const Signup = () => {
   return (
@@ -10,10 +11,10 @@ const Signup = () => {
       <div className="col-span-1 hidden sm:block">
         <div className="flex flex-col justify-center items-center gap-5">
           <Image
-            src={"/images/loginImage.svg"}
+            src={'/images/loginImage.svg'}
             width={600}
             height={600}
-            alt={"signup image"}
+            alt={'signup image'}
           />
           <h1 className="text-3xl font-extrabold text-center px-[10rem]">
             Gain Industry Standard Skills & Become a Cybersecurity Expert

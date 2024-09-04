@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
-import { Input } from "../inputs";
-import { Label } from "../label";
-import { Button } from "../button";
-import Image from "next/image";
-import { genderOptions } from "../../../utils/constants";
+import { genderOptions } from '../../../utils/constants';
+import { Input } from '../inputs';
+import { Label } from '../label';
 
 type FormValues = {
   firstName: string;
@@ -53,18 +52,18 @@ const SignupForm: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
 
   const submitForm: SubmitHandler<FormValues> = (data) => {
-    console.log("Form submitted", data);
+    console.log('Form submitted', data);
   };
-  const password = watch("password");
+  const password = watch('password');
 
   return (
     <>
       <div className="w-full px-2 py-2 flex flex-col gap-10 h-full">
         <Image
-          src={"/images/cyberdemiaLogo.svg"}
+          src={'/images/cyberdemiaLogo.svg'}
           width={200}
           height={200}
-          alt={"cyberdemia logo"}
+          alt={'cyberdemia logo'}
         />
         <div>
           <h1 className="text-3xl font-bold">Sign Up</h1>
@@ -87,8 +86,8 @@ const SignupForm: React.FC = () => {
                 placeholder="First Name"
                 type="text"
                 id="firstName"
-                {...register("firstName", {
-                  required: "First name is required",
+                {...register('firstName', {
+                  required: 'First name is required',
                 })}
               />
               {errors.firstName && (
@@ -104,8 +103,8 @@ const SignupForm: React.FC = () => {
                 placeholder="Last Name"
                 type="text"
                 id="lastName"
-                {...register("lastName", {
-                  required: "Last name is required",
+                {...register('lastName', {
+                  required: 'Last name is required',
                 })}
               />
               {errors.lastName && (
@@ -125,11 +124,11 @@ const SignupForm: React.FC = () => {
                 id="email"
                 className="w-full p-2"
                 placeholder="Email Address"
-                {...register("email", {
-                  required: "Email address is required",
+                {...register('email', {
+                  required: 'Email address is required',
                   pattern: {
                     value: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
-                    message: "Invalid email address",
+                    message: 'Invalid email address',
                   },
                 })}
               />
@@ -144,8 +143,8 @@ const SignupForm: React.FC = () => {
               <select
                 id="gender"
                 className="w-full p-2 border rounded-md"
-                {...register("gender", {
-                  required: "Gender is required",
+                {...register('gender', {
+                  required: 'Gender is required',
                 })}
               >
                 <option value="">Select Gender</option>
@@ -168,8 +167,8 @@ const SignupForm: React.FC = () => {
                 placeholder="Phone Number"
                 type="text"
                 id="phoneNumber"
-                {...register("phoneNumber", {
-                  required: "Phone number is required",
+                {...register('phoneNumber', {
+                  required: 'Phone number is required',
                 })}
               />
               {errors.phoneNumber && (
@@ -188,8 +187,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="state"
                 className="w-full p-2 border rounded-md"
-                {...register("state", {
-                  required: "State is required",
+                {...register('state', {
+                  required: 'State is required',
                 })}
               />
               {errors.state && (
@@ -206,8 +205,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="highestEducationLevel"
                 className="w-full p-2 border rounded-md"
-                {...register("highestEducationLevel", {
-                  required: "Highest education level is required",
+                {...register('highestEducationLevel', {
+                  required: 'Highest education level is required',
                 })}
               />
               {errors.highestEducationLevel && (
@@ -226,8 +225,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="degreeType"
                 className="w-full p-2 border rounded-md"
-                {...register("degreeType", {
-                  required: "Degree type is required",
+                {...register('degreeType', {
+                  required: 'Degree type is required',
                 })}
               />
               {errors.degreeType && (
@@ -242,8 +241,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="courseOfStudy"
                 className="w-full p-2 border rounded-md"
-                {...register("courseOfStudy", {
-                  required: "Course of study is required",
+                {...register('courseOfStudy', {
+                  required: 'Course of study is required',
                 })}
               />
               {errors.courseOfStudy && (
@@ -262,8 +261,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="areaOfExpertise"
                 className="w-full p-2 border rounded-md"
-                {...register("areaOfExpertise", {
-                  required: "Area of expertise is required",
+                {...register('areaOfExpertise', {
+                  required: 'Area of expertise is required',
                 })}
               />
               {errors.areaOfExpertise && (
@@ -282,11 +281,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="degreeAttachment"
                 className="w-full p-2 border rounded-md"
-                {...register("degreeAttachment", {
-                  required: "Degree attachment URL is required",
+                {...register('degreeAttachment', {
+                  required: 'Degree attachment URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -302,11 +301,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="cvAttachment"
                 className="w-full p-2 border rounded-md"
-                {...register("cvAttachment", {
-                  required: "CV attachment URL is required",
+                {...register('cvAttachment', {
+                  required: 'CV attachment URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -326,11 +325,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="website"
                 className="w-full p-2 border rounded-md"
-                {...register("website", {
-                  required: "Website URL is required",
+                {...register('website', {
+                  required: 'Website URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -346,11 +345,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="twitter"
                 className="w-full p-2 border rounded-md"
-                {...register("twitter", {
-                  required: "Twitter URL is required",
+                {...register('twitter', {
+                  required: 'Twitter URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -366,11 +365,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="linkedIn"
                 className="w-full p-2 border rounded-md"
-                {...register("linkedIn", {
-                  required: "LinkedIn URL is required",
+                {...register('linkedIn', {
+                  required: 'LinkedIn URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -391,8 +390,8 @@ const SignupForm: React.FC = () => {
               <select
                 id="haveTaughtOnline"
                 className="w-full p-2 border rounded-md"
-                {...register("haveTaughtOnline", {
-                  required: "This field is required",
+                {...register('haveTaughtOnline', {
+                  required: 'This field is required',
                 })}
               >
                 <option value="true">Yes</option>
@@ -410,8 +409,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="durationOfTeaching"
                 className="w-full p-2 border rounded-md"
-                {...register("durationOfTeaching", {
-                  required: "Duration of teaching is required",
+                {...register('durationOfTeaching', {
+                  required: 'Duration of teaching is required',
                 })}
               />
               {errors.durationOfTeaching && (
@@ -429,8 +428,8 @@ const SignupForm: React.FC = () => {
               <textarea
                 id="teachingPhilosophy"
                 className="w-full p-2 border rounded-md"
-                {...register("teachingPhilosophy", {
-                  required: "Teaching philosophy is required",
+                {...register('teachingPhilosophy', {
+                  required: 'Teaching philosophy is required',
                 })}
               />
               {errors.teachingPhilosophy && (
@@ -445,8 +444,8 @@ const SignupForm: React.FC = () => {
                 type="text"
                 id="subjectsTaught"
                 className="w-full p-2 border rounded-md"
-                {...register("subjectsTaught", {
-                  required: "Subjects taught is required",
+                {...register('subjectsTaught', {
+                  required: 'Subjects taught is required',
                 })}
               />
               {errors.subjectsTaught && (
@@ -467,11 +466,11 @@ const SignupForm: React.FC = () => {
                 type="url"
                 id="courseProposalAttachment"
                 className="w-full p-2 border rounded-md"
-                {...register("courseProposalAttachment", {
-                  required: "Course proposal attachment URL is required",
+                {...register('courseProposalAttachment', {
+                  required: 'Course proposal attachment URL is required',
                   pattern: {
                     value: /^(ftp|http|https):\/\/[^ "]+$/,
-                    message: "Invalid URL",
+                    message: 'Invalid URL',
                   },
                 })}
               />
@@ -488,15 +487,15 @@ const SignupForm: React.FC = () => {
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   placeholder="Password"
                   className="w-full p-2 border rounded-md"
-                  {...register("password", {
-                    required: "Password is required",
+                  {...register('password', {
+                    required: 'Password is required',
                     minLength: {
                       value: 6,
-                      message: "Password must be at least 6 characters long",
+                      message: 'Password must be at least 6 characters long',
                     },
                   })}
                 />
@@ -517,14 +516,14 @@ const SignupForm: React.FC = () => {
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <div className="relative">
                 <Input
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   id="confirmPassword"
                   className="w-full p-2 border rounded-md"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password is required",
+                  {...register('confirmPassword', {
+                    required: 'Confirm Password is required',
                     validate: (value: string) =>
-                      value === password || "Passwords do not match",
+                      value === password || 'Passwords do not match',
                   })}
                 />
                 <div
@@ -550,8 +549,8 @@ const SignupForm: React.FC = () => {
                 type="checkbox"
                 id="declaration"
                 className="ml-2 pt-5"
-                {...register("declaration", {
-                  required: "You must declare to proceed",
+                {...register('declaration', {
+                  required: 'You must declare to proceed',
                 })}
               />
               {errors.declaration && (
@@ -566,8 +565,8 @@ const SignupForm: React.FC = () => {
                 type="checkbox"
                 id="termsAndConditions"
                 className="ml-2 pt-5"
-                {...register("termsAndConditions", {
-                  required: "You must agree to the terms and conditions",
+                {...register('termsAndConditions', {
+                  required: 'You must agree to the terms and conditions',
                 })}
               />
               {errors.termsAndConditions && (
