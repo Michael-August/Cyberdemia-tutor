@@ -35,3 +35,43 @@ export const useCreateCourse = () => {
     }
   });
 };
+
+export const useAddCertificationToCourse = () => {
+  return useMutation(
+    async (data: {
+      courseId: string;
+      signature: string;
+      template: '1' | '2' | '3';
+    }) => {
+      try {
+        const config = {
+          method: 'post',
+          url: 'certificate',
+          data,
+        };
+        const responseData = await request(config);
+        return responseData;
+      } catch (error: any) {
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      }
+    },
+  );
+};
+
+export const useAddPriceToCourse = () => {
+  return useMutation(
+    async (data: { courseId: string; price: number; currency: string }) => {
+      try {
+        const config = {
+          method: 'post',
+          url: 'price',
+          data,
+        };
+        const responseData = await request(config);
+        return responseData;
+      } catch (error: any) {
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      }
+    },
+  );
+};

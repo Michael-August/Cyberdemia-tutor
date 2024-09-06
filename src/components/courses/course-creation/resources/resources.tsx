@@ -1,19 +1,18 @@
+'use client';
+
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Tab, Tabs } from '@/components/ui/Tab';
 
-import { CourseCreationStep } from '../../NewCourse';
+import { useStep } from '../../../../../context/CourseCreationContext';
 import { StepTitle } from '../StepTitle';
 import { DownloadableTabContent } from './downloadableTab';
 import { ExternalResourceTab } from './externalResourceTab';
 
-export const Resources = ({ updateStep }: { updateStep: any }) => {
-  const moveToNextStep = (nextStep: CourseCreationStep) => {
-    updateStep(nextStep);
-  };
-
+export const Resources = () => {
   const [resources, setResources] = useState([
     {
       id: 1,
@@ -26,6 +25,19 @@ export const Resources = ({ updateStep }: { updateStep: any }) => {
 
   const addNewResource = () => {
     setResources([...resources, { id: 2, title: 'Resource 2' }]);
+  };
+
+  const { dispatch } = useStep();
+  const submitForm = () => {
+    try {
+      // const courseResponse = await createCourse(data)
+      // console.log('Form submitted', courseResponse);
+      // localStorage.setItem('newCourseId', courseResponse?.data?.courseId)
+      dispatch({ type: 'COMPLETE_STEP', payload: 0 });
+      dispatch({ type: 'NEXT_STEP' });
+    } catch (error: any) {
+      toast.error(error.response.data);
+    }
   };
 
   return (
@@ -98,7 +110,7 @@ export const Resources = ({ updateStep }: { updateStep: any }) => {
         </span>
 
         <Button
-          onClick={() => moveToNextStep('cert-template')}
+          onClick={submitForm}
           className="!bg-cp-secondary text-sm mb-5 transition-all hover:!bg-cp-primary !text-white mt-5"
         >
           Save and Continue

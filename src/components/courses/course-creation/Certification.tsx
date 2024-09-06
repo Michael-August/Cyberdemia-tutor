@@ -1,15 +1,48 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-import { CourseCreationStep } from '../NewCourse';
+import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
 
-export const Certification = ({ updateStep }: { updateStep: any }) => {
-  const moveToNextStep = (nextStep: CourseCreationStep) => {
-    updateStep(nextStep);
+export const Certification = () => {
+  const [selected, setSelected] = useState<1 | 2 | 3>(1);
+  const [signaturePreview, setSignaturePreview] = useState<any>();
+
+  // const { mutateAsync: addCertificate } = useAddCertificationToCourse();
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64String = reader.result;
+      setSignaturePreview(base64String);
+    };
+
+    reader.readAsDataURL(file);
   };
+
+  const { dispatch } = useStep();
+  const submit = () => {
+    // const courseId = localStorage.getItem('newCourseId') as string;
+
+    try {
+      // const certificateResponse = await addCertificate({courseId, signature: signaturePreview, template: `${selected}`})
+      // console.log('Cert submitted', certificateResponse);
+      // toast.success(certificateResponse.message)
+      dispatch({ type: 'COMPLETE_STEP', payload: 3 });
+      dispatch({ type: 'NEXT_STEP' });
+    } catch (error: any) {
+      toast.error(error.response.data);
+    }
+  };
+
   return (
     <>
       <div className="intro lg:w-[75%]">
@@ -29,14 +62,17 @@ export const Certification = ({ updateStep }: { updateStep: any }) => {
         </span>
         <div className="templates flex gap-5">
           <div className="hover:border-[2px] hover:border-cp-secondary transition-all relative">
+            {selected === 1 && (
+              <Image
+                className="absolute top-1 right-1"
+                src={'/icons/selected.svg'}
+                width={18}
+                height={18}
+                alt={'checked'}
+              />
+            )}
             <Image
-              className="absolute top-1 right-1"
-              src={'/icons/selected.svg'}
-              width={18}
-              height={18}
-              alt={'checked'}
-            />
-            <Image
+              onClick={() => setSelected(1)}
               className=""
               src={'/images/cert-template1.svg'}
               width={222}
@@ -45,16 +81,36 @@ export const Certification = ({ updateStep }: { updateStep: any }) => {
             />
             {/* <Image className="bolck md:hidden" src={"/images/cert-template1.svg"} width={163.32} height={111.09} alt={"Template 1"} /> */}
           </div>
-          <div className="hover:border-[2px] hover:border-cp-secondary transition-all">
+          <div className="hover:border-[2px] hover:border-cp-secondary transition-all relative">
+            {selected === 2 && (
+              <Image
+                className="absolute top-1 right-1"
+                src={'/icons/selected.svg'}
+                width={18}
+                height={18}
+                alt={'checked'}
+              />
+            )}
             <Image
+              onClick={() => setSelected(2)}
               src={'/images/cert-template2.svg'}
               width={222}
               height={151}
               alt={'Template 2'}
             />
           </div>
-          <div className="hover:border-[2px] hover:border-cp-secondary transition-all">
+          <div className="hover:border-[2px] hover:border-cp-secondary transition-all relative">
+            {selected === 3 && (
+              <Image
+                className="absolute top-1 right-1"
+                src={'/icons/selected.svg'}
+                width={18}
+                height={18}
+                alt={'checked'}
+              />
+            )}
             <Image
+              onClick={() => setSelected(3)}
               src={'/images/cert-template3.svg'}
               width={222}
               height={151}
@@ -70,9 +126,20 @@ export const Certification = ({ updateStep }: { updateStep: any }) => {
         </span>
         <div className="form-group flex flex-col gap-3">
           <Label className="text-xs">Attach signature</Label>
-          <input type="file" />
+          <input onChange={handleFileChange} type="file" />
         </div>
       </div>
+
+      {signaturePreview && (
+        <div className="w-full lg:w-[75%]">
+          <Image
+            width={100}
+            height={70}
+            src={signaturePreview}
+            alt="Signature Preview"
+          />
+        </div>
+      )}
 
       <div className="info flex items-start gap-8 mt-8 lg:w-[45%]">
         <Image src={'/icons/info.svg'} alt="info" width={32} height={32} />
@@ -84,7 +151,7 @@ export const Certification = ({ updateStep }: { updateStep: any }) => {
       </div>
 
       <Button
-        onClick={() => moveToNextStep('pricing')}
+        onClick={() => submit()}
         className="!bg-cp-secondary text-sm mb-5 transition-all hover:!bg-cp-primary !text-white mt-5 w-full lg:w-[75%]"
       >
         Save and Continue

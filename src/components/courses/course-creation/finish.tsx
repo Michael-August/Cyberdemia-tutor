@@ -1,13 +1,20 @@
+'use client';
+
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 
-import { CourseCreationStep } from '../NewCourse';
+import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
 
-export const Finish = ({ updateStep }: { updateStep: any }) => {
-  const moveToNextStep = (nextStep: CourseCreationStep) => {
-    updateStep(nextStep);
+export const Finish = () => {
+  const { dispatch } = useStep();
+
+  const complete = () => {
+    // if (stepId <= currentStep) {
+    //   dispatch({ type: 'SET_STEP', payload: stepId });
+    // }
+    dispatch({ type: 'SET_STEP', payload: 6 });
   };
 
   return (
@@ -42,7 +49,7 @@ export const Finish = ({ updateStep }: { updateStep: any }) => {
         </div>
       </div>
       <Button
-        onClick={() => moveToNextStep('completed')}
+        onClick={complete}
         className="!bg-cp-secondary lg:w-[75%] w-full text-sm mb-5 transition-all hover:!bg-cp-primary !text-white mt-5"
       >
         Submit for Review

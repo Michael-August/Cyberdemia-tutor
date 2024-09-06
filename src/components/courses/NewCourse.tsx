@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
+import { useStep } from '../../../context/CourseCreationContext';
 import { useLayoutContext } from '../../../context/LayoutContext';
 import { Certification } from './course-creation/Certification';
 import { Completed } from './course-creation/completed';
@@ -28,46 +29,35 @@ export const NewCourse = () => {
     dispatch({ type: 'SET_SIDEBAR', sidebarType: 'defaultSidebar' });
   }, [dispatch]);
 
-  const [step, setStep] = useState<CourseCreationStep>('overview');
-
-  const updateStep = (newStep: CourseCreationStep) => {
-    setStep(newStep);
-  };
+  const { state } = useStep();
+  const { currentStep } = state;
 
   return (
     <>
       <div>
-        <div className="steps">
-          {<RenderStep updateStep={updateStep} step={step} />}
-        </div>
+        <div className="steps">{<RenderStep currentStep={currentStep} />}</div>
       </div>
     </>
   );
 };
 
-const RenderStep = ({
-  step,
-  updateStep,
-}: {
-  step: CourseCreationStep;
-  updateStep: any;
-}) => {
-  switch (step) {
-    case 'overview':
-      return <CourseOverview updateStep={updateStep} />;
-    case 'curriculum':
-      return <Curriculum updateStep={updateStep} />;
-    case 'resources':
-      return <Resources updateStep={updateStep} />;
-    case 'cert-template':
-      return <Certification updateStep={updateStep} />;
-    case 'pricing':
-      return <Price updateStep={updateStep} />;
-    case 'finish':
-      return <Finish updateStep={updateStep} />;
-    case 'completed':
+const RenderStep = ({ currentStep }: { currentStep: number }) => {
+  switch (currentStep) {
+    case 0:
+      return <CourseOverview />;
+    case 1:
+      return <Curriculum />;
+    case 2:
+      return <Resources />;
+    case 3:
+      return <Certification />;
+    case 4:
+      return <Price />;
+    case 5:
+      return <Finish />;
+    case 6:
       return <Completed />;
     default:
-      return <CourseOverview updateStep={updateStep} />;
+      return <CourseOverview />;
   }
 };
