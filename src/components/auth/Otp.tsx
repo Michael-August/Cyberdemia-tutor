@@ -2,14 +2,28 @@
 import Image from 'next/image';
 import React from 'react';
 
+import { useTutorOTPResend } from '@/hooks/react-query/useAuth';
+
+import Loader from '../loader';
 import { InputOTPControlled } from './otp-input';
 
 const Otp = () => {
+  const { mutate: studentOtpCodeRsend, isLoading } = useTutorOTPResend();
+
   const handleResendOPT = () => {
-    console.log('Resend OTP');
+    const storedData = localStorage.getItem('temp');
+    const parsedData = storedData ? JSON.parse(storedData) : null;
+
+    const data = {
+      email: parsedData ?? null,
+      type: 'verifyEmail',
+    };
+    studentOtpCodeRsend(data);
   };
+
   return (
     <>
+      {isLoading && <Loader />}
       <main className="px-4 sm:px-8 md:px-16 lg:px-32 xl:px-64 pt-20 h-full">
         <div className="flex flex-col justify-center items-center gap-10">
           <div className="flex flex-col justify-center w-full items-center sm:items-start text-center sm:text-left">
@@ -24,8 +38,8 @@ const Otp = () => {
               Please verify your email address
             </h1>
             <p className="text-black py-5">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Doloribus, accusantium!
+              A 5-digit code has been sent to your email address. Please enter
+              the code below.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row justify-center items-center w-full">
