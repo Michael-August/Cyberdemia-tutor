@@ -1,13 +1,17 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
+import { useTutorSignUp } from '@/hooks/react-query/useAuth';
+
 import { genderOptions } from '../../../utils/constants';
 import { Input } from '../inputs';
 import { Label } from '../label';
+import Loader from '../loader';
 
 type FormValues = {
   firstName: string;
@@ -27,8 +31,8 @@ type FormValues = {
   website: string;
   twitter: string;
   linkedIn: string;
-  haveTaughtOnline: boolean;
-  subjectsTaught: string[];
+  haveTaughtOnline: string;
+  subjectsTaught: string;
   durationOfTeaching: string;
   teachingPhilosophy: string;
   courseProposalAttachment: string;
@@ -37,6 +41,8 @@ type FormValues = {
 };
 
 const SignupForm: React.FC = () => {
+  const router = useRouter();
+  const { mutate: TutorReg, isLoading } = useTutorSignUp(router);
   const {
     register,
     handleSubmit,
@@ -52,12 +58,25 @@ const SignupForm: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
 
   const submitForm: SubmitHandler<FormValues> = (data) => {
-    console.log('Form submitted', data);
+    const { confirmPassword, ...formData } = data;
+
+    const payload = {
+      ...formData,
+      subjectsTaught: data.subjectsTaught
+        .split(',')
+        .map((subject) => subject.trim()),
+    };
+
+    TutorReg(payload);
+    localStorage.setItem('temp', JSON.stringify(data.email));
   };
+
   const password = watch('password');
 
   return (
     <>
+      {' '}
+      {isLoading && <Loader />}
       <div className="w-full px-2 py-2 flex flex-col gap-10 h-full">
         <Image
           src={'/images/cyberdemiaLogo.svg'}
@@ -542,7 +561,7 @@ const SignupForm: React.FC = () => {
           </div>
 
           {/* Declarations and Terms */}
-          <div className="grid grid-cols-1 border py-2 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="declaration">Declaration</Label>
               <input
@@ -581,7 +600,7 @@ const SignupForm: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full py-4 mt-10 bg-cp-secondary text-white rounded-md hover:bg-cp-secondaryDarker transition duration-200"
+            className="w-full py-4 my-10 bg-cp-secondary text-white rounded-md hover:bg-cp-secondaryDarker transition duration-200"
           >
             Submit
           </button>

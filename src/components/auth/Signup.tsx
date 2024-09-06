@@ -25,7 +25,7 @@ const Signup = () => {
 
       {/* Right section: Form container */}
       <div className="col-span-1">
-        <div className="flex flex-col justify-center sm:pt-10 items-start gap-10 h-[100vh] overflow-y-auto">
+        <div className="flex flex-col justify-center sm:pt-10 items-start mb-10 gap-10 h-[100vh] overflow-y-auto">
           {/* Container for logo and form */}
 
           <SignupForm />

@@ -3,12 +3,12 @@ import { toast } from 'react-toastify';
 
 import { request } from '../request';
 
-export const useStudentSignUp = (router: any) => {
+export const useTutorSignUp = (router: any) => {
   return useMutation(
     async (data: any) => {
       const config = {
         method: 'post',
-        url: '/student-signup',
+        url: '/instructor-signup',
         data,
       };
 
@@ -33,7 +33,7 @@ export const useStudentSignUp = (router: any) => {
   );
 };
 
-export const useStudentOTP = (router: any) => {
+export const useTutorOTP = (router: any) => {
   return useMutation(
     async (data: any) => {
       const config = {
@@ -65,7 +65,7 @@ export const useStudentOTP = (router: any) => {
   );
 };
 
-export const useStudentOTPResend = () => {
+export const useTutorOTPResend = () => {
   return useMutation(
     async (data: any) => {
       const config = {
@@ -93,7 +93,7 @@ export const useStudentOTPResend = () => {
   );
 };
 
-export const useStudentForgetPassword = () => {
+export const useTutorForgetPassword = () => {
   return useMutation(
     async (data: any) => {
       const config = {
@@ -121,7 +121,7 @@ export const useStudentForgetPassword = () => {
   );
 };
 
-export const useStudentPasswordReset = (router: any) => {
+export const useTutorPasswordReset = (router: any) => {
   return useMutation(
     async (data: any) => {
       const config = {
