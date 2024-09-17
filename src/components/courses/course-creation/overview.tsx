@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useCreateCourse } from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
@@ -23,7 +24,7 @@ type FormValues = {
 };
 
 export const CourseOverview = () => {
-  // const { mutateAsync: createCourse } = useCreateCourse();
+  const { mutateAsync: createCourse } = useCreateCourse();
 
   const handleChange = (field: 'objective' | 'prerequisite', value: string) => {
     if (field === 'objective') {
@@ -45,11 +46,11 @@ export const CourseOverview = () => {
   } = useForm<FormValues>();
 
   const { dispatch } = useStep();
-  const submitForm: SubmitHandler<FormValues> = () => {
+  const submitForm: SubmitHandler<FormValues> = async (data) => {
     try {
-      // const courseResponse = await createCourse(data)
-      // console.log('Form submitted', courseResponse);
-      // localStorage.setItem('newCourseId', courseResponse?.data?.courseId)
+      const courseResponse = await createCourse(data);
+      console.log('Form submitted', courseResponse);
+      localStorage.setItem('newCourseId', courseResponse?.data?.courseId);
       dispatch({ type: 'COMPLETE_STEP', payload: 0 });
       dispatch({ type: 'NEXT_STEP' });
     } catch (error: any) {

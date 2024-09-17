@@ -1,27 +1,33 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 
-import { request } from '../request';
+import { request } from '../../request';
 
 export const useGetCourses = () => {
-  return useQuery('courses', async () => {
-    try {
+  return useQuery(
+    ['courses'],
+    async () => {
       const config = {
         method: 'get',
         url: 'course',
       };
       const responseData = await request(config);
       return responseData;
-    } catch (error: any) {
-      console.error(error);
-      toast.error(`${error?.response?.data?.message || error?.message}`);
-    }
-  });
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
 };
 
 export const useCreateCourse = () => {
-  return useMutation(async (data: any) => {
-    try {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: any) => {
       const config = {
         method: 'post',
         url: 'course',
@@ -29,11 +35,17 @@ export const useCreateCourse = () => {
       };
       const responseData = await request(config);
       return responseData;
-    } catch (error: any) {
-      console.log(error);
-      toast.error(`${error?.response?.data?.message || error?.message}`);
-    }
-  });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['courses']);
+      },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
 };
 
 export const useAddCertificationToCourse = () => {

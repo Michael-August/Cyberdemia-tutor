@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { IoArrowForward, IoChevronForward } from 'react-icons/io5';
 
-import { useGetCourses } from '@/hooks/react-query/useCourses';
+import { useGetCourses } from '@/hooks/react-query/course-creation/useCourses';
 
 import { Button } from '../button';
 import {
