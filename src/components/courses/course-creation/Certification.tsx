@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { useAddCertificationToCourse } from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
@@ -14,7 +15,7 @@ export const Certification = () => {
   const [selected, setSelected] = useState<1 | 2 | 3>(1);
   const [signaturePreview, setSignaturePreview] = useState<any>();
 
-  // const { mutateAsync: addCertificate } = useAddCertificationToCourse();
+  const { mutateAsync: addCertificate } = useAddCertificationToCourse();
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -29,13 +30,17 @@ export const Certification = () => {
   };
 
   const { dispatch } = useStep();
-  const submit = () => {
-    // const courseId = localStorage.getItem('newCourseId') as string;
+  const submit = async () => {
+    const courseId = localStorage.getItem('newCourseId') as string;
 
     try {
-      // const certificateResponse = await addCertificate({courseId, signature: signaturePreview, template: `${selected}`})
-      // console.log('Cert submitted', certificateResponse);
-      // toast.success(certificateResponse.message)
+      const certificateResponse = await addCertificate({
+        courseId,
+        signature: signaturePreview,
+        template: `${selected}`,
+      });
+      console.log('Cert submitted', certificateResponse);
+      toast.success(certificateResponse.message);
       dispatch({ type: 'COMPLETE_STEP', payload: 3 });
       dispatch({ type: 'NEXT_STEP' });
     } catch (error: any) {

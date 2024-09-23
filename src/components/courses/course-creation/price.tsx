@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useAddPriceToCourse } from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
@@ -31,20 +32,20 @@ export const Price = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  // const { mutateAsync: addPrice } = useAddPriceToCourse();
+  const { mutateAsync: addPrice } = useAddPriceToCourse();
 
   const { dispatch } = useStep();
-  const submitForm: SubmitHandler<FormValues> = () => {
-    // const courseId = localStorage.getItem('newCourseId') as string;
+  const submitForm: SubmitHandler<FormValues> = async (data) => {
+    const courseId = localStorage.getItem('newCourseId') as string;
 
-    // const formData = {
-    //   price: Number(data.price),
-    //   currency: data.currency,
-    // };
+    const formData = {
+      price: Number(data.price),
+      currency: data.currency as string,
+    };
 
     try {
-      // const priceResponse = await addPrice({ courseId, ...formData })
-      // toast.success(priceResponse.message)
+      const priceResponse = await addPrice({ courseId, ...formData });
+      toast.success(priceResponse.message);
       dispatch({ type: 'COMPLETE_STEP', payload: 4 });
       dispatch({ type: 'NEXT_STEP' });
     } catch (error: any) {

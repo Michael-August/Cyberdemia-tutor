@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import {
   Table,
@@ -10,8 +12,56 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useCreateCourseResource } from '@/hooks/react-query/course-creation/useCourseResources';
 
-export const DownloadableTabContent = ({ status }: { status: string }) => {
+export const DownloadableTabContent = ({
+  resourceTitle,
+  courseId,
+}: {
+  resourceTitle: string;
+  courseId: string;
+}) => {
+  const { data: createResource } = useCreateCourseResource();
+
+  const [status, setStatus] = useState<'upload' | 'processing' | 'done'>(
+    'upload',
+  );
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [fileUpload, setFileUpload] = useState('');
+
+  const handleSelection = (e: any) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      setFileUpload(fileUpload)
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+    }
+  };
+
+  const submitResource = async (e: any) => {
+    e.preventDefault();
+
+    if (!resourceTitle) return;
+    if (!previewUrl) toast.warn('Please select a video to upload');
+
+    try {
+      //TODO: change to {courseId}
+      await createResource({
+        courseId,
+        title: resourceTitle,
+        resourceType: 'downloadableFile',
+        url: 'https://stridefuture.com/wp-content/uploads/Software-Development-Tools-to-Ace-Your-Business-Blog.png',
+      });
+      setStatus('done');
+    } catch (error: any) {
+      toast.error(error.response.data);
+    }
+  };
   return (
     <div>
       {status === 'upload' && (
@@ -21,16 +71,23 @@ export const DownloadableTabContent = ({ status }: { status: string }) => {
               htmlFor="upload"
               className="p-2 border border-solid border-[#000000B2] w-[80%] text-[#0000004D]"
             >
-              Select file
+              Click here to select file
             </label>
             <label
-              htmlFor="upload"
+              onClick={(e) => submitResource(e)}
               className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] cursor-pointer"
             >
-              Select file
+              upload file
             </label>
           </div>
-          <input type="file" className="hidden" id="upload" name="upload" />
+          <input
+            onChange={(e) => handleSelection(e)}
+            value={fileUpload}
+            type="file"
+            className="hidden"
+            id="upload"
+            name="upload"
+          />
           <span className="text-xs text-[#000000B2]">
             Select the type of content you want to upload to the platform
           </span>

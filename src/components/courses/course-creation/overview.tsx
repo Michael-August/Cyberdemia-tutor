@@ -49,7 +49,6 @@ export const CourseOverview = () => {
   const submitForm: SubmitHandler<FormValues> = async (data) => {
     try {
       const courseResponse = await createCourse(data);
-      console.log('Form submitted', courseResponse);
       localStorage.setItem('newCourseId', courseResponse?.data?.courseId);
       dispatch({ type: 'COMPLETE_STEP', payload: 0 });
       dispatch({ type: 'NEXT_STEP' });

@@ -226,7 +226,7 @@ export const Curriculum = () => {
                 </Label>
                 <Input
                   className="w-[80%] !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-transparent"
-                  placeholder="Enter Assignment Title"
+                  placeholder="Enter Section Title"
                   autoComplete="off"
                   type="text"
                   id="title"
