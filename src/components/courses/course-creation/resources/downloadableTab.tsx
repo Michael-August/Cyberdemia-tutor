@@ -34,7 +34,7 @@ export const DownloadableTabContent = ({
     const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
-      setFileUpload(fileUpload)
+      setFileUpload(fileUpload);
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
       reader.onloadend = () => {
