@@ -49,7 +49,7 @@ export const CourseOverview = () => {
   const submitForm: SubmitHandler<FormValues> = async (data) => {
     try {
       const courseResponse = await createCourse(data);
-      localStorage.setItem('newCourseId', courseResponse?.data?.courseId);
+      localStorage.setItem('newCourseId', courseResponse?.data?.id);
       dispatch({ type: 'COMPLETE_STEP', payload: 0 });
       dispatch({ type: 'NEXT_STEP' });
     } catch (error: any) {

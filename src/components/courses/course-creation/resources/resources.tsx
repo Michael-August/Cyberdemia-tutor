@@ -17,6 +17,7 @@ import { ExternalResourceTab } from './externalResourceTab';
 export const Resources = () => {
   const [addResource, setAddResource] = useState(false);
   const [addNewResource, setAddNewResource] = useState(false);
+  const [addResourceContent, setAddResourceContent] = useState(false);
 
   const courseId = localStorage.getItem('newCourseId') as string;
 
@@ -24,11 +25,17 @@ export const Resources = () => {
 
   const { dispatch } = useStep();
 
-  const { data: resources } = useGetCourseResources('66d7dc646c7644ea28de2b1c');
+  const { data: resources } = useGetCourseResources(courseId);
 
   const nextStep = () => {
     dispatch({ type: 'COMPLETE_STEP', payload: 1 });
     dispatch({ type: 'NEXT_STEP' });
+  };
+
+  const resetState = () => {
+    setAddResource(false);
+    setAddNewResource(false);
+    setAddResourceContent(false);
   };
 
   return (
@@ -45,21 +52,71 @@ export const Resources = () => {
       </div>
 
       <div className="mt-8 flex flex-col gap-5 lg:w-[75%]">
-        {resources?.data?.map((resource: any) => (
-          <div
-            key={resource.id}
-            className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]"
-          >
+        {(resources?.data?.downloadableFile.length > 0 ||
+          resources?.data?.external.length > 0) && (
+          <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
             <div className="title">
               <span className="text-sm font-semibold">
-                {resource.title || resourceTitle}:
+                {resources?.data?.downloadableFile.length > 0
+                  ? resources?.data?.downloadableFile[0].title
+                  : resources?.data?.external[0].title}
+                :
               </span>
             </div>
-            <div className="content">
-              {!addResource && (
+            {resources?.data?.downloadableFile?.map((resource: any) => (
+              <div
+                key={resource?.id}
+                className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]"
+              >
+                <Tabs>
+                  <Tab title={'Downloadable File'}>
+                    <DownloadableTabContent
+                      courseId={courseId}
+                      downloadableResources={resource}
+                    />
+                  </Tab>
+                  <Tab title={'External Resources'}>
+                    <ExternalResourceTab
+                      courseId={courseId}
+                      externalResource={null}
+                    />
+                  </Tab>
+                </Tabs>
+              </div>
+            ))}
+            {resources?.data?.external?.map((resource: any) => (
+              <div
+                key={resource?.id}
+                className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]"
+              >
+                <Tabs>
+                  <Tab title={'Downloadable File'}>
+                    <DownloadableTabContent
+                      courseId={courseId}
+                      downloadableResources={null}
+                    />
+                  </Tab>
+                  <Tab title={'External Resources'}>
+                    <ExternalResourceTab
+                      courseId={courseId}
+                      externalResource={resource}
+                    />
+                  </Tab>
+                </Tabs>
+              </div>
+            ))}
+          </div>
+        )}
+        {addResource && (
+          <div className="content">
+            <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
+              <div className="title">
+                <span className="text-sm font-semibold">{resourceTitle}:</span>
+              </div>
+              {!addResourceContent && (
                 <div className="new-item-btn">
                   <span
-                    onClick={() => setAddResource(true)}
+                    onClick={() => setAddResourceContent(true)}
                     className="flex gap-3 justify-center p-2 rounded-md text-xs cursor-pointer items-center border border-cp-secondary text-cp-secondary w-full !bg-transparent"
                   >
                     <Image
@@ -73,24 +130,31 @@ export const Resources = () => {
                 </div>
               )}
 
-              {addResource && (
+              {addResourceContent && (
                 <div className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]">
                   <Tabs>
                     <Tab title={'Downloadable File'}>
                       <DownloadableTabContent
-                        courseId={courseId || '66d7dc646c7644ea28de2b1c'}
+                        courseId={courseId}
                         resourceTitle={resourceTitle}
+                        downloadableResources={null}
+                        reset={resetState}
                       />
                     </Tab>
                     <Tab title={'External Resources'}>
-                      <ExternalResourceTab />
+                      <ExternalResourceTab
+                        courseId={courseId}
+                        resourceTitle={resourceTitle}
+                        externalResource={null}
+                        reset={resetState}
+                      />
                     </Tab>
                   </Tabs>
                 </div>
               )}
             </div>
           </div>
-        ))}
+        )}
 
         {addNewResource && (
           <div className="p-5 !bg-white border border-black flex flex-col">
@@ -119,7 +183,10 @@ export const Resources = () => {
                 Close
               </Button>
               <Button
-                onClick={() => setAddResource(true)}
+                onClick={() => {
+                  setAddResource(true);
+                  setAddNewResource(false);
+                }}
                 className="bg-cp-secondary text-white p-2 hover:!bg-cp-primary"
               >
                 Create resource

@@ -19,10 +19,9 @@ import Exam from './Exam';
 import Lecture from './Lecture';
 
 export const Curriculum = () => {
-  // const courseId = localStorage.getItem('newCourseId') as string;
+  const courseId = localStorage.getItem('newCourseId') as string;
 
-  // TODO: change to {courseId}
-  const { data: sections } = useGetCourseSections('66d7dc646c7644ea28de2b1c');
+  const { data: sections } = useGetCourseSections(courseId);
   const { mutateAsync: createSection } = useCreateCourseSection();
 
   // const [addCurriculum, setAddCurriculum] = useState(false);
@@ -71,9 +70,8 @@ export const Curriculum = () => {
     if (!sectionTitle) return;
     try {
       e.preventDefault();
-      //TODO: change to {courseId}
       const courseSectionResponse = await createSection({
-        courseId: '66d7dc646c7644ea28de2b1c',
+        courseId,
         sectionTitle,
       });
       setAddSection(false);
