@@ -1,11 +1,20 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '../button';
 import { Table, TableBody, TableCell, TableRow } from '../ui/table';
 
 export const Course = ({ course }) => {
+  const router = useRouter();
+
+  const startCourseEdit = (e: any) => {
+    e.preventDefault();
+    localStorage.setItem('newCourseId', course.id);
+    router.push('/tutor/courses/manage-course');
+  };
+
   return (
     <div>
       <div className="hidden lg:block">
@@ -61,7 +70,10 @@ export const Course = ({ course }) => {
                 </div>
               </TableCell>
               <TableCell>
-                <Button className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]">
+                <Button
+                  onClick={(e) => startCourseEdit(e)}
+                  className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+                >
                   Manage/Edit Course
                 </Button>
               </TableCell>
@@ -109,7 +121,10 @@ export const Course = ({ course }) => {
                 )}
               </div>
             </div>
-            <Button className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]">
+            <Button
+              onClick={(e) => startCourseEdit(e)}
+              className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+            >
               Manage/Edit Course
             </Button>
           </div>

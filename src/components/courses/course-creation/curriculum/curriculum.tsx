@@ -201,12 +201,30 @@ export const Curriculum = () => {
                   )}
                   {state.addAssignments && (
                     <div>
-                      <Assignment />
+                      <Assignment
+                        sectionId={section.id}
+                        setAddCurriculum={(display: boolean) =>
+                          handleStateChange(
+                            section.id,
+                            'addCurriculum',
+                            display,
+                          )
+                        }
+                      />
                     </div>
                   )}
                   {state.addExam && (
                     <div>
-                      <Exam />
+                      <Exam
+                        sectionId={section.id}
+                        setAddCurriculum={(display: boolean) =>
+                          handleStateChange(
+                            section.id,
+                            'addCurriculum',
+                            display,
+                          )
+                        }
+                      />
                     </div>
                   )}
                 </div>

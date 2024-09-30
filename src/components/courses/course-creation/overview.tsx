@@ -3,13 +3,18 @@
 import 'react-quill/dist/quill.snow.css';
 
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useCreateCourse } from '@/hooks/react-query/course-creation/useCourses';
+import {
+  useCreateCourse,
+  useGetCourse,
+  useUpdateCourse,
+} from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
@@ -24,14 +29,23 @@ type FormValues = {
 };
 
 export const CourseOverview = () => {
+  const courseId = localStorage.getItem('newCourseId');
+
   const { mutateAsync: createCourse } = useCreateCourse();
+  const { mutateAsync: editCourse } = useUpdateCourse(courseId as string);
+  const { data } = useGetCourse(courseId as string);
+
+  const [objective, setObjective] = useState('');
+  const [prerequisite, setPrerequisite] = useState('');
 
   const handleChange = (field: 'objective' | 'prerequisite', value: string) => {
     if (field === 'objective') {
+      setObjective(value);
       setValue('objective', value); // Register value in react-hook-form
       trigger('objective'); // Trigger validation
     }
     if (field === 'prerequisite') {
+      setPrerequisite(value);
       setValue('prerequisite', value); // Register value in react-hook-form
       trigger('prerequisite'); // Trigger validation
     }
@@ -45,9 +59,24 @@ export const CourseOverview = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  useEffect(() => {
+    if (data) {
+      setValue('title', data.data.title || '');
+      setValue('subtitle', data.data.subtitle || '');
+      setObjective(data.data.objective || ''); // Set the local state
+      setPrerequisite(data.data.prerequisite || '');
+    }
+  }, [data, setValue]);
+
   const { dispatch } = useStep();
   const submitForm: SubmitHandler<FormValues> = async (data) => {
     try {
+      if (courseId && data) {
+        await editCourse({ ...data, id: courseId });
+        toast.success('Course updated successfully!');
+        return;
+      }
+
       const courseResponse = await createCourse(data);
       localStorage.setItem('newCourseId', courseResponse?.data?.id);
       dispatch({ type: 'COMPLETE_STEP', payload: 0 });
@@ -135,6 +164,7 @@ export const CourseOverview = () => {
             className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
             placeholder="What to Learn"
             theme="snow"
+            value={objective}
             modules={{
               toolbar: [
                 [{ header: [1, 2, 3, 4, false] }],
@@ -170,6 +200,7 @@ export const CourseOverview = () => {
                 ['bold', 'italic', 'underline'],
               ],
             }}
+            value={prerequisite}
             onChange={(value) => handleChange('prerequisite', value)}
           />
 

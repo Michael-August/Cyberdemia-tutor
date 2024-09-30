@@ -76,3 +76,53 @@ export const useCreateCourseLecture = () => {
     },
   );
 };
+
+export const useCreateCourseAssignment = () => {
+  return useMutation(
+    async (data: {
+      assignmentTitle: string;
+      assignmentQuestion?: string;
+      sectionId: string;
+    }) => {
+      const config = {
+        method: 'post',
+        url: 'assignment',
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      // onSuccess: (_data, variables) => {
+      //     queryClient.invalidateQueries(['sections', variables.courseId]);
+      // },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};
+
+export const useCreateCourseExams = () => {
+  return useMutation(
+    async (data: any) => {
+      const config = {
+        method: 'post',
+        url: 'exam',
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      // onSuccess: (_data, variables) => {
+      //     queryClient.invalidateQueries(['sections', variables.courseId]);
+      // },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};

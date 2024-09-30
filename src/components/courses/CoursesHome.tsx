@@ -20,6 +20,7 @@ export const CoursesHome = () => {
   const { data: courses } = useGetCourses();
 
   const goToCourseCreation = () => {
+    localStorage.removeItem("newCourseId")
     router.push('/tutor/courses/manage-course');
   };
 

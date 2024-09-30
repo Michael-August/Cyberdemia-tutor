@@ -2,12 +2,22 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useCreateCourseAssignment } from '@/hooks/react-query/course-creation/useCourseCurriculum';
 
-const Assignment = () => {
+const Assignment = ({
+  setAddCurriculum,
+  sectionId,
+}: {
+  setAddCurriculum: any;
+  sectionId: string;
+}) => {
+  const { mutateAsync: createAssignment } = useCreateCourseAssignment();
+
   const [assignmentTitle, setAssignmentTitle] = useState('');
   const [assignmentDetail, setAssignmentDetail] = useState('');
 
@@ -23,12 +33,24 @@ const Assignment = () => {
     setAssignmentDetailsDisplay(true);
   };
 
-  const addAssignment = (e: any) => {
+  const close = (e: any) => {
     e.preventDefault();
-    if (!assignmentTitle) return;
+    setAddCurriculum(false);
+  };
+
+  const handleAssignmentCreation = async (e: any) => {
+    if (!assignmentDetail) toast.warn('Please type out assignment description');
+    e.preventDefault();
+    const assignmentData: any = {
+      sectionId,
+      assignmentTitle,
+      assignmentQuestion: assignmentDetail,
+    };
+    await createAssignment(assignmentData);
     setAssignmentDetailsDisplay(false);
     setAssignmentAddedDisplay(true);
   };
+
   return (
     <div>
       {assignmentTitleDisplay && (
@@ -51,7 +73,10 @@ const Assignment = () => {
             />
           </div>
           <div className="btns flex items-center z-50 justify-end gap-3">
-            <Button className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer">
+            <Button
+              onClick={(e) => close(e)}
+              className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer"
+            >
               Close
             </Button>
             <Button
@@ -87,7 +112,7 @@ const Assignment = () => {
               Close
             </Button>
             <Button
-              onClick={addAssignment}
+              onClick={handleAssignmentCreation}
               className="bg-cp-secondary text-white p-2 hover:!bg-cp-primary"
             >
               Done

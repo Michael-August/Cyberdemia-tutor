@@ -23,6 +23,26 @@ export const useGetCourses = () => {
   );
 };
 
+export const useGetCourse = (courseId: string) => {
+  return useQuery(
+    ['course', courseId],
+    async () => {
+      const config = {
+        method: 'get',
+        url: `course/${courseId}`,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};
+
 export const useCreateCourse = () => {
   const queryClient = useQueryClient();
 
@@ -39,6 +59,31 @@ export const useCreateCourse = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['courses']);
+      },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};
+
+export const useUpdateCourse = (courseId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: any) => {
+      const config = {
+        method: 'patch',
+        url: `course/${courseId}`,
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['course', courseId]);
       },
       onError: (error: any) => {
         console.error(error);
