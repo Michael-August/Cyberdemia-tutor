@@ -50,13 +50,7 @@ export const useCreateCourseSection = () => {
 
 export const useCreateCourseLecture = () => {
   return useMutation(
-    async (data: {
-      lectureTitle: string;
-      videoUrl?: string;
-      article?: string;
-      lectureLength: number;
-      sectionId: string;
-    }) => {
+    async (data: any) => {
       const config = {
         method: 'post',
         url: 'lecture',

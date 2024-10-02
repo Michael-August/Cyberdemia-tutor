@@ -34,14 +34,15 @@ const Lecture = ({
   const [videoTitle, setVideoTitle] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
   const [articleDescription, setArticleDescription] = useState('');
-  const [fileUpload, setFileUpload] = useState('');
+  const [fileUpload] = useState('');
+  const [fileToUpload, setFileToUpload] = useState('');
+
+  const [fileName, setFileName] = useState('');
 
   const [lectureArea, setLectureArea] = useState(false);
   const [lectureContents, setLectureContents] = useState(false);
 
   const [contentType, setContentType] = useState(false);
-
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const [videoContent, setVideoContent] = useState(false);
   const [videoTitleDIsplay, setVideoTitleDisplay] = useState(false);
@@ -82,16 +83,14 @@ const Lecture = ({
   };
 
   const handleVideoUpload = async (e: any) => {
-    if (!previewUrl) toast.warn('Please select a video to upload');
+    if (!fileToUpload) toast.warn('Please select a video to upload');
     e.preventDefault();
-    const lectureData: any = {
-      sectionId,
-      lectureTitle: title,
-      videoUrl: previewUrl,
-    };
-    await createLecture(lectureData);
+    const formData = new FormData();
+    formData.append('sectionId', sectionId);
+    formData.append('lectureTitle', title);
+    formData.append('videoUrl', fileToUpload);
+    await createLecture(formData);
 
-    setFileUpload(previewUrl as string);
     setVideoUpload(false);
     setVideoProcessing(true);
   };
@@ -110,17 +109,8 @@ const Lecture = ({
   };
 
   const handleVideoSelection = (e: any) => {
-    const selectedFile = e.target.files?.[0];
-    // const videoTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/webm'];
-
-    // if (!videoTypes.includes(selectedFile.type)) { toast.error('Please upload a video'); return}
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFile);
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-      };
-    }
+    setFileToUpload(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   return (
@@ -317,12 +307,7 @@ const Lecture = ({
                     id="upload"
                     name="upload"
                   />
-                  <span className="text-xs text-[#000000B2]">
-                    Select the type of content you want to upload to the
-                    platform
-                  </span>
-
-                  {previewUrl && <video src={previewUrl} controls />}
+                  <span className="text-xs text-[#000000B2]">{fileName}</span>
                 </div>
               )}
               {fileUpload && videoProcessing && (

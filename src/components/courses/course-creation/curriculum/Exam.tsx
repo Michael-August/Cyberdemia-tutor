@@ -10,15 +10,15 @@ import { Label } from '@/components/ui/label';
 import { useCreateCourseExams } from '@/hooks/react-query/course-creation/useCourseCurriculum';
 
 const Exam = ({
-  setAddCurriculum,
   sectionId,
 }: {
-  setAddCurriculum: any;
+  setAddCurriculum?: any;
   sectionId: string;
 }) => {
   const { mutateAsync: createExam } = useCreateCourseExams();
 
-  const [fileUpload, setFileUpload] = useState('');
+  const [fileUpload] = useState('');
+  const [fileToUpload, setFileToUpload] = useState('');
 
   const [examsUpload, setExamsUpload] = useState(true);
   const [examUploaded, setExamUploaded] = useState(false);
@@ -39,35 +39,35 @@ const Exam = ({
   };
 
   const handleFileSelection = (event: any) => {
-    setFileUpload(event.target.files[0]);
+    setFileToUpload(event.target.files[0]);
     setFileName(event.target.files[0].name);
   };
 
   const handleExamUpload = async (e: any) => {
-    if (!fileUpload) toast.warn('Please select a video to upload');
+    if (!fileToUpload) toast.warn('Please select an excel file to upload');
     e.preventDefault();
     const formData = new FormData();
     formData.append('title', formValues.title);
     formData.append('timer', formValues.timer);
     formData.append('type', formValues.type);
-    formData.append('excelFile', fileUpload);
+    formData.append('excelFile', fileToUpload);
     formData.append('sectionId', sectionId);
 
     await createExam(formData);
 
     setExamsUpload(false);
     setExamUploaded(true);
-    setAddCurriculum(false);
   };
 
   return (
     <div>
       {examsUpload && (
-        <form
-          onSubmit={(e) => handleExamUpload(e)}
-          className="mt-8 flex flex-col gap-5 lg:w-[75%]"
-        >
+        <form className="mt-8 flex flex-col gap-5 lg:w-[75%]">
           <div className="select w-full">
+            <span>
+              For exams and tests uplaod, please request for the excel sheet
+              template to populate your questions
+            </span>
             <div className="custom flex items-center w-full mb-3">
               <label
                 htmlFor="upload"
@@ -129,8 +129,8 @@ const Exam = ({
             <Label htmlFor="type">Type</Label>
             <select
               id="type"
+              name="type"
               className="w-full p-2 border rounded-md"
-              value={formValues.type}
               onChange={(e) => handleOnchange(e)}
             >
               <option value="">Select Type</option>
@@ -140,7 +140,7 @@ const Exam = ({
           </div>
           <div className="btns flex items-center z-50 justify-end gap-3">
             <Button
-              type="submit"
+              onClick={(e) => handleExamUpload(e)}
               className="bg-cp-secondary text-white p-2 hover:!bg-cp-primary"
             >
               Add Exam
@@ -159,7 +159,7 @@ const Exam = ({
                   width={24}
                   height={24}
                 />
-                <span className="text-xs text-[#000000CC]">{fileUpload}</span>
+                <span className="text-xs text-[#000000CC]">{fileName}</span>
               </div>
               <div className="flex items-center gap-4">
                 <Image

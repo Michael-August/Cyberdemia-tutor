@@ -74,6 +74,8 @@ export const CourseOverview = () => {
       if (courseId && data) {
         await editCourse({ ...data, id: courseId });
         toast.success('Course updated successfully!');
+        dispatch({ type: 'COMPLETE_STEP', payload: 0 });
+        dispatch({ type: 'NEXT_STEP' });
         return;
       }
 

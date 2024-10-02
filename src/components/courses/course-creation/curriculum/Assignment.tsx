@@ -36,6 +36,7 @@ const Assignment = ({
   const close = (e: any) => {
     e.preventDefault();
     setAddCurriculum(false);
+    setAssignmentTitleDisplay(false);
   };
 
   const handleAssignmentCreation = async (e: any) => {
@@ -93,16 +94,16 @@ const Assignment = ({
           <div className="flex items-center justify-between gap-4 mb-5">
             <Label
               className="text-xs text-[#000000CC] font-semibold"
-              htmlFor="title"
+              htmlFor="question"
             >
               {assignmentTitle}
             </Label>
             <Input
               className="w-[85%] !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-transparent"
-              placeholder="Enter Assignment Title"
+              placeholder="Enter Assignment Question"
               autoComplete="off"
               type="text"
-              id="title"
+              id="question"
               value={assignmentDetail}
               onChange={(e) => setAssignmentDetail(e.target.value)}
             />
