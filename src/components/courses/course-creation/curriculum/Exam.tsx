@@ -9,12 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCreateCourseExams } from '@/hooks/react-query/course-creation/useCourseCurriculum';
 
-const Exam = ({
-  sectionId,
-}: {
-  setAddCurriculum?: any;
-  sectionId: string;
-}) => {
+const Exam = ({ sectionId }: { setAddCurriculum?: any; sectionId: string }) => {
   const { mutateAsync: createExam } = useCreateCourseExams();
 
   const [fileUpload] = useState('');
