@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -15,11 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useAddPriceToCourse, useGetCoursePrice, useUpdateCoursePrice } from '@/hooks/react-query/course-creation/useCourses';
+import {
+  useAddPriceToCourse,
+  useGetCoursePrice,
+  useUpdateCoursePrice,
+} from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
-import { useEffect } from 'react';
 
 type FormValues = {
   price: string;
@@ -35,11 +39,11 @@ export const Price = () => {
   } = useForm<FormValues>();
 
   const { mutateAsync: addPrice } = useAddPriceToCourse();
-  
+
   const courseId = localStorage.getItem('newCourseId');
   const { data } = useGetCoursePrice(courseId as string);
   const { mutateAsync: editPrice } = useUpdateCoursePrice(courseId as string);
-  
+
   const { dispatch } = useStep();
   const submitForm: SubmitHandler<FormValues> = async (data) => {
     const courseId = localStorage.getItem('newCourseId') as string;
@@ -57,7 +61,7 @@ export const Price = () => {
         dispatch({ type: 'NEXT_STEP' });
         return;
       }
-      
+
       const priceResponse = await addPrice({ courseId, ...formData });
       toast.success(priceResponse.message);
       dispatch({ type: 'COMPLETE_STEP', payload: 4 });
@@ -69,8 +73,8 @@ export const Price = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("price", `${data.data.price}` || "");
-      setValue("currency", data.data.currency || "");
+      setValue('price', `${data.data.price}` || '');
+      setValue('currency', data.data.currency || '');
     }
   }, [data]);
 

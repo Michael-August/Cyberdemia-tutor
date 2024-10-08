@@ -95,11 +95,7 @@ export const useUpdateCourse = (courseId: string) => {
 
 export const useAddCertificationToCourse = () => {
   return useMutation(
-    async (data: {
-      courseId: string;
-      signature: string;
-      template: string;
-    }) => {
+    async (data: { courseId: string; signature: string; template: string }) => {
       try {
         const config = {
           method: 'post',
