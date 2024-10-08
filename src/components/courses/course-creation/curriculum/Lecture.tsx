@@ -88,7 +88,7 @@ const Lecture = ({
     const formData = new FormData();
     formData.append('sectionId', sectionId);
     formData.append('lectureTitle', title);
-    formData.append('videoUrl', fileToUpload);
+    formData.append('video', fileToUpload);
     await createLecture(formData);
 
     setVideoUpload(false);

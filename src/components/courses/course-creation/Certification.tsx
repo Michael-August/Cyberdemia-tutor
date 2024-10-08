@@ -1,21 +1,24 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { useAddCertificationToCourse } from '@/hooks/react-query/course-creation/useCourses';
+import { useAddCertificationToCourse, useGetCourseCertification, useUpdateCourseCertificate } from '@/hooks/react-query/course-creation/useCourses';
 
 import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
 
 export const Certification = () => {
-  const [selected, setSelected] = useState<1 | 2 | 3>(1);
-  const [signaturePreview, setSignaturePreview] = useState<any>();
+  const [selected, setSelected] = useState(1);
+  const [signaturePreview, setSignaturePreview] = useState<any>('');
 
+  const courseId = localStorage.getItem('newCourseId');
+  const { data } = useGetCourseCertification(courseId as string);
   const { mutateAsync: addCertificate } = useAddCertificationToCourse();
+  const { mutateAsync: editCertificate } = useUpdateCourseCertificate(courseId as string);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -34,12 +37,19 @@ export const Certification = () => {
     const courseId = localStorage.getItem('newCourseId') as string;
 
     try {
+      if (courseId && data) {
+        await editCertificate({ signature: signaturePreview, template: `${selected}`, id: courseId });
+        toast.success('Certificate updated successfully!');
+        dispatch({ type: 'COMPLETE_STEP', payload: 3 });
+        dispatch({ type: 'NEXT_STEP' });
+        return;
+      }
+
       const certificateResponse = await addCertificate({
         courseId,
         signature: signaturePreview,
         template: `${selected}`,
       });
-      console.log('Cert submitted', certificateResponse);
       toast.success(certificateResponse.message);
       dispatch({ type: 'COMPLETE_STEP', payload: 3 });
       dispatch({ type: 'NEXT_STEP' });
@@ -47,6 +57,13 @@ export const Certification = () => {
       toast.error(error.response.data);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setSelected(Number(data.data.template) || 1);
+      setSignaturePreview(data.data.signature || '');
+    }
+  }, [data]);
 
   return (
     <>
