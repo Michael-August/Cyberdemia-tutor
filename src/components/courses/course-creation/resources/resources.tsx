@@ -56,8 +56,7 @@ export const Resources = () => {
           <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
             <div className="title">
               <span className="text-sm font-semibold">
-                {resources?.data[0].title}
-                :
+                {resources?.data[0].title}:
               </span>
             </div>
             {resources?.data?.map((resource: any) => (
@@ -69,13 +68,19 @@ export const Resources = () => {
                   <Tab title={'Downloadable File'}>
                     <DownloadableTabContent
                       courseId={courseId}
-                      downloadableResources={resource.resourceType === "downloadableFile" ? resource : null}
+                      downloadableResources={
+                        resource.resourceType === 'downloadableFile'
+                          ? resource
+                          : null
+                      }
                     />
                   </Tab>
                   <Tab title={'External Resources'}>
                     <ExternalResourceTab
                       courseId={courseId}
-                      externalResource={resource.resourceType === "external" ? resource : null}
+                      externalResource={
+                        resource.resourceType === 'external' ? resource : null
+                      }
                     />
                   </Tab>
                 </Tabs>
