@@ -58,7 +58,7 @@ const SignupForm: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
 
   const submitForm: SubmitHandler<FormValues> = (data) => {
-    const { confirmPassword, ...formData } = data;
+    const { ...formData } = data;
 
     const payload = {
       ...formData,

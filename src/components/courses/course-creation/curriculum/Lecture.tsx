@@ -1,5 +1,9 @@
+'use client';
+
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,14 +16,28 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useCreateCourseLecture } from '@/hooks/react-query/course-creation/useCourseCurriculum';
 
-const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
+const Lecture = ({
+  setAddCurriculum,
+  sectionId,
+}: {
+  setAddCurriculum: any;
+  sectionId: string;
+}) => {
+  const { mutateAsync: createLecture } = useCreateCourseLecture();
+
   const [lectureTitle, setLectureTitle] = useState(true);
   const [title, setTitle] = useState('');
   const [videoTitle, setVideoTitle] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
   const [articleDescription, setArticleDescription] = useState('');
-  const [fileUpload, setFileUpload] = useState('');
+  const [fileUpload] = useState('');
+  const [fileToUpload, setFileToUpload] = useState('');
+
+  const [fileName, setFileName] = useState('');
 
   const [lectureArea, setLectureArea] = useState(false);
   const [lectureContents, setLectureContents] = useState(false);
@@ -40,8 +58,7 @@ const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
 
   const close = (e: any) => {
     e.preventDefault();
-    console.log('HI');
-    setAddCurriculum(true);
+    setAddCurriculum(false);
   };
 
   const addLecture = (e: any) => {
@@ -63,6 +80,37 @@ const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
     if (!articleTitle) return;
     setArticleTitleDisplay(false);
     setArticleDescriptionDisplay(true);
+  };
+
+  const handleVideoUpload = async (e: any) => {
+    if (!fileToUpload) toast.warn('Please select a video to upload');
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('sectionId', sectionId);
+    formData.append('lectureTitle', title);
+    formData.append('videoUrl', fileToUpload);
+    await createLecture(formData);
+
+    setVideoUpload(false);
+    setVideoProcessing(true);
+  };
+  const handleArticleUpload = async (e: any) => {
+    if (!articleDescription) toast.warn('Please type out article description');
+    e.preventDefault();
+    const lectureData: any = {
+      sectionId,
+      lectureTitle: title,
+      article: articleDescription,
+      lectureLength: 3,
+    };
+    await createLecture(lectureData);
+    setArticleDescriptionDisplay(false);
+    setArticleUploaded(true);
+  };
+
+  const handleVideoSelection = (e: any) => {
+    setFileToUpload(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   return (
@@ -242,31 +290,24 @@ const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
                       htmlFor="upload"
                       className="p-2 border border-solid border-[#000000B2] w-[80%] text-[#0000004D]"
                     >
-                      Select file
+                      Click here to select file
                     </label>
                     <label
-                      htmlFor="upload"
+                      onClick={(e) => handleVideoUpload(e)}
                       className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer"
                     >
-                      Select file
+                      upload file
                     </label>
                   </div>
                   <input
-                    onChange={(e) => {
-                      setFileUpload(e.target.value);
-                      setVideoUpload(false);
-                      setVideoProcessing(true);
-                    }}
+                    onChange={(e) => handleVideoSelection(e)}
                     value={fileUpload}
                     type="file"
                     className="hidden"
                     id="upload"
                     name="upload"
                   />
-                  <span className="text-xs text-[#000000B2]">
-                    Select the type of content you want to upload to the
-                    platform
-                  </span>
+                  <span className="text-xs text-[#000000B2]">{fileName}</span>
                 </div>
               )}
               {fileUpload && videoProcessing && (
@@ -394,15 +435,27 @@ const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
                     >
                       Article Details
                     </Label>
-                    <Input
+                    <ReactQuill
+                      className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
+                      placeholder="Enter Article Title"
+                      theme="snow"
+                      modules={{
+                        toolbar: [
+                          [{ header: [1, 2, 3, 4, false] }],
+                          [{ list: 'ordered' }, { list: 'bullet' }],
+                          ['bold', 'italic', 'underline'],
+                        ],
+                      }}
+                      onChange={(value: any) => setArticleDescription(value)}
+                    />
+                    {/* <Input
                       className="w-[85%] !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-transparent"
                       placeholder="Enter Article Title"
                       autoComplete="off"
                       type="text"
                       id="articleTitle"
-                      value={articleDescription}
-                      onChange={(e) => setArticleDescription(e.target.value)}
-                    />
+                      
+                    /> */}
                   </div>
                   <div className="btns flex items-center z-50 justify-end gap-3">
                     <Button
@@ -416,9 +469,8 @@ const Lecture = ({ setAddCurriculum }: { setAddCurriculum: any }) => {
                       Close
                     </Button>
                     <Button
-                      onClick={() => {
-                        setArticleDescriptionDisplay(false);
-                        setArticleUploaded(true);
+                      onClick={(e) => {
+                        handleArticleUpload(e);
                       }}
                       className="bg-cp-secondary text-white p-2 hover:!bg-cp-primary"
                     >

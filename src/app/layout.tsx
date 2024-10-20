@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 
 import { RootLayoutInner } from '@/components/custom-hooks/useInnerLayout';
 
+import { StepProvider } from '../../context/CourseCreationContext';
 import { LayoutProvider } from '../../context/LayoutContext';
 import QueryClientWrapper from '../../utils/ReactQueryProvider';
 
@@ -26,14 +27,16 @@ export default function RootLayout({ children }: any) {
       <body className={poppins.className}>
         <QueryClientWrapper>
           <LayoutProvider>
-            <ToastContainer
-              position="top-center"
-              autoClose={4000}
-              hideProgressBar
-              closeOnClick
-              pauseOnHover
-            />
-            <RootLayoutInner>{children}</RootLayoutInner>
+            <StepProvider>
+              <ToastContainer
+                position="top-center"
+                autoClose={4000}
+                hideProgressBar
+                closeOnClick
+                pauseOnHover
+              />
+              <RootLayoutInner>{children}</RootLayoutInner>
+            </StepProvider>
           </LayoutProvider>
         </QueryClientWrapper>
       </body>

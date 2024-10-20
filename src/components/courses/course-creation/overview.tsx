@@ -1,32 +1,91 @@
-import { useForm } from 'react-hook-form';
+'use client';
+
+import 'react-quill/dist/quill.snow.css';
+
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  useCreateCourse,
+  useGetCourse,
+  useUpdateCourse,
+} from '@/hooks/react-query/course-creation/useCourses';
 
-import { CourseCreationStep } from '../NewCourse';
+import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
 
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
 type FormValues = {
-  courseTitle: string;
-  courseSubtitle: string;
-  whatToLearn: string;
+  title: string;
+  subtitle: string;
+  objective: string;
   prerequisite: string;
 };
 
-export const CourseOverview = ({ updateStep }: { updateStep: any }) => {
+export const CourseOverview = () => {
+  const courseId = localStorage.getItem('newCourseId');
+
+  const { mutateAsync: createCourse } = useCreateCourse();
+  const { mutateAsync: editCourse } = useUpdateCourse(courseId as string);
+  const { data } = useGetCourse(courseId as string);
+
+  const [objective, setObjective] = useState('');
+  const [prerequisite, setPrerequisite] = useState('');
+
+  const handleChange = (field: 'objective' | 'prerequisite', value: string) => {
+    if (field === 'objective') {
+      setObjective(value);
+      setValue('objective', value); // Register value in react-hook-form
+      trigger('objective'); // Trigger validation
+    }
+    if (field === 'prerequisite') {
+      setPrerequisite(value);
+      setValue('prerequisite', value); // Register value in react-hook-form
+      trigger('prerequisite'); // Trigger validation
+    }
+  };
+
   const {
     register,
     handleSubmit,
+    setValue,
+    trigger,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const submitForm = (data: any) => {
-    console.log('Form submitted', data);
-  };
+  useEffect(() => {
+    if (data) {
+      setValue('title', data.data.title || '');
+      setValue('subtitle', data.data.subtitle || '');
+      setObjective(data.data.objective || ''); // Set the local state
+      setPrerequisite(data.data.prerequisite || '');
+    }
+  }, [data, setValue]);
 
-  const moveToNextStep = (nextStep: CourseCreationStep) => {
-    updateStep(nextStep);
+  const { dispatch } = useStep();
+  const submitForm: SubmitHandler<FormValues> = async (data) => {
+    try {
+      if (courseId && data) {
+        await editCourse({ ...data, id: courseId });
+        toast.success('Course updated successfully!');
+        dispatch({ type: 'COMPLETE_STEP', payload: 0 });
+        dispatch({ type: 'NEXT_STEP' });
+        return;
+      }
+
+      const courseResponse = await createCourse(data);
+      localStorage.setItem('newCourseId', courseResponse?.data?.id);
+      dispatch({ type: 'COMPLETE_STEP', payload: 0 });
+      dispatch({ type: 'NEXT_STEP' });
+    } catch (error: any) {
+      toast.error(error.response.data);
+    }
   };
 
   return (
@@ -61,21 +120,19 @@ export const CourseOverview = ({ updateStep }: { updateStep: any }) => {
             autoComplete="off"
             type="text"
             id="courseTile"
-            {...register('courseTitle', {
+            {...register('title', {
               required: 'Course title is required',
             })}
           />
 
-          {errors.courseTitle && (
-            <p className="text-red-500 py-2 text-xs">
-              {errors.courseTitle.message}
-            </p>
+          {errors.title && (
+            <p className="text-red-500 py-2 text-xs">{errors.title.message}</p>
           )}
         </div>
         <div className="w-full flex flex-col gap-2">
           <Label
             className="text-xs text-[#000000CC] font-semibold"
-            htmlFor="courseSubtitle"
+            htmlFor="subtitle"
           >
             Course Subtitle
           </Label>
@@ -85,41 +142,44 @@ export const CourseOverview = ({ updateStep }: { updateStep: any }) => {
             placeholder="Course Subtitle"
             autoComplete="off"
             type="text"
-            id="courseSubtitle"
-            {...register('courseSubtitle', {
+            id="subtitle"
+            {...register('subtitle', {
               required: 'Course Subtitle is required',
             })}
           />
 
-          {errors.courseSubtitle && (
+          {errors.subtitle && (
             <p className="text-red-500 py-2 text-xs">
-              {errors.courseSubtitle.message}
+              {errors.subtitle.message}
             </p>
           )}
         </div>
         <div className="w-full flex flex-col gap-2">
           <Label
             className="text-xs text-[#000000CC] font-semibold"
-            htmlFor="whatToLearn"
+            htmlFor="objective"
           >
             What Students will learn:
           </Label>
 
-          <Input
+          <ReactQuill
             className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
-            placeholder="Course Subtitle"
-            autoComplete="off"
-            type="text"
-            id="whatToLearn"
-            {...register('whatToLearn', {
-              required:
-                'Brief description of what students will learn is required',
-            })}
+            placeholder="What to Learn"
+            theme="snow"
+            value={objective}
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, 3, 4, false] }],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['bold', 'italic', 'underline'],
+              ],
+            }}
+            onChange={(value) => handleChange('objective', value)}
           />
 
-          {errors.whatToLearn && (
+          {errors.objective && (
             <p className="text-red-500 py-2 text-xs">
-              {errors.whatToLearn.message}
+              {errors.objective.message}
             </p>
           )}
         </div>
@@ -131,15 +191,19 @@ export const CourseOverview = ({ updateStep }: { updateStep: any }) => {
             Prerequisite for Learning:
           </Label>
 
-          <Input
+          <ReactQuill
             className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
-            placeholder="Course Subtitle"
-            autoComplete="off"
-            type="text"
-            id="prerequisite"
-            {...register('prerequisite', {
-              required: 'Prerequisite before learning is required',
-            })}
+            placeholder="Enter Prerequisite"
+            theme="snow"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, 3, 4, false] }],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['bold', 'italic', 'underline'],
+              ],
+            }}
+            value={prerequisite}
+            onChange={(value) => handleChange('prerequisite', value)}
           />
 
           {errors.prerequisite && (
@@ -150,7 +214,7 @@ export const CourseOverview = ({ updateStep }: { updateStep: any }) => {
         </div>
 
         <Button
-          onClick={() => moveToNextStep('curriculum')}
+          type="submit"
           className="!bg-cp-secondary text-sm mb-5 transition-all hover:!bg-cp-primary !text-white mt-5"
         >
           Save and Continue

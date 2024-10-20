@@ -1,9 +1,20 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '../button';
 import { Table, TableBody, TableCell, TableRow } from '../ui/table';
 
-export const Course = () => {
+export const Course = ({ course }) => {
+  const router = useRouter();
+
+  const startCourseEdit = (e: any) => {
+    e.preventDefault();
+    localStorage.setItem('newCourseId', course.id);
+    router.push('/tutor/courses/manage-course');
+  };
+
   return (
     <div>
       <div className="hidden lg:block">
@@ -20,7 +31,7 @@ export const Course = () => {
                   />
                   <div className="details flex flex-col gap-3">
                     <span className="text-lg font-semibold">
-                      Cyber Security Defense Analyst
+                      {course.title}
                     </span>
                     <div className="others flex flex-col">
                       <div className="flex items-center gap-2 mb-2 justify-between">
@@ -46,13 +57,23 @@ export const Course = () => {
               <TableCell>
                 <div className="flex flex-col gap-1">
                   <span className="text-lg font-semibold">Status</span>
-                  <span className="text-sm py-[0.3125rem] px-2 rounded-2xl bg-[#11BA40] text-white live text-center">
-                    Live
-                  </span>
+                  {course.status === 'live' && (
+                    <span className="text-sm py-[0.3125rem] px-2 rounded-2xl bg-[#11BA40] text-white live text-center">
+                      Live
+                    </span>
+                  )}
+                  {course.status === 'pending' && (
+                    <span className="text-sm py-[0.3125rem] px-2 rounded-2xl bg-[#dacf2d] text-white live text-center">
+                      Pending
+                    </span>
+                  )}
                 </div>
               </TableCell>
               <TableCell>
-                <Button className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]">
+                <Button
+                  onClick={(e) => startCourseEdit(e)}
+                  className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+                >
                   Manage/Edit Course
                 </Button>
               </TableCell>
@@ -70,9 +91,7 @@ export const Course = () => {
             alt="course image"
           />
           <div className="details flex flex-col gap-3">
-            <span className="text-xs font-semibold">
-              Cyber Security Defense Analyst
-            </span>
+            <span className="text-xs font-semibold">{course.title}</span>
             <div>
               <div className="flex items-center justify-between">
                 <span className="text-[10px]">2 Exams</span>
@@ -90,12 +109,22 @@ export const Course = () => {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-semibold">Status</span>
-                <span className="text-xs py-[0.3125rem] px-[0.9375rem] rounded-2xl bg-[#11BA40] text-white live text-center">
-                  Live
-                </span>
+                {course.status === 'live' && (
+                  <span className="text-xs py-[0.3125rem] px-[0.9375rem] rounded-2xl bg-[#11BA40] text-white text-center">
+                    Live
+                  </span>
+                )}
+                {course.status === 'pending' && (
+                  <span className="text-xs py-[0.3125rem] px-[0.9375rem] rounded-2xl bg-[#dacf2d] text-white text-center">
+                    Pending
+                  </span>
+                )}
               </div>
             </div>
-            <Button className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]">
+            <Button
+              onClick={(e) => startCourseEdit(e)}
+              className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+            >
               Manage/Edit Course
             </Button>
           </div>
