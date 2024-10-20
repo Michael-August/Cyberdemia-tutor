@@ -52,18 +52,14 @@ export const Resources = () => {
       </div>
 
       <div className="mt-8 flex flex-col gap-5 lg:w-[75%]">
-        {(resources?.data?.downloadableFile.length > 0 ||
-          resources?.data?.external.length > 0) && (
+        {resources?.data?.length > 0 && (
           <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
             <div className="title">
               <span className="text-sm font-semibold">
-                {resources?.data?.downloadableFile.length > 0
-                  ? resources?.data?.downloadableFile[0].title
-                  : resources?.data?.external[0].title}
-                :
+                {resources?.data[0].title}:
               </span>
             </div>
-            {resources?.data?.downloadableFile?.map((resource: any) => (
+            {resources?.data?.map((resource: any) => (
               <div
                 key={resource?.id}
                 className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]"
@@ -72,34 +68,19 @@ export const Resources = () => {
                   <Tab title={'Downloadable File'}>
                     <DownloadableTabContent
                       courseId={courseId}
-                      downloadableResources={resource}
+                      downloadableResources={
+                        resource.resourceType === 'downloadableFile'
+                          ? resource
+                          : null
+                      }
                     />
                   </Tab>
                   <Tab title={'External Resources'}>
                     <ExternalResourceTab
                       courseId={courseId}
-                      externalResource={null}
-                    />
-                  </Tab>
-                </Tabs>
-              </div>
-            ))}
-            {resources?.data?.external?.map((resource: any) => (
-              <div
-                key={resource?.id}
-                className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]"
-              >
-                <Tabs>
-                  <Tab title={'Downloadable File'}>
-                    <DownloadableTabContent
-                      courseId={courseId}
-                      downloadableResources={null}
-                    />
-                  </Tab>
-                  <Tab title={'External Resources'}>
-                    <ExternalResourceTab
-                      courseId={courseId}
-                      externalResource={resource}
+                      externalResource={
+                        resource.resourceType === 'external' ? resource : null
+                      }
                     />
                   </Tab>
                 </Tabs>

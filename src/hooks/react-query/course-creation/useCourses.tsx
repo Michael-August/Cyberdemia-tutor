@@ -95,11 +95,7 @@ export const useUpdateCourse = (courseId: string) => {
 
 export const useAddCertificationToCourse = () => {
   return useMutation(
-    async (data: {
-      courseId: string;
-      signature: string;
-      template: '1' | '2' | '3';
-    }) => {
+    async (data: { courseId: string; signature: string; template: string }) => {
       try {
         const config = {
           method: 'post',
@@ -111,6 +107,51 @@ export const useAddCertificationToCourse = () => {
       } catch (error: any) {
         toast.error(`${error?.response?.data?.message || error?.message}`);
       }
+    },
+  );
+};
+
+export const useGetCourseCertification = (courseId: string) => {
+  return useQuery(
+    ['certificate', courseId],
+    async () => {
+      const config = {
+        method: 'get',
+        url: `certificate/course/${courseId}`,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};
+
+export const useUpdateCourseCertificate = (courseId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: any) => {
+      const config = {
+        method: 'patch',
+        url: `certificate/${courseId}`,
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['certificate', courseId]);
+      },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
     },
   );
 };
@@ -129,6 +170,51 @@ export const useAddPriceToCourse = () => {
       } catch (error: any) {
         toast.error(`${error?.response?.data?.message || error?.message}`);
       }
+    },
+  );
+};
+
+export const useGetCoursePrice = (courseId: string) => {
+  return useQuery(
+    ['price', courseId],
+    async () => {
+      const config = {
+        method: 'get',
+        url: `price/course/${courseId}`,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};
+
+export const useUpdateCoursePrice = (courseId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (data: any) => {
+      const config = {
+        method: 'patch',
+        url: `price/${courseId}`,
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['price', courseId]);
+      },
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
     },
   );
 };
