@@ -1,11 +1,11 @@
 'use client';
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React, { useState } from 'react';
 
 import { Label } from '../label';
 import ProfileForm from './profileForm';
-import Socials from './socials';
 import ResetPasswordForm from './resetpasswordForm';
+import Socials from './socials';
 
 const Profile = () => {
   const [tab, setTab] = useState('edit');
@@ -36,15 +36,27 @@ const Profile = () => {
           {/* <Image className='hidden md:block rounded-[50%]' src="/images/profile-pic.png" width={150} height={150} alt='profile picture' />
                 <Image className='md:hidden rounded-[50%]' src="/images/profile-pic.png" width={102} height={102} alt='profile picture' /> */}
           <div className="w-[6.375rem] flex items-center justify-center h-[6.375rem] md:w-[9.25rem] md:h-[9.25rem] rounded-[50%] border border-solid">
-            {!profileImage && <span className="text-[3.1875rem] md:text-[4.625rem] font-bold text-cp-secondary">
-              J
-            </span>}
-            {profileImage && <Image src={profileImage} alt={'Profile Image'} className='w-[inherit] h-[inherit] rounded-[50%]' width={0} height={0} />}
+            {!profileImage && (
+              <span className="text-[3.1875rem] md:text-[4.625rem] font-bold text-cp-secondary">
+                J
+              </span>
+            )}
+            {profileImage && (
+              <Image
+                src={profileImage}
+                alt={'Profile Image'}
+                className="w-[inherit] h-[inherit] rounded-[50%]"
+                width={0}
+                height={0}
+              />
+            )}
           </div>
           <div className="name-email flex flex-col gap-1">
-            <span className="text-base font-bold">{ profileData && JSON.parse(profileData).fullName }</span>
+            <span className="text-base font-bold">
+              {profileData && JSON.parse(profileData).fullName}
+            </span>
             <span className="text-xs text-[#000000CC]">
-              { profileData && JSON.parse(profileData).email }
+              {profileData && JSON.parse(profileData).email}
             </span>
           </div>
         </div>
