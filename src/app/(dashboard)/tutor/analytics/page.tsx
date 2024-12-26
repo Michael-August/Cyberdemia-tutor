@@ -1,22 +1,23 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 
 import { Card } from '@/components/dashboard/Card';
-
-import { SimpleLineChart } from '../../../../components/charts';
 import { useAnalytics } from '@/hooks/react-query/useAnalytics';
 
+import { SimpleLineChart } from '../../../../components/charts';
+
 const Home = () => {
+  const { data: analytics } = useAnalytics();
 
-  const {data: analytics} = useAnalytics();
-
-  const [dashboardCards, setDashboardCards] = useState<{
-    title: string;
-    count: number;
-    buttonText: string;
-    link: string;
-  }[]>([
+  const [dashboardCards, setDashboardCards] = useState<
+    {
+      title: string;
+      count: number;
+      buttonText: string;
+      link: string;
+    }[]
+  >([
     {
       title: 'Enrolled Students',
       count: 0,
@@ -32,7 +33,7 @@ const Home = () => {
     },
   ]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (analytics) {
       setDashboardCards((prevState) => {
         return prevState.map((card) => {
@@ -52,7 +53,7 @@ const Home = () => {
         });
       });
     }
-  })
+  });
 
   return (
     <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
