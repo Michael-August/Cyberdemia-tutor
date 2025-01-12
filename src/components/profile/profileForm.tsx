@@ -11,11 +11,23 @@ type FormValues = {
 };
 
 const ProfileForm = () => {
+  const profileData = sessionStorage.getItem('userProfile');
+  const parsedProfileData = profileData ? JSON.parse(profileData) : {};
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      firstname: parsedProfileData.firstName || '',
+      lastname: parsedProfileData.lastName || '',
+      phoneNumber: parsedProfileData.phoneNumber || '',
+      bio: parsedProfileData.bio || '',
+      language: parsedProfileData.language || '',
+    },
+  });
+
   const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
 
   const submitForm = (data: FormValues) => {
@@ -125,6 +137,9 @@ const ProfileForm = () => {
             <p className="text-red-500 py-2 text-xs">{errors.bio.message}</p>
           )}
         </div>
+        <button className="bg-cp-secondary w-full lg:w-[70%] text-sm mb-5 py-2 !text-white mt-8 hover:bg-cp-primary">
+          Save changes
+        </button>
       </form>
     </div>
   );

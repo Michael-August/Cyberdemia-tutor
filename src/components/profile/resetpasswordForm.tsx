@@ -49,6 +49,9 @@ const ResetPasswordForm = () => {
             </div>
           </div>
         </div>
+        <button className="bg-cp-secondary w-full lg:w-[70%] text-sm mb-5 py-2 !text-white mt-8 hover:bg-cp-primary">
+          Save changes
+        </button>
       </form>
     </div>
   );
