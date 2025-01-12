@@ -39,6 +39,7 @@ export const useGetCourse = (courseId: string) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
       },
+      enabled: !!courseId,
     },
   );
 };
@@ -127,6 +128,7 @@ export const useGetCourseCertification = (courseId: string) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
       },
+      enabled: !!courseId,
     },
   );
 };
@@ -190,6 +192,7 @@ export const useGetCoursePrice = (courseId: string) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
       },
+      enabled: !!courseId,
     },
   );
 };

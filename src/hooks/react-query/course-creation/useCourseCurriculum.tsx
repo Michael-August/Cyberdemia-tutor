@@ -19,6 +19,7 @@ export const useGetCourseSections = (courseId: string) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
       },
+      enabled: !!courseId,
     },
   );
 };
