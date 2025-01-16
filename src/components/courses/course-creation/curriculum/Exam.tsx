@@ -9,7 +9,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCreateCourseExams } from '@/hooks/react-query/course-creation/useCourseCurriculum';
 
-const Exam = ({ sectionId }: { setAddCurriculum?: any; sectionId: string }) => {
+const Exam = ({
+  sectionId,
+  setAddCurriculum,
+}: {
+  setAddCurriculum?: any;
+  sectionId: string;
+}) => {
   const { mutateAsync: createExam } = useCreateCourseExams();
 
   const [fileUpload] = useState('');
@@ -27,6 +33,11 @@ const Exam = ({ sectionId }: { setAddCurriculum?: any; sectionId: string }) => {
     timer: '',
     type: '',
   });
+
+  const close = (e: any) => {
+    e.preventDefault();
+    setAddCurriculum(false);
+  };
 
   const handleOnchange = (event: any) => {
     const { name, value } = event.target;
@@ -70,9 +81,9 @@ const Exam = ({ sectionId }: { setAddCurriculum?: any; sectionId: string }) => {
               >
                 Click here to select file
               </label>
-              <label className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer">
+              {/* <label className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer">
                 upload file
-              </label>
+              </label> */}
             </div>
             <input
               onChange={(e) => handleFileSelection(e)}
@@ -134,6 +145,12 @@ const Exam = ({ sectionId }: { setAddCurriculum?: any; sectionId: string }) => {
             </select>
           </div>
           <div className="btns flex items-center z-50 justify-end gap-3">
+            <Button
+              onClick={(e) => close(e)}
+              className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer"
+            >
+              Close
+            </Button>
             <Button
               onClick={(e) => handleExamUpload(e)}
               className="bg-cp-secondary text-white p-2 hover:!bg-cp-primary"

@@ -12,11 +12,13 @@ export const ExternalResourceTab = ({
   resourceTitle,
   courseId,
   externalResource,
+  back,
   reset,
 }: {
   resourceTitle?: string;
   courseId: string;
   externalResource: any;
+  back?: any;
   reset?: any;
 }) => {
   const [url, setUrl] = useState('');
@@ -84,6 +86,12 @@ export const ExternalResourceTab = ({
 
           <div className="flex justify-end mt-3">
             <span
+              onClick={back}
+              className="text-cp-secondary p-2 cursor-pointer"
+            >
+              Back
+            </span>
+            <span
               onClick={(e) => submitResource(e)}
               className="bg-cp-secondary p-2 text-white text-xs cursor-pointer"
             >
@@ -94,11 +102,25 @@ export const ExternalResourceTab = ({
       )}
 
       {externalResource && (
-        <div className="flex added items-center gap-4">
-          <Image src={'/icons/external.svg'} alt={''} width={24} height={24} />
-          <span className="text-xs text-[#000000CC]">
-            {externalResource?.url}
-          </span>
+        <div className="flex flex-col gap-4">
+          <div
+            className={`flex items-center gap-1 cursor-pointer text-[14px] w-[180px] pb-3 text-cp-secondary`}
+          >
+            <div className="tab-title border-b-2 pb-2 border-cp-secondary">
+              External Resource
+            </div>
+          </div>
+          <div className="flex added items-center gap-4">
+            <Image
+              src={'/icons/external.svg'}
+              alt={''}
+              width={24}
+              height={24}
+            />
+            <span className="text-xs text-[#000000CC]">
+              {externalResource?.url}
+            </span>
+          </div>
         </div>
       )}
     </div>

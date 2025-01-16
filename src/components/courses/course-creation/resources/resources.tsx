@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,6 +37,7 @@ export const Resources = () => {
     setAddResource(false);
     setAddNewResource(false);
     setAddResourceContent(false);
+    setResourceTitle('');
   };
 
   return (
@@ -52,42 +54,29 @@ export const Resources = () => {
       </div>
 
       <div className="mt-8 flex flex-col gap-5 lg:w-[75%]">
-        {resources?.data?.length > 0 && (
-          <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
+        {resources?.data?.map((resource: any) => (
+          <div
+            key={resource?.id}
+            className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]"
+          >
             <div className="title">
-              <span className="text-sm font-semibold">
-                {resources?.data[0].title}:
-              </span>
+              <span className="text-sm font-semibold">{resource.title}:</span>
             </div>
-            {resources?.data?.map((resource: any) => (
-              <div
-                key={resource?.id}
-                className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]"
-              >
-                <Tabs>
-                  <Tab title={'Downloadable File'}>
-                    <DownloadableTabContent
-                      courseId={courseId}
-                      downloadableResources={
-                        resource.resourceType === 'downloadableFile'
-                          ? resource
-                          : null
-                      }
-                    />
-                  </Tab>
-                  <Tab title={'External Resources'}>
-                    <ExternalResourceTab
-                      courseId={courseId}
-                      externalResource={
-                        resource.resourceType === 'external' ? resource : null
-                      }
-                    />
-                  </Tab>
-                </Tabs>
-              </div>
-            ))}
+            <div className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]">
+              {resource.resourceType === 'downloadableFile' ? (
+                <DownloadableTabContent
+                  courseId={courseId}
+                  downloadableResources={resource}
+                />
+              ) : resource.resourceType === 'external' ? (
+                <ExternalResourceTab
+                  courseId={courseId}
+                  externalResource={resource}
+                />
+              ) : null}
+            </div>
           </div>
-        )}
+        ))}
         {addResource && (
           <div className="content">
             <div className="section p-5 bg-[#F3F3F3] flex flex-col gap-4 border border-solid border-[#00000080]">
@@ -119,6 +108,11 @@ export const Resources = () => {
                         courseId={courseId}
                         resourceTitle={resourceTitle}
                         downloadableResources={null}
+                        back={() => {
+                          setAddResourceContent(false);
+                          setAddResource(false);
+                          setAddNewResource(true);
+                        }}
                         reset={resetState}
                       />
                     </Tab>
@@ -127,6 +121,11 @@ export const Resources = () => {
                         courseId={courseId}
                         resourceTitle={resourceTitle}
                         externalResource={null}
+                        back={() => {
+                          setAddResourceContent(false);
+                          setAddResource(false);
+                          setAddNewResource(true);
+                        }}
                         reset={resetState}
                       />
                     </Tab>
@@ -158,13 +157,19 @@ export const Resources = () => {
             </div>
             <div className="btns flex items-center z-50 justify-end gap-3">
               <Button
-                onClick={() => setAddResource(false)}
+                onClick={() => {
+                  setAddNewResource(false);
+                }}
                 className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer"
               >
                 Close
               </Button>
               <Button
                 onClick={() => {
+                  if (!resourceTitle) {
+                    toast.error('Please enter a title');
+                    return;
+                  }
                   setAddResource(true);
                   setAddNewResource(false);
                 }}

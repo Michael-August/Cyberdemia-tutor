@@ -20,11 +20,13 @@ export const DownloadableTabContent = ({
   resourceTitle,
   courseId,
   downloadableResources,
+  back,
   reset,
 }: {
   resourceTitle?: string;
   courseId: string;
   downloadableResources: any;
+  back?: any;
   reset?: any;
 }) => {
   const { mutateAsync: createResource } = useCreateCourseResource();
@@ -68,6 +70,12 @@ export const DownloadableTabContent = ({
                   placeholder="Type the file url here"
                   className="p-2 w-[80%]"
                 />
+                <Button
+                  onClick={back}
+                  className="text-cp-secondary bg-transparent hover:bg-transparent p-2 cursor-pointer"
+                >
+                  Back
+                </Button>
                 <Button
                   onClick={(e) => submitResource(e)}
                   className="bg-cp-secondary text-white p-2 cursor-pointer hover:!bg-cp-primary"
@@ -132,7 +140,14 @@ export const DownloadableTabContent = ({
         </div>
       )}
       {downloadableResources && (
-        <div>
+        <div className="flex flex-col gap-4">
+          <div
+            className={`flex items-center gap-1 cursor-pointer text-[14px] w-[180px] pb-3 text-cp-secondary`}
+          >
+            <div className="tab-title border-b-2 pb-2 border-cp-secondary">
+              Downloadable File
+            </div>
+          </div>
           <div
             key={downloadableResources.id}
             className="uploaded flex items-center gap-4"

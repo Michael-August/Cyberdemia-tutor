@@ -109,7 +109,13 @@ const Assignment = ({
             />
           </div>
           <div className="btns flex items-center z-50 justify-end gap-3">
-            <Button className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer">
+            <Button
+              onClick={() => {
+                setAssignmentDetailsDisplay(false);
+                setAssignmentTitleDisplay(true);
+              }}
+              className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer"
+            >
               Close
             </Button>
             <Button

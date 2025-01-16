@@ -87,7 +87,7 @@ const Lecture = ({
     e.preventDefault();
     const formData = new FormData();
     formData.append('sectionId', sectionId);
-    formData.append('lectureTitle', title);
+    // formData.append('lectureTitle', title);
     formData.append('video', fileToUpload);
     await createLecture(formData);
 
@@ -136,7 +136,10 @@ const Lecture = ({
           </div>
           <div className="btns flex items-center z-50 justify-end gap-3">
             <Button
-              onClick={close}
+              onClick={(e) => {
+                setLectureTitle(false);
+                close(e);
+              }}
               className="bg-transparent text-black p-2 hover:!bg-gray-200 cursor-pointer"
             >
               Close
@@ -163,7 +166,11 @@ const Lecture = ({
               <span className="text-xs font-medium">Lecture 1: </span>
               <span className="text-xs font-light">{title}</span>
               <Image
-                className="ml-4"
+                onClick={() => {
+                  setLectureArea(false);
+                  setLectureTitle(true);
+                }}
+                className="ml-4 cursor-pointer"
                 src={'/icons/pencil.svg'}
                 alt={'edit icon'}
                 width={24}
@@ -189,6 +196,10 @@ const Lecture = ({
                 </span>
               )}
               <Image
+                onClick={(e) => {
+                  setLectureArea(false);
+                  close(e);
+                }}
                 className="cursor-pointer"
                 src="/icons/delete.svg"
                 width={24}
