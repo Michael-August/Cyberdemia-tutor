@@ -46,8 +46,10 @@ export const Curriculum = () => {
     setSectionState((prevState) => ({
       ...prevState,
       [sectionId]: {
-        ...prevState[sectionId],
-        [key]: value,
+        addCurriculum: key === 'addCurriculum' ? value : false,
+        addLecture: key === 'addLecture' ? value : false,
+        addAssignments: key === 'addAssignments' ? value : false,
+        addExam: key === 'addExam' ? value : false,
       },
     }));
   };
@@ -189,12 +191,8 @@ export const Curriculum = () => {
                     <div>
                       <Lecture
                         sectionId={section.id}
-                        setAddCurriculum={(display: boolean) =>
-                          handleStateChange(
-                            section.id,
-                            'addCurriculum',
-                            display,
-                          )
+                        setAddCurriculum={() =>
+                          handleStateChange(section.id, 'addCurriculum', true)
                         }
                       />
                     </div>
@@ -203,12 +201,8 @@ export const Curriculum = () => {
                     <div>
                       <Assignment
                         sectionId={section.id}
-                        setAddCurriculum={(display: boolean) =>
-                          handleStateChange(
-                            section.id,
-                            'addCurriculum',
-                            display,
-                          )
+                        setAddCurriculum={() =>
+                          handleStateChange(section.id, 'addCurriculum', true)
                         }
                       />
                     </div>
@@ -217,12 +211,8 @@ export const Curriculum = () => {
                     <div>
                       <Exam
                         sectionId={section.id}
-                        setAddCurriculum={(display: boolean) =>
-                          handleStateChange(
-                            section.id,
-                            'addCurriculum',
-                            display,
-                          )
+                        setAddCurriculum={() =>
+                          handleStateChange(section.id, 'addCurriculum', true)
                         }
                       />
                     </div>
