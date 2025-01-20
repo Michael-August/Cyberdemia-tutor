@@ -32,6 +32,7 @@ const Lecture = ({
   const [lectureTitle, setLectureTitle] = useState(true);
   const [title, setTitle] = useState('');
   const [videoTitle, setVideoTitle] = useState('');
+  const [lectureLength, setLectureLength] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
   const [articleDescription, setArticleDescription] = useState('');
   const [fileUpload] = useState('');
@@ -47,8 +48,8 @@ const Lecture = ({
   const [videoContent, setVideoContent] = useState(false);
   const [videoTitleDIsplay, setVideoTitleDisplay] = useState(false);
   const [videoUpload, setVideoUpload] = useState(false);
-  const [videoProcessing, setVideoProcessing] = useState(false);
-  const [videoUploadDone] = useState(false);
+  const [videoProcessing] = useState(false);
+  const [videoUploadDone, setVideoUploadDone] = useState(false);
 
   const [articleContent, setArticleContent] = useState(false);
   const [articleTitleDisplay, setArticleTitleDisplay] = useState(false);
@@ -83,16 +84,26 @@ const Lecture = ({
   };
 
   const handleVideoUpload = async (e: any) => {
-    if (!fileToUpload) toast.warn('Please select a video to upload');
     e.preventDefault();
+
+    if (!fileToUpload) {
+      toast.warn('Please select a video to upload');
+      return;
+    }
+    if (!lectureLength) {
+      toast.warn('Please input lecture length');
+      return;
+    }
+    const lectureLenghtInSecs = Number(lectureLength) * 60;
     const formData = new FormData();
     formData.append('sectionId', sectionId);
-    // formData.append('lectureTitle', title);
+    formData.append('lectureTitle', title);
     formData.append('video', fileToUpload);
+    formData.append('lectureLength', lectureLenghtInSecs.toString());
     await createLecture(formData);
 
     setVideoUpload(false);
-    setVideoProcessing(true);
+    setVideoUploadDone(true);
   };
   const handleArticleUpload = async (e: any) => {
     if (!articleDescription) toast.warn('Please type out article description');
@@ -101,7 +112,7 @@ const Lecture = ({
       sectionId,
       lectureTitle: title,
       article: articleDescription,
-      lectureLength: 3,
+      // lectureLength: 3,
     };
     await createLecture(lectureData);
     setArticleDescriptionDisplay(false);
@@ -295,30 +306,56 @@ const Lecture = ({
                 </div>
               )}
               {videoUpload && (
-                <div className="select w-full">
-                  <div className="custom flex items-center w-full mb-3">
-                    <label
-                      htmlFor="upload"
-                      className="p-2 border border-solid border-[#000000B2] w-[80%] text-[#0000004D]"
+                <div className="flex flex-col space-y-3">
+                  <div className="flex flex-col justify-between gap-4">
+                    <Label
+                      className="text-xs text-[#000000CC] font-semibold"
+                      htmlFor="length"
                     >
-                      Click here to select file
-                    </label>
-                    <label
-                      onClick={(e) => handleVideoUpload(e)}
-                      className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer"
-                    >
-                      upload file
-                    </label>
+                      Video Length
+                    </Label>
+                    <Input
+                      className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-transparent"
+                      placeholder="Enter Video Length"
+                      autoComplete="off"
+                      type="number"
+                      id="length"
+                      value={lectureLength}
+                      onChange={(e) => {
+                        if (/^[0-9]+$/.test(e.target.value)) {
+                          setLectureLength(e.target.value);
+                        }
+                      }}
+                    />
+                    <span className="text-xs text-[#000000B2]">
+                      Input Video length in minuites
+                    </span>
                   </div>
-                  <input
-                    onChange={(e) => handleVideoSelection(e)}
-                    value={fileUpload}
-                    type="file"
-                    className="hidden"
-                    id="upload"
-                    name="upload"
-                  />
-                  <span className="text-xs text-[#000000B2]">{fileName}</span>
+                  <div className="select w-full">
+                    <div className="custom flex items-center w-full mb-3">
+                      <label
+                        htmlFor="upload"
+                        className="p-2 border border-solid border-[#000000B2] w-[80%] text-[#0000004D]"
+                      >
+                        Click here to select file
+                      </label>
+                      <label
+                        onClick={(e) => handleVideoUpload(e)}
+                        className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer"
+                      >
+                        upload file
+                      </label>
+                    </div>
+                    <input
+                      onChange={(e) => handleVideoSelection(e)}
+                      value={fileUpload}
+                      type="file"
+                      className="hidden"
+                      id="upload"
+                      name="upload"
+                    />
+                    <span className="text-xs text-[#000000B2]">{fileName}</span>
+                  </div>
                 </div>
               )}
               {fileUpload && videoProcessing && (
@@ -374,13 +411,13 @@ const Lecture = ({
                           {videoTitle}.mp4
                         </span>
                         <span className="text-xs text-[#00000099]">
-                          15:00 minuites
+                          {Number(lectureLength)} minuites
                         </span>
                       </div>
                     </div>
-                    <Button className="bg-cp-secondary text-white rounded-none !py-1 hover:!bg-cp-primary z-50">
+                    {/* <Button className="bg-cp-secondary text-white rounded-none !py-1 hover:!bg-cp-primary z-50">
                       Replace
-                    </Button>
+                    </Button> */}
                   </div>
                   <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
                     <Image
