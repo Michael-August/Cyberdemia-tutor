@@ -41,7 +41,7 @@ export const Price = () => {
   const { mutateAsync: addPrice } = useAddPriceToCourse();
 
   const courseId = localStorage.getItem('newCourseId');
-  const { data } = useGetCoursePrice(courseId as string);
+  const { data: price } = useGetCoursePrice(courseId as string);
   const { mutateAsync: editPrice } = useUpdateCoursePrice(courseId as string);
 
   const { dispatch } = useStep();
@@ -54,7 +54,7 @@ export const Price = () => {
     };
 
     try {
-      if (courseId && data) {
+      if (courseId && price?.data) {
         await editPrice({ id: courseId, ...formData });
         toast.success('Price updated successfully!');
         dispatch({ type: 'COMPLETE_STEP', payload: 4 });
@@ -72,11 +72,11 @@ export const Price = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      setValue('price', `${data.data.price}` || '');
-      setValue('currency', data.data.currency || '');
+    if (price?.data) {
+      setValue('price', `${price?.data.price}` || '');
+      setValue('currency', price?.data.currency || '');
     }
-  }, [data]);
+  }, [price]);
 
   return (
     <>

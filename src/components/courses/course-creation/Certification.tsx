@@ -43,7 +43,7 @@ export const Certification = () => {
     const courseId = localStorage.getItem('newCourseId') as string;
 
     try {
-      if (courseId && data) {
+      if (courseId && data.data) {
         await editCertificate({
           signature: signaturePreview,
           template: `${selected}`,
