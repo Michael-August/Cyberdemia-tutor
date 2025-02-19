@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '../button';
 import { Table, TableBody, TableCell, TableRow } from '../ui/table';
 
-export const Course = ({ course }) => {
+export const Course = ({ course }: any) => {
   const router = useRouter();
 
   const startCourseEdit = (e: any) => {
