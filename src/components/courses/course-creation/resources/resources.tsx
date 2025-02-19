@@ -31,7 +31,7 @@ export const Resources = () => {
   const { dispatch } = useStep();
 
   const { data: resources } = useGetCourseResources(
-    courseId ? (courseId) : (courseToEdit as string),
+    courseId ? courseId : (courseToEdit as string),
   );
 
   const nextStep = () => {
@@ -71,17 +71,13 @@ export const Resources = () => {
             <div className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]">
               {resource.resourceType === 'downloadableFile' ? (
                 <DownloadableTabContent
-                  courseId={
-                    courseId ? (courseId) : (courseToEdit as string)
-                  }
+                  courseId={courseId ? courseId : (courseToEdit as string)}
                   // courseToEdit={courseToEdit}
                   downloadableResources={resource}
                 />
               ) : resource.resourceType === 'external' ? (
                 <ExternalResourceTab
-                  courseId={
-                    courseId ? (courseId) : (courseToEdit as string)
-                  }
+                  courseId={courseId ? courseId : (courseToEdit as string)}
                   // courseToEdit={courseToEdit}
                   externalResource={resource}
                 />
@@ -118,9 +114,7 @@ export const Resources = () => {
                     <Tab title={'Downloadable File'}>
                       <DownloadableTabContent
                         courseId={
-                          courseId
-                            ? (courseId)
-                            : (courseToEdit as string)
+                          courseId ? courseId : (courseToEdit as string)
                         }
                         // courseToEdit={courseToEdit}
                         resourceTitle={resourceTitle}
@@ -136,9 +130,7 @@ export const Resources = () => {
                     <Tab title={'External Resources'}>
                       <ExternalResourceTab
                         courseId={
-                          courseId
-                            ? (courseId)
-                            : (courseToEdit as string)
+                          courseId ? courseId : (courseToEdit as string)
                         }
                         // courseToEdit={courseToEdit}
                         resourceTitle={resourceTitle}

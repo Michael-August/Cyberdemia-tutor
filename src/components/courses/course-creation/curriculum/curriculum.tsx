@@ -25,7 +25,7 @@ export const Curriculum = () => {
   const courseToEdit = searchParams.get('courseId');
 
   const { data: sections } = useGetCourseSections(
-    courseId ? (courseId) : (courseToEdit as string),
+    courseId ? courseId : (courseToEdit as string),
   );
   const { mutateAsync: createSection } = useCreateCourseSection();
 
