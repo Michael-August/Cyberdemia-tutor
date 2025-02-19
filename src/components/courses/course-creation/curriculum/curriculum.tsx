@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -20,8 +21,12 @@ import Lecture from './Lecture';
 
 export const Curriculum = () => {
   const courseId = localStorage.getItem('newCourseId') as string;
+  const searchParams = useSearchParams();
+  const courseToEdit = searchParams.get('courseId');
 
-  const { data: sections } = useGetCourseSections(courseId);
+  const { data: sections } = useGetCourseSections(
+    courseId ? (courseId) : (courseToEdit as string),
+  );
   const { mutateAsync: createSection } = useCreateCourseSection();
 
   // const [addCurriculum, setAddCurriculum] = useState(false);

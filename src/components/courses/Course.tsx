@@ -11,8 +11,8 @@ export const Course = ({ course }) => {
 
   const startCourseEdit = (e: any) => {
     e.preventDefault();
-    localStorage.setItem('newCourseId', course.id);
-    router.push('/tutor/courses/manage-course');
+    // localStorage.setItem('newCourseId', course.id);
+    router.push(`/tutor/courses/manage-course?courseId=${course.id}`);
   };
 
   return (
@@ -35,14 +35,20 @@ export const Course = ({ course }) => {
                     </span>
                     <div className="others flex flex-col">
                       <div className="flex items-center gap-2 mb-2 justify-between">
-                        <span className="text-sm">2 Exams</span>
-                        <span className="text-sm">12 Lessons</span>
+                        <span className="text-sm">
+                          {course?.totalExams} Exams
+                        </span>
+                        <span className="text-sm">
+                          {course?.totalLessons} Lessons
+                        </span>
                       </div>
                       <div className="flex item-center justify-between">
                         <span className="text-sm">
-                          6 Virtual Labs Questions
+                          {course?.totalLabs} Virtual Labs Questions
                         </span>
-                        <span className="text-sm">4 Resources</span>
+                        <span className="text-sm">
+                          {course?.totalResources} Resources
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -50,7 +56,9 @@ export const Course = ({ course }) => {
               </TableCell>
               <TableCell>
                 <div className="flex flex-col gap-1">
-                  <span className="text-lg font-semibold">12</span>
+                  <span className="text-lg font-semibold">
+                    {course?.numberOfStudents}
+                  </span>
                   <span className="text-sm">Total students</span>
                 </div>
               </TableCell>
@@ -94,17 +102,25 @@ export const Course = ({ course }) => {
             <span className="text-xs font-semibold">{course.title}</span>
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-[10px]">2 Exams</span>
-                <span className="text-[10px]">12 Lessons</span>
+                <span className="text-[10px]">{course?.totalExams} Exams</span>
+                <span className="text-[10px]">
+                  {course?.totalLessons} Lessons
+                </span>
               </div>
               <div className="flex item-center justify-between">
-                <span className="text-[10px]">6 Virtual Labs Questions</span>
-                <span className="text-[10px]">4 Resources</span>
+                <span className="text-[10px]">
+                  {course?.totalLabs} Virtual Labs Questions
+                </span>
+                <span className="text-[10px]">
+                  {course?.totalResources} Resources
+                </span>
               </div>
             </div>
             <div className="stats flex items-center justify-between">
               <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold">12</span>
+                <span className="text-xs font-semibold">
+                  {course?.numberOfStudents}
+                </span>
                 <span className="text-xs">Total students</span>
               </div>
               <div className="flex flex-col gap-1">

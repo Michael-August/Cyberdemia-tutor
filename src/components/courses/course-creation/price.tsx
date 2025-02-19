@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -38,11 +39,16 @@ export const Price = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const searchParams = useSearchParams();
+  const courseToEdit = searchParams.get('courseId');
+
   const { mutateAsync: addPrice } = useAddPriceToCourse();
 
-  const courseId = localStorage.getItem('newCourseId');
-  const { data: price } = useGetCoursePrice(courseId as string);
-  const { mutateAsync: editPrice } = useUpdateCoursePrice(courseId as string);
+  // const courseId = localStorage.getItem('newCourseId');
+  const { data: price } = useGetCoursePrice(courseToEdit as string);
+  const { mutateAsync: editPrice } = useUpdateCoursePrice(
+    courseToEdit as string,
+  );
 
   const { dispatch } = useStep();
   const submitForm: SubmitHandler<FormValues> = async (data) => {
@@ -54,8 +60,8 @@ export const Price = () => {
     };
 
     try {
-      if (courseId && price?.data) {
-        await editPrice({ id: courseId, ...formData });
+      if (courseToEdit && price?.data) {
+        await editPrice({ id: courseToEdit, ...formData });
         toast.success('Price updated successfully!');
         dispatch({ type: 'COMPLETE_STEP', payload: 4 });
         dispatch({ type: 'NEXT_STEP' });

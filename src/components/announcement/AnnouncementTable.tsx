@@ -1,9 +1,12 @@
-import { Button, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { GoArrowRight } from 'react-icons/go';
-import { IoPencilOutline, IoTrashOutline } from 'react-icons/io5';
+
+import { useGetAnnouncements } from '@/hooks/react-query/useCommunication';
+
+import Loader from '../loader';
 
 const data = [
   {
@@ -122,6 +125,8 @@ const customStyles = {
 
 const AnnouncementTable = () => {
   const router = useRouter();
+  const { data: announcements, isLoading } = useGetAnnouncements();
+  console.log(announcements);
   const columns = [
     {
       name: 'Course',
@@ -137,20 +142,20 @@ const AnnouncementTable = () => {
       name: 'Comments',
       selector: (row: { comments: any }) => row.comments,
     },
-    {
-      name: 'Actions',
-      cell: () => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <IconButton>
-            <IoPencilOutline />
-          </IconButton>
-          <IconButton color="error">
-            <IoTrashOutline />
-          </IconButton>
-        </div>
-      ),
-      width: '150px',
-    },
+    // {
+    //   name: 'Actions',
+    //   cell: () => (
+    //     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    //       <IconButton>
+    //         <IoPencilOutline />
+    //       </IconButton>
+    //       <IconButton color="error">
+    //         <IoTrashOutline />
+    //       </IconButton>
+    //     </div>
+    //   ),
+    //   width: '150px',
+    // },
     {
       cell: (row: any) => (
         <Button
@@ -187,16 +192,20 @@ const AnnouncementTable = () => {
   ];
   return (
     <div className="rounded-[.5rem] px-2 bg-white shadow">
-      <DataTable
-        highlightOnHover={true}
-        responsive={true}
-        customStyles={customStyles}
-        columns={columns}
-        data={data}
-        pagination
-        fixedHeader
-        fixedHeaderScrollHeight="600px"
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <DataTable
+          highlightOnHover={true}
+          responsive={true}
+          customStyles={customStyles}
+          columns={columns}
+          data={data}
+          pagination
+          fixedHeader
+          fixedHeaderScrollHeight="600px"
+        />
+      )}
     </div>
   );
 };

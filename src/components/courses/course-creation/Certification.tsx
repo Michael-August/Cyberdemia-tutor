@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -16,14 +17,17 @@ import { useStep } from '../../../../context/CourseCreationContext';
 import { StepTitle } from './StepTitle';
 
 export const Certification = () => {
+  const searchParams = useSearchParams();
+  const courseToEdit = searchParams.get('courseId');
+
   const [selected, setSelected] = useState(1);
   const [signaturePreview, setSignaturePreview] = useState<any>('');
 
-  const courseId = localStorage.getItem('newCourseId');
-  const { data } = useGetCourseCertification(courseId as string);
+  // const courseId = localStorage.getItem('newCourseId');
+  const { data } = useGetCourseCertification(courseToEdit as string);
   const { mutateAsync: addCertificate } = useAddCertificationToCourse();
   const { mutateAsync: editCertificate } = useUpdateCourseCertificate(
-    courseId as string,
+    courseToEdit as string,
   );
 
   const handleFileChange = (event: any) => {
@@ -41,13 +45,13 @@ export const Certification = () => {
   const { dispatch } = useStep();
   const submit = async () => {
     const courseId = localStorage.getItem('newCourseId') as string;
-
+    console.log('cert');
     try {
-      if (courseId && data.data) {
+      if (courseToEdit && data.data) {
         await editCertificate({
           signature: signaturePreview,
           template: `${selected}`,
-          id: courseId,
+          id: courseToEdit,
         });
         toast.success('Certificate updated successfully!');
         dispatch({ type: 'COMPLETE_STEP', payload: 3 });
@@ -64,12 +68,12 @@ export const Certification = () => {
       dispatch({ type: 'COMPLETE_STEP', payload: 3 });
       dispatch({ type: 'NEXT_STEP' });
     } catch (error: any) {
-      toast.error(error.response.data);
+      toast.error(error?.response?.message);
     }
   };
 
   useEffect(() => {
-    if (data) {
+    if (data?.data) {
       setSelected(Number(data.data.template) || 1);
       setSignaturePreview(data.data.signature || '');
     }

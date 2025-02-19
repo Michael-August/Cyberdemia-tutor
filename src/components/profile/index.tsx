@@ -1,6 +1,9 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+
+import { useUploadProfilePicture } from '@/hooks/react-query/useUpdateProfile';
 
 import { Label } from '../label';
 import ProfileForm from './profileForm';
@@ -16,16 +19,33 @@ const Profile = () => {
   const switchTab = (newTab: string) => {
     setTab(newTab);
   };
+  const { mutate: uploadProfilePicture } = useUploadProfilePicture();
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files[0]) {
       const file = files[0];
       const reader = new FileReader();
+
+      // Read image for preview
       reader.onloadend = () => {
         setProfileImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      // Prepare form data for upload
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Upload image
+      uploadProfilePicture(formData, {
+        onSuccess: () => {
+          toast.success('Profile picture updated successfully!');
+        },
+        onError: (error) => {
+          console.error('Image upload failed:', error);
+        },
+      });
     }
   };
 
@@ -38,7 +58,10 @@ const Profile = () => {
           <div className="w-[6.375rem] flex items-center justify-center h-[6.375rem] md:w-[9.25rem] md:h-[9.25rem] rounded-[50%] border border-solid">
             {!profileImage && (
               <span className="text-[3.1875rem] md:text-[4.625rem] font-bold text-cp-secondary">
-                J
+                {profileData &&
+                  JSON.parse(profileData).fullName.split(' ')[0][0]}
+                {profileData &&
+                  JSON.parse(profileData).fullName.split(' ')[1][0]}
               </span>
             )}
             {profileImage && (

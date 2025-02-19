@@ -29,6 +29,8 @@ const Lecture = ({
 }) => {
   const { mutateAsync: createLecture } = useCreateCourseLecture();
 
+  const [lectureLoading, setLectureLoading] = useState(false);
+
   const [lectureTitle, setLectureTitle] = useState(true);
   const [title, setTitle] = useState('');
   const [videoTitle, setVideoTitle] = useState('');
@@ -100,11 +102,20 @@ const Lecture = ({
     formData.append('lectureTitle', title);
     formData.append('video', fileToUpload);
     formData.append('lectureLength', lectureLenghtInSecs.toString());
-    await createLecture(formData);
 
-    setVideoUpload(false);
-    setVideoUploadDone(true);
+    try {
+      setLectureLoading(true);
+      await createLecture(formData);
+      toast.success('Lecture uploaded successfully');
+      setVideoUpload(false);
+      setVideoUploadDone(true);
+    } catch (error) {
+      toast.error('Failed to upload lecture');
+    } finally {
+      setLectureLoading(false);
+    }
   };
+
   const handleArticleUpload = async (e: any) => {
     if (!articleDescription) toast.warn('Please type out article description');
     e.preventDefault();
@@ -339,12 +350,19 @@ const Lecture = ({
                       >
                         Click here to select file
                       </label>
-                      <label
-                        onClick={(e) => handleVideoUpload(e)}
-                        className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer"
-                      >
-                        upload file
-                      </label>
+                      {!lectureLoading && (
+                        <label
+                          onClick={(e) => handleVideoUpload(e)}
+                          className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer"
+                        >
+                          upload file
+                        </label>
+                      )}
+                      {lectureLoading && (
+                        <label className="p-2 text-center border border-solid border-[#000000B2] text-black w-[20%] z-50 cursor-pointer">
+                          uploading...
+                        </label>
+                      )}
                     </div>
                     <input
                       onChange={(e) => handleVideoSelection(e)}

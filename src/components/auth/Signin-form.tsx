@@ -50,13 +50,7 @@ const SigninForm: React.FC = () => {
         if (profileRes && profileRes?.data) {
           const { data: profileData } = profileRes;
           const userProfile = {
-            fullName: profileData?.fullName,
-            firstName: profileData?.firstName,
-            lastName: profileData?.lastName,
-            state: profileData?.state,
-            gender: profileData?.gender,
-            country: profileData?.country,
-            age: profileData?.age,
+            ...profileData,
             email: profileData?.auth?.email,
           };
           router.push('/tutor/home');

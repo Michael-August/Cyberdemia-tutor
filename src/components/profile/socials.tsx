@@ -1,24 +1,61 @@
 import { useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
+
+import { useUpdateProfile } from '@/hooks/react-query/useUpdateProfile';
 
 import { Input } from '../inputs';
 
 type FormValues = {
-  firstname: string;
-  lastname: string;
-  phoneNumber: string;
-  bio: string;
-  language: string;
+  website: string;
+  linkedin: string;
+  twitter: string;
 };
 
 const Socials = () => {
+  const profileData = sessionStorage.getItem('userProfile');
+  const parsedProfileData = profileData ? JSON.parse(profileData) : {};
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updateProfile } = useUpdateProfile();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      website: parsedProfileData?.website || '',
+      linkedin: parsedProfileData?.linkedIn || '',
+      twitter: parsedProfileData?.twitter || '',
+    },
+  });
 
-  const submitForm = (data: FormValues) => {
-    console.log(data);
+  const submitForm = (data: any) => {
+    delete parsedProfileData?.auth;
+    delete parsedProfileData?.gender;
+    delete parsedProfileData?.state;
+    delete parsedProfileData?.highestEducationLevel;
+    delete parsedProfileData?.id;
+
+    updateProfile(
+      {
+        website: data.website,
+        linkedIn: data.linkedin,
+        twitter: data.twitter,
+        ...parsedProfileData,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['profile']);
+          toast.success('Profile updated successfully!');
+        },
+        onError: (error) => {
+          console.error('Update failed:', error);
+        },
+      },
+    );
   };
 
   return (
@@ -38,14 +75,12 @@ const Socials = () => {
               placeholder="Enter URL"
               autoComplete="off"
               type="text"
-              id="firstname"
-              {...register('firstname', {
-                required: 'First name is required',
-              })}
+              id="website"
+              {...register('website')}
             />
-            {errors.firstname && (
+            {errors.website && (
               <p className="text-red-500 py-2 text-xs">
-                {errors.firstname.message}
+                {errors.website.message}
               </p>
             )}
           </div>
@@ -56,14 +91,12 @@ const Socials = () => {
               placeholder="Enter URL"
               autoComplete="off"
               type="text"
-              id="lastname"
-              {...register('lastname', {
-                required: 'Last name is required',
-              })}
+              id="linkedin"
+              {...register('linkedin')}
             />
-            {errors.lastname && (
+            {errors.linkedin && (
               <p className="text-red-500 py-2 text-xs">
-                {errors.lastname.message}
+                {errors.linkedin.message}
               </p>
             )}
           </div>
@@ -79,14 +112,12 @@ const Socials = () => {
               placeholder="Enter URL"
               autoComplete="off"
               type="text"
-              id="phone"
-              {...register('phoneNumber', {
-                required: 'Phone number is required',
-              })}
+              id="twitter"
+              {...register('twitter')}
             />
-            {errors.phoneNumber && (
+            {errors.twitter && (
               <p className="text-red-500 py-2 text-xs">
-                {errors.phoneNumber.message}
+                {errors.twitter.message}
               </p>
             )}
           </div>

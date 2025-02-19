@@ -12,7 +12,7 @@ export const Card = ({
 }: {
   title: string;
   count: number;
-  btnText: string;
+  btnText?: string;
   link?: any;
 }) => {
   const router = useRouter();

@@ -3,6 +3,7 @@
 import 'react-quill/dist/quill.snow.css';
 
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -29,11 +30,12 @@ type FormValues = {
 };
 
 export const CourseOverview = () => {
-  const courseId = localStorage.getItem('newCourseId');
+  const searchParams = useSearchParams();
+  const courseToEdit = searchParams.get('courseId');
 
   const { mutateAsync: createCourse } = useCreateCourse();
-  const { mutateAsync: editCourse } = useUpdateCourse(courseId as string);
-  const { data } = useGetCourse(courseId as string);
+  const { mutateAsync: editCourse } = useUpdateCourse(courseToEdit as string);
+  const { data } = useGetCourse(courseToEdit as string);
 
   const [objective, setObjective] = useState('');
   const [prerequisite, setPrerequisite] = useState('');
@@ -71,8 +73,8 @@ export const CourseOverview = () => {
   const { dispatch } = useStep();
   const submitForm: SubmitHandler<FormValues> = async (data) => {
     try {
-      if (courseId && data) {
-        await editCourse({ ...data, id: courseId });
+      if (courseToEdit && data) {
+        await editCourse({ ...data, id: courseToEdit });
         toast.success('Course updated successfully!');
         dispatch({ type: 'COMPLETE_STEP', payload: 0 });
         dispatch({ type: 'NEXT_STEP' });

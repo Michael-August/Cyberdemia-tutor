@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -20,13 +21,18 @@ export const Resources = () => {
   const [addNewResource, setAddNewResource] = useState(false);
   const [addResourceContent, setAddResourceContent] = useState(false);
 
+  const searchParams = useSearchParams();
+  const courseToEdit = searchParams.get('courseId');
+
   const courseId = localStorage.getItem('newCourseId') as string;
 
   const [resourceTitle, setResourceTitle] = useState('');
 
   const { dispatch } = useStep();
 
-  const { data: resources } = useGetCourseResources(courseId);
+  const { data: resources } = useGetCourseResources(
+    courseId ? (courseId) : (courseToEdit as string),
+  );
 
   const nextStep = () => {
     dispatch({ type: 'COMPLETE_STEP', payload: 1 });
@@ -65,12 +71,18 @@ export const Resources = () => {
             <div className="uploaded-uploading border border-solid bg-white px-6 py-3 border-[#000000B2]">
               {resource.resourceType === 'downloadableFile' ? (
                 <DownloadableTabContent
-                  courseId={courseId}
+                  courseId={
+                    courseId ? (courseId) : (courseToEdit as string)
+                  }
+                  // courseToEdit={courseToEdit}
                   downloadableResources={resource}
                 />
               ) : resource.resourceType === 'external' ? (
                 <ExternalResourceTab
-                  courseId={courseId}
+                  courseId={
+                    courseId ? (courseId) : (courseToEdit as string)
+                  }
+                  // courseToEdit={courseToEdit}
                   externalResource={resource}
                 />
               ) : null}
@@ -105,7 +117,12 @@ export const Resources = () => {
                   <Tabs>
                     <Tab title={'Downloadable File'}>
                       <DownloadableTabContent
-                        courseId={courseId}
+                        courseId={
+                          courseId
+                            ? (courseId)
+                            : (courseToEdit as string)
+                        }
+                        // courseToEdit={courseToEdit}
                         resourceTitle={resourceTitle}
                         downloadableResources={null}
                         back={() => {
@@ -118,7 +135,12 @@ export const Resources = () => {
                     </Tab>
                     <Tab title={'External Resources'}>
                       <ExternalResourceTab
-                        courseId={courseId}
+                        courseId={
+                          courseId
+                            ? (courseId)
+                            : (courseToEdit as string)
+                        }
+                        // courseToEdit={courseToEdit}
                         resourceTitle={resourceTitle}
                         externalResource={null}
                         back={() => {

@@ -1,18 +1,28 @@
 import { useForm } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
+import { useUpdateProfile } from '@/hooks/react-query/useUpdateProfile';
+
+import { Button } from '../button';
 import { Input } from '../inputs';
+import { Label } from '../label';
+import { Textarea } from '../ui/textarea';
 
 type FormValues = {
   firstname: string;
   lastname: string;
   phoneNumber: string;
   bio: string;
-  language: string;
 };
 
 const ProfileForm = () => {
   const profileData = sessionStorage.getItem('userProfile');
   const parsedProfileData = profileData ? JSON.parse(profileData) : {};
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: updateProfile } = useUpdateProfile();
 
   const {
     register,
@@ -24,28 +34,42 @@ const ProfileForm = () => {
       lastname: parsedProfileData.lastName || '',
       phoneNumber: parsedProfileData.phoneNumber || '',
       bio: parsedProfileData.bio || '',
-      language: parsedProfileData.language || '',
     },
   });
 
-  const languages = ['English', 'Spanish', 'French', 'German', 'Chinese'];
-
-  const submitForm = (data: FormValues) => {
-    console.log(data);
+  const submitForm = (data: any) => {
+    updateProfile(
+      {
+        firstName: data.firstname,
+        lastName: data.lastname,
+        phoneNumber: data.phoneNumber,
+        bio: data.bio,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['profile']);
+          toast.success('Profile updated successfully!');
+        },
+        onError: (error) => {
+          console.error('Update failed:', error);
+        },
+      },
+    );
   };
-
   return (
     <div className="form">
       <form
         onSubmit={handleSubmit(submitForm)}
         noValidate
-        className="mt-4 flex flex-col gap-5 lg:w-[70%]"
+        className="mt-8 flex flex-col gap-5 lg:w-[70%]"
       >
         <div className="w-full flex flex-col md:flex-row gap-5">
           <div className="w-full flex flex-col gap-3">
-            <span className="text-[12px] text-gray-600">First Name</span>
+            <Label className="text-xs text-[#000000CC]" htmlFor="firstname">
+              First Name
+            </Label>
             <Input
-              className="w-full !p-3 !py-6 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
+              className="w-full !p-3 focus:!outline-none focus:!ring-0 border text-xs !border-solid !border-[#00000033] !bg-[#F5F5F5]"
               placeholder="First Name"
               autoComplete="off"
               type="text"
@@ -61,9 +85,9 @@ const ProfileForm = () => {
             )}
           </div>
           <div className="w-full flex flex-col gap-3">
-            <span className="text-[12px] text-gray-600">Last Name</span>
+            <Label htmlFor="lastname">Last Name</Label>
             <Input
-              className="w-full !p-3 !py-6 text-xs focus:!outline-none focus:!ring-0 border !border-solid !bg-[#F5F5F5]"
+              className="w-full !p-3 text-xs focus:!outline-none focus:!ring-0 border !border-solid !border-[#00000033] !bg-[#F5F5F5]"
               placeholder="Last Name"
               autoComplete="off"
               type="text"
@@ -80,11 +104,13 @@ const ProfileForm = () => {
           </div>
         </div>
 
-        <div className="w-full flex flex-row gap-5 pt-1">
+        <div className="w-full flex flex-col md:flex-row gap-5">
           <div className="w-full flex flex-col gap-3">
-            <span className="text-[12px]   text-gray-600">Phone Number</span>
+            <Label className="text-xs text-[#000000CC]" htmlFor="phone">
+              Phone Number
+            </Label>
             <Input
-              className="w-full text-xs !p-3 !py-6 focus:!outline-none focus:!ring-0 border !border-solid !border-[#00000033] !bg-[#F5F5F5]"
+              className="w-full text-xs !p-3 focus:!outline-none focus:!ring-0 border !border-solid !border-[#00000033] !bg-[#F5F5F5]"
               placeholder="Enter Phone number"
               autoComplete="off"
               type="text"
@@ -99,33 +125,15 @@ const ProfileForm = () => {
               </p>
             )}
           </div>
-          <div className="w-full flex flex-col gap-3">
-            <span className="text-[12px]  text-gray-600">Language</span>
-            <select
-              className="text-xs text-[#000000CC] py-4 p-3 bg-[#F5F5F5] border border-solid text-gray-500 border-[#00000033] w-full text-left"
-              {...register('language', {
-                required: 'Language selection is required',
-              })}
-            >
-              <option value="">Select Language</option>
-              {languages.map((language, index) => (
-                <option key={index} value={language}>
-                  {language}
-                </option>
-              ))}
-            </select>
-            {errors.language && (
-              <p className="text-red-500 py-2 text-xs">
-                {errors.language.message}
-              </p>
-            )}
-          </div>
+          <div className="w-full"></div>
         </div>
 
         <div className="w-full flex flex-col gap-3">
-          <span className="text-[12px] text-gray-600 pt-1">Bio</span>
-          <textarea
-            className="w-full text-xs pb-10 p-3 !focus:outline-none !focus:ring-0 !border border-solid !border-[#00000033] !bg-[#F5F5F5]"
+          <Label className="text-xs text-[#000000CC]" htmlFor="bio">
+            Bio
+          </Label>
+          <Textarea
+            className="w-full text-xs !p-3 !focus:outline-none !focus:ring-0 !border border-solid !border-[#00000033] bg-[#F5F5F5]"
             placeholder="Enter text (250 characters)"
             autoComplete="off"
             id="bio"
@@ -137,9 +145,9 @@ const ProfileForm = () => {
             <p className="text-red-500 py-2 text-xs">{errors.bio.message}</p>
           )}
         </div>
-        <button className="bg-cp-secondary w-full lg:w-[70%] text-sm mb-5 py-2 !text-white mt-8 hover:bg-cp-primary">
+        <Button className="!bg-cp-secondary text-sm mb-5 !text-white mt-5">
           Save changes
-        </button>
+        </Button>
       </form>
     </div>
   );

@@ -19,12 +19,14 @@ import { useCreateCourseResource } from '@/hooks/react-query/course-creation/use
 export const DownloadableTabContent = ({
   resourceTitle,
   courseId,
+  // courseToEdit,
   downloadableResources,
   back,
   reset,
 }: {
   resourceTitle?: string;
   courseId: string;
+  // courseToEdit?: any;
   downloadableResources: any;
   back?: any;
   reset?: any;

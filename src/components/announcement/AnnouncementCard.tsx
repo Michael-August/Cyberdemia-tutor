@@ -3,6 +3,7 @@ import {
   Button,
   FormControlLabel,
   IconButton,
+  Input,
   Modal,
   Radio,
   RadioGroup,
@@ -11,20 +12,32 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { IoArrowForward, IoMegaphoneOutline } from 'react-icons/io5';
+import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
-const courses = [
-  'Cyber Security Defense Analyst',
-  'Data Science',
-  'Web Development',
-  // Add more courses here
-];
+import { useGetCourses } from '@/hooks/react-query/course-creation/useCourses';
+import { useMakeAnnouncements } from '@/hooks/react-query/useCommunication';
+
+// const courses = [
+//   'Cyber Security Defense Analyst',
+//   'Data Science',
+//   'Web Development',
+//   // Add more courses here
+// ];
 
 const AnnouncementCard = () => {
+  const { data: courses } = useGetCourses();
+
   const [openFirstModal, setOpenFirstModal] = useState(false);
   const [openSecondModal, setOpenSecondModal] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(
-    'Cyber Security Defense Analyst',
-  );
+  const [selectedCourse, setSelectedCourse] = useState<any>('');
+
+  const queryClient = useQueryClient();
+
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
+
+  const { mutate: makeAnnouncement } = useMakeAnnouncements();
 
   const handleOpenFirstModal = () => setOpenFirstModal(true);
   const handleCloseFirstModal = () => setOpenFirstModal(false);
@@ -35,7 +48,25 @@ const AnnouncementCard = () => {
   const handleCloseSecondModal = () => setOpenSecondModal(false);
 
   const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
     setSelectedCourse((event.target as HTMLInputElement).value);
+  };
+
+  const handleAnnouncement = () => {
+    makeAnnouncement(
+      { courseId: selectedCourse, title, message },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['announcements']);
+          toast.success('Announcement published!');
+          handleCloseFirstModal();
+          handleCloseSecondModal();
+        },
+        onError: (error) => {
+          console.error('Announcement failed:', error);
+        },
+      },
+    );
   };
 
   return (
@@ -86,10 +117,10 @@ const AnnouncementCard = () => {
           </Typography>
 
           <RadioGroup value={selectedCourse} onChange={handleCourseChange}>
-            {courses.map((course) => (
+            {courses?.data?.courses?.map((course: any) => (
               <FormControlLabel
                 key={course}
-                value={course}
+                value={course.id}
                 control={
                   <Radio
                     sx={{
@@ -98,7 +129,7 @@ const AnnouncementCard = () => {
                     }}
                   />
                 }
-                label={course}
+                label={course?.title}
               />
             ))}
           </RadioGroup>
@@ -175,12 +206,36 @@ const AnnouncementCard = () => {
             />
           </RadioGroup>
 
+          <Input
+            fullWidth
+            placeholder="Enter Announcement title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{
+              mt: 2, // Add some margin at the top for spacing
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#8C145E',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+              },
+            }}
+          />
+
+          {/* Multiline TextField */}
           <TextField
             fullWidth
             multiline
             rows={4}
             variant="outlined"
             placeholder="Enter your announcement here"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             sx={{
               mt: 2, // Add some margin at the top for spacing
               '& .MuiOutlinedInput-root': {
@@ -224,7 +279,7 @@ const AnnouncementCard = () => {
                   backgroundColor: '#8C145E',
                 },
               }}
-              onClick={handleCloseSecondModal} // Implement your publish action here
+              onClick={handleAnnouncement} // Implement your publish action here
             >
               Publish
             </Button>

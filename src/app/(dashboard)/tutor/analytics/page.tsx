@@ -53,7 +53,7 @@ const Home = () => {
         });
       });
     }
-  });
+  }, [analytics]);
 
   return (
     <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
@@ -72,7 +72,7 @@ const Home = () => {
           />
         ))}
       </div>
-      <SimpleLineChart />
+      <SimpleLineChart analyticsData={analytics?.data} />
     </div>
   );
 };
