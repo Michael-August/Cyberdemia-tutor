@@ -1,7 +1,23 @@
 'use client';
-
+import {
+  Box,
+  FormControlLabel,
+  IconButton,
+  Modal,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { IoMegaphoneOutline } from 'react-icons/io5';
+import { toast } from 'react-toastify';
+
+import {
+  useGetCourseStudents,
+  useIssueCert,
+} from '@/hooks/react-query/course-creation/useCourses';
 
 import { Button } from '../button';
 import { Table, TableBody, TableCell, TableRow } from '../ui/table';
@@ -13,6 +29,29 @@ export const Course = ({ course }: any) => {
     e.preventDefault();
     // localStorage.setItem('newCourseId', course.id);
     router.push(`/tutor/courses/manage-course?courseId=${course.id}`);
+  };
+
+  const [openStudentsModal, setOpenStudentsModal] = useState(false);
+
+  const [selectedStudent, setSelectedStudent] = useState<any>('');
+
+  const [courseIdToFetchStudents, setCourseIdToFetchStudents] = useState('');
+
+  const { data: courseStudents } = useGetCourseStudents(
+    courseIdToFetchStudents,
+  );
+  const { mutateAsync: issueCert, isLoading } = useIssueCert(
+    courseIdToFetchStudents,
+  );
+
+  const handleCertIssue = () => {
+    try {
+      issueCert({ studentId: selectedStudent });
+      setOpenStudentsModal(false);
+      setCourseIdToFetchStudents('');
+    } catch (error) {
+      toast.error('Certificate issue failed');
+    }
   };
 
   return (
@@ -78,12 +117,23 @@ export const Course = ({ course }: any) => {
                 </div>
               </TableCell>
               <TableCell>
-                <Button
-                  onClick={(e) => startCourseEdit(e)}
-                  className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
-                >
-                  Manage/Edit Course
-                </Button>
+                <div className="flex items-center justify-center flex-wrap gap-3 mb-4">
+                  <Button
+                    onClick={(e) => startCourseEdit(e)}
+                    className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+                  >
+                    Manage/Edit Course
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setCourseIdToFetchStudents(course.id);
+                      setOpenStudentsModal(true);
+                    }}
+                    className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+                  >
+                    Issue Certificate
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           </TableBody>
@@ -137,15 +187,96 @@ export const Course = ({ course }: any) => {
                 )}
               </div>
             </div>
-            <Button
-              onClick={(e) => startCourseEdit(e)}
-              className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
-            >
-              Manage/Edit Course
-            </Button>
+            <div className="flex flex-wrap gap-3 mb-4">
+              <Button
+                onClick={(e) => startCourseEdit(e)}
+                className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+              >
+                Manage/Edit Course
+              </Button>
+              <Button
+                onClick={() => {
+                  setCourseIdToFetchStudents(course.id);
+                  setOpenStudentsModal(true);
+                }}
+                className="border !border-cp-secondary !bg-transparent !text-cp-secondary p-[10px]"
+              >
+                Issue Certificate
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+
+      <Modal
+        open={openStudentsModal}
+        onClose={() => setOpenStudentsModal(false)}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 600,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: '8px',
+          }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <IconButton color="primary">
+              <IoMegaphoneOutline size={60} color="black" />
+            </IconButton>
+            <Typography variant="h6" sx={{ mt: 2, mb: 2 }}>
+              Select the student you want to issue certificate
+            </Typography>
+          </Box>
+
+          <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 'bold' }}>
+            My Students
+          </Typography>
+
+          <RadioGroup
+            value={selectedStudent}
+            onChange={(e) => {
+              setSelectedStudent(e.target.value);
+            }}
+          >
+            {courseStudents?.data?.map((obj: any) => (
+              <FormControlLabel
+                key={obj?.student?.id}
+                value={obj?.student?.id}
+                control={
+                  <Radio
+                    sx={{
+                      color: '#AC1D7E',
+                      '&.Mui-checked': { color: '#AC1D7E' },
+                    }}
+                  />
+                }
+                label={obj?.student?.fullName}
+              />
+            ))}
+          </RadioGroup>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+            <Button
+              onClick={() => {
+                setCourseIdToFetchStudents('');
+                setOpenStudentsModal(false);
+              }}
+            >
+              Cancel
+            </Button>
+
+            <Button onClick={handleCertIssue}>
+              {isLoading ? 'submitting...' : 'Submit'}
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };

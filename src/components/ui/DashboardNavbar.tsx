@@ -38,7 +38,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-cp-primary py-3  flex items-center justify-between md:px-5 px-4 shadow-md z-[1000]">
-      <Link href="/">
+      <Link href="/tutor/home">
         <Image
           src="/images/logo2.svg"
           alt="Description of image"

@@ -8,7 +8,7 @@ export const useGetAnnouncements = () => {
     try {
       const config = {
         method: 'get',
-        url: `announcement`,
+        url: `announcement/instructor`,
       };
       const responseData = await request(config);
       return responseData?.data;

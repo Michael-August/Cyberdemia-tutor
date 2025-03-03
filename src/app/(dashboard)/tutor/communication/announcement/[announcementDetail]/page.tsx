@@ -12,10 +12,13 @@ const Home = () => {
 
   const { data, isLoading } = useGetAnnouncement(announcementDetail as string);
 
-  console.log(data);
   return (
     <div className="flex flex-col gap-8 h-[100%] px-5 py-5">
-      {isLoading ? <Loader /> : <AnnouncementDetail />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <AnnouncementDetail announcementDetails={data.data} />
+      )}
     </div>
   );
 };

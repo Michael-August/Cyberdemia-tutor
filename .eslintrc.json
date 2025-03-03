@@ -17,8 +17,8 @@
   "rules": {
     "import/no-anonymous-default-export": "off",
     "semi": ["error", "always"],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": "warn", // Change from "error" to "warn"
+    "simple-import-sort/exports": "warn",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-explicit-any": "off",

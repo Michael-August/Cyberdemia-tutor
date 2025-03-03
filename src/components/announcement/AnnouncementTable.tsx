@@ -4,108 +4,109 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 import { GoArrowRight } from 'react-icons/go';
 
+import { useGetCourses } from '@/hooks/react-query/course-creation/useCourses';
 import { useGetAnnouncements } from '@/hooks/react-query/useCommunication';
 
 import Loader from '../loader';
 
-const data = [
-  {
-    id: 1,
-    course: 'Cyber Security Defense Analyst',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 2,
-    course: 'Data Science',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 3,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 4,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 5,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 6,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 7,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 8,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 9,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 10,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 11,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 12,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 13,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 14,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 15,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-  {
-    id: 16,
-    course: 'Web Development',
-    date: '20-04-2024',
-    comments: 12,
-  },
-];
+// const data = [
+//   {
+//     id: 1,
+//     course: 'Cyber Security Defense Analyst',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 2,
+//     course: 'Data Science',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 3,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 4,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 5,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 6,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 7,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 8,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 9,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 10,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 11,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 12,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 13,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 14,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 15,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+//   {
+//     id: 16,
+//     course: 'Web Development',
+//     date: '20-04-2024',
+//     comments: 12,
+//   },
+// ];
 
 const customStyles = {
   headCells: {
@@ -126,38 +127,26 @@ const customStyles = {
 const AnnouncementTable = () => {
   const router = useRouter();
   const { data: announcements, isLoading } = useGetAnnouncements();
-  console.log(announcements);
+  const { data: courses } = useGetCourses();
   const columns = [
     {
       name: 'Course',
-      selector: (row: { course: any }) => row.course,
+      selector: (row: { courseId: string; createdAt: string; id: string }) => {
+        const course = courses?.data?.courses?.find(
+          (c: any) => c.id === row.courseId,
+        );
+        return course ? course?.title : 'Unknown Course';
+      },
       sortable: true,
     },
     {
       name: 'Date',
-      selector: (row: { date: any }) => row.date,
+      selector: (row: { courseId: string; createdAt: string; id: string }) =>
+        new Date(row.createdAt).toLocaleDateString(),
       sortable: true,
     },
     {
-      name: 'Comments',
-      selector: (row: { comments: any }) => row.comments,
-    },
-    // {
-    //   name: 'Actions',
-    //   cell: () => (
-    //     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-    //       <IconButton>
-    //         <IoPencilOutline />
-    //       </IconButton>
-    //       <IconButton color="error">
-    //         <IoTrashOutline />
-    //       </IconButton>
-    //     </div>
-    //   ),
-    //   width: '150px',
-    // },
-    {
-      cell: (row: any) => (
+      cell: (row: { courseId: string; createdAt: string; id: string }) => (
         <Button
           sx={{
             backgroundColor: '#fff',
@@ -190,6 +179,7 @@ const AnnouncementTable = () => {
       width: '120px',
     },
   ];
+
   return (
     <div className="rounded-[.5rem] px-2 bg-white shadow">
       {isLoading ? (
@@ -200,7 +190,7 @@ const AnnouncementTable = () => {
           responsive={true}
           customStyles={customStyles}
           columns={columns}
-          data={data}
+          data={announcements}
           pagination
           fixedHeader
           fixedHeaderScrollHeight="600px"
