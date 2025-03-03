@@ -34,7 +34,7 @@ const generateMonths = () => [
 ];
 
 const mapDataToXLabels = (xLabels: string[], data: any[]) => {
-  const dataMap = new Map(data.map((entry) => [entry.date, entry.count]));
+  const dataMap = new Map(data?.map((entry) => [entry.date, entry.count]));
   return xLabels.map((label) => dataMap.get(label) || 0);
 };
 
@@ -47,15 +47,15 @@ export function SimpleLineChart({ analyticsData }: { analyticsData: any }) {
 
   const dailyData = mapDataToXLabels(
     dailyXLabels,
-    analyticsData.dailyEnrollments,
+    analyticsData?.dailyEnrollments,
   );
   const weeklyData = mapDataToXLabels(
     weeklyXLabels,
-    analyticsData.weeklyEnrollments,
+    analyticsData?.weeklyEnrollments,
   );
   const monthlyData = mapDataToXLabels(
     monthlyXLabels,
-    analyticsData.monthlyEnrollments,
+    analyticsData?.monthlyEnrollments,
   );
 
   const getData = () => {

@@ -1,5 +1,4 @@
 'use client';
-import { Chip } from '@mui/material';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -15,7 +14,7 @@ const Page = () => {
         <span className="font-bold text-xl">Communication</span>
       </div>
       <div className="flex flex-col md:flex-row justify-start gap-10">
-        <div className="btn-card  w-full md:w-[19.75rem] border border-cp-secondary p-4 flex flex-col items-center justify-center gap-5">
+        {/* <div className="btn-card  w-full md:w-[19.75rem] border border-cp-secondary p-4 flex flex-col items-center justify-center gap-5">
           <Image
             src="/images/chatIcon.svg"
             alt="plus in acircle"
@@ -40,7 +39,7 @@ const Page = () => {
             />
             <IoArrowForward size={20} />
           </Button>
-        </div>
+        </div> */}
         <div className="btn-card  w-full md:w-[19.75rem] border border-cp-secondary p-4 flex flex-col items-center justify-center gap-5">
           <Image
             src="/images/announcement.svg"
@@ -56,7 +55,7 @@ const Page = () => {
             className="flex gap-1 items-center !bg-cp-secondary hover:!bg-cp-primary !transition-all text-white rounded-none p-2"
             onClick={() => router.push('communication/announcement')}
           >
-            Manage Announcementsd
+            Manage Announcements
             <IoArrowForward size={20} />
           </Button>
         </div>
