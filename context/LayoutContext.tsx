@@ -1,5 +1,5 @@
 'use client';
-import { createContext, ReactNode, useContext,useReducer } from 'react';
+import { createContext, ReactNode, useContext, useReducer } from 'react';
 
 type LayoutState = {
   navbarType: 'none' | 'webNavbar' | 'dashboardNavbar';
