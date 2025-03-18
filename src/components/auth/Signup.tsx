@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import SignupForm from './Signup-form';
+import moment from 'moment';
 
 const Signup = () => {
   return (
@@ -19,7 +20,7 @@ const Signup = () => {
           <h1 className="text-3xl font-extrabold text-center px-[10rem]">
             Gain Industry Standard Skills & Become a Cybersecurity Expert
           </h1>
-          <p className="text-black py-20">© 2024 CyberDemia</p>
+          <p className="text-black py-20">© {moment().year()} CyberDemia</p>
         </div>
       </div>
 

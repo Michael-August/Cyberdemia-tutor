@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import ForgotPasswordForm from './ForgotPassword-form';
+import moment from 'moment';
 
 const ForgotPassword = () => {
   return (
@@ -20,7 +21,7 @@ const ForgotPassword = () => {
           <h1 className="text-3xl font-extrabold text-center px-[10rem]">
             Gain Industry Standard Skills & Become a Cybersecurity Expert
           </h1>
-          <p className="text-black py-20">© 2024 CyberDemia</p>
+          <p className="text-black py-20">© {moment().year()} CyberDemia</p>
         </div>
       </div>
       <div className="col-span-1">

@@ -1,11 +1,11 @@
 'use client';
 import {
   Box,
+  Checkbox,
   FormControlLabel,
+  FormGroup,
   IconButton,
   Modal,
-  Radio,
-  RadioGroup,
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
@@ -33,7 +33,7 @@ export const Course = ({ course }: any) => {
 
   const [openStudentsModal, setOpenStudentsModal] = useState(false);
 
-  const [selectedStudent, setSelectedStudent] = useState<any>('');
+  const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
 
   const [courseIdToFetchStudents, setCourseIdToFetchStudents] = useState('');
 
@@ -44,9 +44,20 @@ export const Course = ({ course }: any) => {
     courseIdToFetchStudents,
   );
 
+  const handleStudentSelection = (studentId: string) => {
+    setSelectedStudents(
+      (prev) =>
+        prev.includes(studentId)
+          ? prev.filter((id) => id !== studentId) // Remove if already selected
+          : [...prev, studentId], // Add if not selected
+    );
+  };
+
   const handleCertIssue = () => {
     try {
-      issueCert({ studentId: selectedStudent });
+      selectedStudents?.forEach((studentId) => {
+        issueCert({ studentId });
+      });
       setOpenStudentsModal(false);
       setCourseIdToFetchStudents('');
     } catch (error) {
@@ -238,18 +249,14 @@ export const Course = ({ course }: any) => {
             My Students
           </Typography>
 
-          <RadioGroup
-            value={selectedStudent}
-            onChange={(e) => {
-              setSelectedStudent(e.target.value);
-            }}
-          >
+          <FormGroup>
             {courseStudents?.data?.map((obj: any) => (
               <FormControlLabel
                 key={obj?.student?.id}
-                value={obj?.student?.id}
                 control={
-                  <Radio
+                  <Checkbox
+                    checked={selectedStudents.includes(obj?.student?.id)}
+                    onChange={() => handleStudentSelection(obj?.student?.id)}
                     sx={{
                       color: '#AC1D7E',
                       '&.Mui-checked': { color: '#AC1D7E' },
@@ -259,7 +266,7 @@ export const Course = ({ course }: any) => {
                 label={obj?.student?.fullName}
               />
             ))}
-          </RadioGroup>
+          </FormGroup>
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
             <Button

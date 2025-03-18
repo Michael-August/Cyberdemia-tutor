@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import moment from 'moment';
+
 import SigninForm from './Signin-form';
 
 const Signin = () => {
@@ -20,7 +22,8 @@ const Signin = () => {
           <h1 className="text-3xl font-extrabold text-center px-[10rem]">
             Gain Industry Standard Skills & Become a Cybersecurity Expert
           </h1>
-          <p className="text-black py-20">© 2024 CyberDemia</p>
+          <p className="text-black py-20">© {moment().year()} CyberDemia</p>
+          <p className="text-black py-20">© CyberDemia</p>
         </div>
       </div>
       <div className="col-span-1">
@@ -42,7 +45,7 @@ const Signin = () => {
         </div>
         <div>
           <p className="text-black py-5">
-            Not a CyberDemia student yet?{' '}
+            Not a CyberDemia tutor yet?{' '}
             <Link href="/signup">
               <span className="text-blue-600 cursor-pointer underline-offset-4 hover:underline">
                 Register Now!
