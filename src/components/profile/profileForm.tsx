@@ -117,6 +117,10 @@ const ProfileForm = () => {
               id="phone"
               {...register('phoneNumber', {
                 required: 'Phone number is required',
+                pattern: {
+                  value: /^(?:\+234|0)(?:70|80|81|90|91|89|88)\d{8}$/,
+                  message: 'Please enter a valid Nigerian phone number',
+                },
               })}
             />
             {errors.phoneNumber && (

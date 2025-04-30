@@ -23,7 +23,6 @@ const Signin = () => {
             Gain Industry Standard Skills & Become a Cybersecurity Expert
           </h1>
           <p className="text-black py-20">© {moment().year()} CyberDemia</p>
-          <p className="text-black py-20">© CyberDemia</p>
         </div>
       </div>
       <div className="col-span-1">
@@ -37,8 +36,9 @@ const Signin = () => {
           <div>
             <h1 className="text-3xl font-bold">Sign In</h1>
             <p className="text-black py-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Doloribus, accusantium!
+              Are you ready to share your expertise and inspire the next
+              generation of learners? Sign up today on our innovative learning
+              platform!
             </p>
           </div>
           <SigninForm />

@@ -35,15 +35,16 @@ const ForgotPassword = () => {
           <div>
             <h1 className="text-3xl font-bold">Reset Password</h1>
             <p className="text-black py-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Doloribus, accusantium!
+              Are you ready to share your expertise and inspire the next
+              generation of learners? Sign up today on our innovative learning
+              platform!
             </p>
           </div>
           <ForgotPasswordForm />
         </div>
         <div>
           <p className="text-black py-5">
-            Not a CyberDemia student yet?{' '}
+            Not a CyberDemia tutor yet?{' '}
             <Link href="/signup">
               <span className="text-blue-600 cursor-pointer underline-offset-4 hover:underline">
                 Register Now!

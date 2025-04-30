@@ -87,8 +87,9 @@ const SignupForm: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="text-black py-2">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus,
-            accusantium!
+            Are you ready to share your expertise and inspire the next
+            generation of learners? Sign up today on our innovative learning
+            platform!
           </p>
         </div>
         <form
@@ -99,7 +100,9 @@ const SignupForm: React.FC = () => {
           {/* First and Last Name */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="firstName">
+                First Name <span className="text-red-700">*</span>
+              </Label>
               <Input
                 className="w-full p-2"
                 placeholder="First Name"
@@ -116,7 +119,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="lastName">
+                Last Name <span className="text-red-700">*</span>
+              </Label>
               <Input
                 className="w-full p-2"
                 placeholder="Last Name"
@@ -137,7 +142,9 @@ const SignupForm: React.FC = () => {
           {/* Email, Gender, and Phone Number */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">
+                Email Address <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="email"
                 id="email"
@@ -158,7 +165,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="gender">Gender</Label>
+              <Label htmlFor="gender">
+                Gender <span className="text-red-700">*</span>
+              </Label>
               <select
                 id="gender"
                 className="w-full p-2 border rounded-md"
@@ -180,7 +189,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="phoneNumber">Phone Number</Label>
+              <Label htmlFor="phoneNumber">
+                Phone Number <span className="text-red-700">*</span>
+              </Label>
               <Input
                 className="w-full p-2 border rounded-md"
                 placeholder="Phone Number"
@@ -201,7 +212,9 @@ const SignupForm: React.FC = () => {
           {/* State and Highest Education Level */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="state">State</Label>
+              <Label htmlFor="state">
+                State <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="state"
@@ -218,7 +231,7 @@ const SignupForm: React.FC = () => {
             </div>
             <div>
               <Label htmlFor="highestEducationLevel">
-                Highest Education Level
+                Highest Education Level <span className="text-red-700">*</span>
               </Label>
               <Input
                 type="text"
@@ -239,7 +252,9 @@ const SignupForm: React.FC = () => {
           {/* Degree Type and Course of Study */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="degreeType">Degree Type</Label>
+              <Label htmlFor="degreeType">
+                Degree Type <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="degreeType"
@@ -255,7 +270,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="courseOfStudy">Course of Study</Label>
+              <Label htmlFor="courseOfStudy">
+                Course of Study <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="courseOfStudy"
@@ -275,7 +292,9 @@ const SignupForm: React.FC = () => {
           {/* Area of Expertise */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-1 gap-4">
             <div>
-              <Label htmlFor="areaOfExpertise">Area of Expertise</Label>
+              <Label htmlFor="areaOfExpertise">
+                Area of Expertise <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="areaOfExpertise"
@@ -295,7 +314,9 @@ const SignupForm: React.FC = () => {
           {/* Degree Attachment and CV Attachment */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="degreeAttachment">Degree Attachment URL</Label>
+              <Label htmlFor="degreeAttachment">
+                Degree Attachment URL <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="url"
                 id="degreeAttachment"
@@ -315,7 +336,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="cvAttachment">CV Attachment URL</Label>
+              <Label htmlFor="cvAttachment">
+                CV Attachment URL <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="url"
                 id="cvAttachment"
@@ -339,7 +362,9 @@ const SignupForm: React.FC = () => {
           {/* Website, Twitter, LinkedIn */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="website">Website URL</Label>
+              <Label htmlFor="website">
+                Website URL <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="url"
                 id="website"
@@ -359,7 +384,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="twitter">Twitter URL</Label>
+              <Label htmlFor="twitter">
+                Twitter URL <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="url"
                 id="twitter"
@@ -379,7 +406,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="linkedIn">LinkedIn URL</Label>
+              <Label htmlFor="linkedIn">
+                LinkedIn URL <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="url"
                 id="linkedIn"
@@ -404,7 +433,8 @@ const SignupForm: React.FC = () => {
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="haveTaughtOnline">
-                Have you taught online before?
+                Have you taught online before?{' '}
+                <span className="text-red-700">*</span>
               </Label>
               <select
                 id="haveTaughtOnline"
@@ -423,7 +453,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="durationOfTeaching">Duration of Teaching</Label>
+              <Label htmlFor="durationOfTeaching">
+                Duration of Teaching <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="durationOfTeaching"
@@ -443,7 +475,9 @@ const SignupForm: React.FC = () => {
           {/* Teaching Philosophy and Subjects Taught */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-1 gap-4">
             <div>
-              <Label htmlFor="teachingPhilosophy">Teaching Philosophy</Label>
+              <Label htmlFor="teachingPhilosophy">
+                Teaching Philosophy <span className="text-red-700">*</span>
+              </Label>
               <textarea
                 id="teachingPhilosophy"
                 className="w-full p-2 border rounded-md"
@@ -458,7 +492,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="subjectsTaught">Subjects Taught</Label>
+              <Label htmlFor="subjectsTaught">
+                Subjects Taught <span className="text-red-700">*</span>
+              </Label>
               <Input
                 type="text"
                 id="subjectsTaught"
@@ -479,7 +515,8 @@ const SignupForm: React.FC = () => {
           <div className="grid grid-cols-1 py-2 sm:grid-cols-1 gap-4">
             <div>
               <Label htmlFor="courseProposalAttachment">
-                Course Proposal Attachment URL
+                Course Proposal Attachment URL{' '}
+                <span className="text-red-700">*</span>
               </Label>
               <Input
                 type="url"
@@ -503,7 +540,9 @@ const SignupForm: React.FC = () => {
           {/* Password and Confirm Password */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">
+                Password <span className="text-red-700">*</span>
+              </Label>
               <div className="relative">
                 <Input
                   type={showPassword ? 'text' : 'password'}
@@ -532,7 +571,9 @@ const SignupForm: React.FC = () => {
               )}
             </div>
             <div>
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">
+                Confirm Password <span className="text-red-700">*</span>
+              </Label>
               <div className="relative">
                 <Input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -563,7 +604,9 @@ const SignupForm: React.FC = () => {
           {/* Declarations and Terms */}
           <div className="grid grid-cols-1 py-2 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="declaration">Declaration</Label>
+              <Label htmlFor="declaration">
+                Declaration <span className="text-red-700">*</span>
+              </Label>
               <input
                 type="checkbox"
                 id="declaration"
