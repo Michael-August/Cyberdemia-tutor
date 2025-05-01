@@ -226,13 +226,19 @@ export const Curriculum = () => {
                   )}
                   {section?.lectures > 0 &&
                     section?.lectures?.map((lecture: any) => (
-                      <div key={lecture?.lectureTitle} className="flex flex-col gap-2">
+                      <div
+                        key={lecture?.lectureTitle}
+                        className="flex flex-col gap-2"
+                      >
                         <AddedLecture lecture={lecture} />
                       </div>
                     ))}
                   {section?.assignment > 0 &&
                     section?.assignment?.map((assignment: any) => (
-                      <div key={assignment?.assignmentTitle} className="flex flex-col gap-2">
+                      <div
+                        key={assignment?.assignmentTitle}
+                        className="flex flex-col gap-2"
+                      >
                         <AddedAssignment assignment={assignment} />
                       </div>
                     ))}
