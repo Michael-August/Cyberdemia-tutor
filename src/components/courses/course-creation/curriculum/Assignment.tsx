@@ -12,9 +12,11 @@ import { useCreateCourseAssignment } from '@/hooks/react-query/course-creation/u
 const Assignment = ({
   setAddCurriculum,
   sectionId,
+  courseId,
 }: {
   setAddCurriculum: any;
   sectionId: string;
+  courseId: string;
 }) => {
   const { mutateAsync: createAssignment } = useCreateCourseAssignment();
 
@@ -46,6 +48,7 @@ const Assignment = ({
       sectionId,
       assignmentTitle,
       assignmentQuestion: assignmentDetail,
+      courseId,
     };
     await createAssignment(assignmentData);
     setAssignmentDetailsDisplay(false);
@@ -165,10 +168,10 @@ const Assignment = ({
             </div>
           </div>
 
-          <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
+          {/* <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
             <Image src="/icons/plus.svg" width={20} height={20} alt="plus" />
             Add Assignment
-          </span>
+          </span> */}
         </div>
       )}
     </div>

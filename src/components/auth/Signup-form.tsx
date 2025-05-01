@@ -21,7 +21,7 @@ type FormValues = {
   phoneNumber: string;
   state: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   highestEducationLevel: string;
   degreeType: string;
   courseOfStudy: string;
@@ -59,6 +59,8 @@ const SignupForm: React.FC = () => {
 
   const submitForm: SubmitHandler<FormValues> = (data) => {
     const { ...formData } = data;
+
+    delete formData.confirmPassword;
 
     const payload = {
       ...formData,
@@ -582,7 +584,7 @@ const SignupForm: React.FC = () => {
                   className="w-full p-2 border rounded-md"
                   {...register('confirmPassword', {
                     required: 'Confirm Password is required',
-                    validate: (value: string) =>
+                    validate: (value) =>
                       value === password || 'Passwords do not match',
                   })}
                 />

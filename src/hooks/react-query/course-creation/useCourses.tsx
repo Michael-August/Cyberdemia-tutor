@@ -95,21 +95,19 @@ export const useUpdateCourse = (courseId: string) => {
 };
 
 export const useAddCertificationToCourse = () => {
-  return useMutation(
-    async (data: { courseId: string; signature: string; template: string }) => {
-      try {
-        const config = {
-          method: 'post',
-          url: 'certificate',
-          data,
-        };
-        const responseData = await request(config);
-        return responseData;
-      } catch (error: any) {
-        toast.error(`${error?.response?.data?.message || error?.message}`);
-      }
-    },
-  );
+  return useMutation(async (data: any) => {
+    try {
+      const config = {
+        method: 'post',
+        url: 'certificate',
+        data,
+      };
+      const responseData = await request(config);
+      return responseData;
+    } catch (error: any) {
+      toast.error(`${error?.response?.data?.message || error?.message}`);
+    }
+  });
 };
 
 export const useGetCourseCertification = (courseId: string) => {

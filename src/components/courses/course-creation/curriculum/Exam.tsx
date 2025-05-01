@@ -12,9 +12,11 @@ import { useCreateCourseExams } from '@/hooks/react-query/course-creation/useCou
 const Exam = ({
   sectionId,
   setAddCurriculum,
+  courseId,
 }: {
   setAddCurriculum?: any;
   sectionId: string;
+  courseId: string;
 }) => {
   const { mutateAsync: createExam } = useCreateCourseExams();
 
@@ -53,6 +55,7 @@ const Exam = ({
     if (!fileToUpload) toast.warn('Please select an excel file to upload');
     e.preventDefault();
     const formData = new FormData();
+    formData.append('courseId', courseId);
     formData.append('title', formValues.title);
     formData.append('timer', formValues.timer);
     formData.append('type', formValues.type);

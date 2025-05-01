@@ -50,6 +50,7 @@ export const useCreateCourseSection = () => {
 };
 
 export const useCreateCourseLecture = () => {
+  const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       const config = {
@@ -61,9 +62,9 @@ export const useCreateCourseLecture = () => {
       return responseData;
     },
     {
-      // onSuccess: (_data, variables) => {
-      //     queryClient.invalidateQueries(['sections', variables.courseId]);
-      // },
+      onSuccess: (_data, variables) => {
+        queryClient.invalidateQueries(['sections', variables.courseId]);
+      },
       onError: (error: any) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
@@ -73,11 +74,13 @@ export const useCreateCourseLecture = () => {
 };
 
 export const useCreateCourseAssignment = () => {
+  const queryClient = useQueryClient();
   return useMutation(
     async (data: {
       assignmentTitle: string;
       assignmentQuestion?: string;
       sectionId: string;
+      courseId: string;
     }) => {
       const config = {
         method: 'post',
@@ -88,9 +91,9 @@ export const useCreateCourseAssignment = () => {
       return responseData;
     },
     {
-      // onSuccess: (_data, variables) => {
-      //     queryClient.invalidateQueries(['sections', variables.courseId]);
-      // },
+      onSuccess: (_data, variables) => {
+        queryClient.invalidateQueries(['sections', variables.courseId]);
+      },
       onError: (error: any) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);
@@ -100,6 +103,7 @@ export const useCreateCourseAssignment = () => {
 };
 
 export const useCreateCourseExams = () => {
+  const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       const config = {
@@ -111,9 +115,9 @@ export const useCreateCourseExams = () => {
       return responseData;
     },
     {
-      // onSuccess: (_data, variables) => {
-      //     queryClient.invalidateQueries(['sections', variables.courseId]);
-      // },
+      onSuccess: (_data, variables) => {
+        queryClient.invalidateQueries(['sections', variables.courseId]);
+      },
       onError: (error: any) => {
         console.error(error);
         toast.error(`${error?.response?.data?.message || error?.message}`);

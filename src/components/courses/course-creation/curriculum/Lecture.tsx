@@ -23,9 +23,11 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 const Lecture = ({
   setAddCurriculum,
   sectionId,
+  courseId,
 }: {
   setAddCurriculum: any;
   sectionId: string;
+  courseId: string;
 }) => {
   const { mutateAsync: createLecture } = useCreateCourseLecture();
 
@@ -123,6 +125,7 @@ const Lecture = ({
       sectionId,
       lectureTitle: title,
       article: articleDescription,
+      courseId,
       // lectureLength: 3,
     };
     await createLecture(lectureData);
@@ -185,7 +188,7 @@ const Lecture = ({
                 width={28}
                 height={28}
               />
-              <span className="text-xs font-medium">Lecture 1: </span>
+              {/* <span className="text-xs font-medium">Lecture 1: </span> */}
               <span className="text-xs font-light">{title}</span>
               <Image
                 onClick={() => {
@@ -200,7 +203,7 @@ const Lecture = ({
               />
             </div>
             <div className="flex items-center gap-4 z-50">
-              {!lectureContents && (
+              {
                 <span
                   onClick={() => {
                     setLectureContents(true);
@@ -216,7 +219,7 @@ const Lecture = ({
                   />
                   Add content
                 </span>
-              )}
+              }
               <Image
                 onClick={(e) => {
                   setLectureArea(false);
@@ -437,7 +440,7 @@ const Lecture = ({
                       Replace
                     </Button> */}
                   </div>
-                  <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
+                  {/* <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
                     <Image
                       src="/icons/plus.svg"
                       width={20}
@@ -445,7 +448,7 @@ const Lecture = ({
                       alt="plus"
                     />
                     Add video
-                  </span>
+                  </span> */}
                 </div>
               )}
             </div>
@@ -583,7 +586,7 @@ const Lecture = ({
                     </div>
                   </div>
 
-                  <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
+                  {/* <span className="flex gap-3 justify-start text-xs cursor-pointer items-center text-cp-secondary mt-3">
                     <Image
                       src="/icons/plus.svg"
                       width={20}
@@ -591,7 +594,7 @@ const Lecture = ({
                       alt="plus"
                     />
                     Add Article
-                  </span>
+                  </span> */}
                 </div>
               )}
             </div>

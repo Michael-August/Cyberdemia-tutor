@@ -18,6 +18,9 @@ import { StepTitle } from '../StepTitle';
 import Assignment from './Assignment';
 import Exam from './Exam';
 import Lecture from './Lecture';
+import AddedLecture from './Added/AddedLecture';
+import AddedAssignment from './Added/AddedAssignment';
+import AddedExam from './Added/AddedExam';
 
 export const Curriculum = () => {
   const courseId = localStorage.getItem('newCourseId') as string;
@@ -126,7 +129,7 @@ export const Curriculum = () => {
                     {section?.sectionTitle}
                   </span>
                 </div>
-                <div className="content">
+                <div className="content flex flex-col gap-4">
                   {!state.addCurriculum && (
                     <div className="new-item-btn">
                       <span
@@ -145,57 +148,11 @@ export const Curriculum = () => {
                       </span>
                     </div>
                   )}
-                  {state.addCurriculum &&
-                    !state.addLecture &&
-                    !state.addAssignments &&
-                    !state.addExam && (
-                      <div className="flex items-center gap-7">
-                        <span
-                          onClick={() =>
-                            handleSectionAdd(section.id, 'lecture')
-                          }
-                          className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
-                        >
-                          <Image
-                            src="/icons/black_plus.svg"
-                            width={24}
-                            height={24}
-                            alt="plus"
-                          />
-                          New Lecture
-                        </span>
-                        <span
-                          onClick={() =>
-                            handleSectionAdd(section.id, 'assignment')
-                          }
-                          className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
-                        >
-                          <Image
-                            src="/icons/black_plus.svg"
-                            width={24}
-                            height={24}
-                            alt="plus"
-                          />
-                          Assignment Questions
-                        </span>
-                        <span
-                          onClick={() => handleSectionAdd(section.id, 'exam')}
-                          className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
-                        >
-                          <Image
-                            src="/icons/black_plus.svg"
-                            width={24}
-                            height={24}
-                            alt="plus"
-                          />
-                          Exam Questions
-                        </span>
-                      </div>
-                    )}
                   {state.addLecture && (
                     <div>
                       <Lecture
                         sectionId={section.id}
+                        courseId={courseId}
                         setAddCurriculum={() =>
                           handleStateChange(section.id, 'addCurriculum', true)
                         }
@@ -206,6 +163,7 @@ export const Curriculum = () => {
                     <div>
                       <Assignment
                         sectionId={section.id}
+                        courseId={courseId}
                         setAddCurriculum={() =>
                           handleStateChange(section.id, 'addCurriculum', true)
                         }
@@ -216,12 +174,74 @@ export const Curriculum = () => {
                     <div>
                       <Exam
                         sectionId={section.id}
+                        courseId={courseId}
                         setAddCurriculum={() =>
                           handleStateChange(section.id, 'addCurriculum', true)
                         }
                       />
                     </div>
                   )}
+
+                  {state.addCurriculum && (
+                    <div className="flex items-center gap-7">
+                      <span
+                        onClick={() => handleSectionAdd(section.id, 'lecture')}
+                        className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
+                      >
+                        <Image
+                          src="/icons/black_plus.svg"
+                          width={24}
+                          height={24}
+                          alt="plus"
+                        />
+                        New Lecture
+                      </span>
+                      <span
+                        onClick={() =>
+                          handleSectionAdd(section.id, 'assignment')
+                        }
+                        className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
+                      >
+                        <Image
+                          src="/icons/black_plus.svg"
+                          width={24}
+                          height={24}
+                          alt="plus"
+                        />
+                        Assignment Questions
+                      </span>
+                      <span
+                        onClick={() => handleSectionAdd(section.id, 'exam')}
+                        className="flex gap-3 justify-start p-2 text-xs cursor-pointer items-center border border-black text-black !bg-white"
+                      >
+                        <Image
+                          src="/icons/black_plus.svg"
+                          width={24}
+                          height={24}
+                          alt="plus"
+                        />
+                        Exam Questions
+                      </span>
+                    </div>
+                  )}
+                  {section?.lectures > 0 &&
+                    section?.lectures?.map((lecture: any) => (
+                      <div key={lecture?.lectureTitle} className="flex flex-col gap-2">
+                        <AddedLecture lecture={lecture} />
+                      </div>
+                    ))}
+                  {section?.assignment > 0 &&
+                    section?.assignment?.map((assignment: any) => (
+                      <div key={assignment?.assignmentTitle} className="flex flex-col gap-2">
+                        <AddedAssignment assignment={assignment} />
+                      </div>
+                    ))}
+                  {section?.exams > 0 &&
+                    section?.exams?.map((exam: any) => (
+                      <div key={exam?.fileName} className="flex flex-col gap-2">
+                        <AddedExam exam={exam} />
+                      </div>
+                    ))}
                 </div>
               </div>
             );
