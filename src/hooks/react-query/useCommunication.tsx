@@ -63,3 +63,47 @@ export const useGetAnnouncement = (announcementId: string) => {
     },
   );
 };
+
+export const useMakeLab = () => {
+  return useMutation(
+    async (data: any) => {
+      const config = {
+        method: 'post',
+        url: 'lab',
+        data,
+      };
+      const response = await request(config);
+      return response?.data;
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(
+          error?.response?.data?.message ||
+            error?.message ||
+            'An error occurred',
+        );
+      },
+    },
+  );
+};
+
+export const useGetLabs = () => {
+  return useQuery(
+    ['labs'],
+    async () => {
+      const config = {
+        method: 'get',
+        url: `lab`,
+      };
+      const responseData = await request(config);
+      return responseData;
+    },
+    {
+      onError: (error: any) => {
+        console.error(error);
+        toast.error(`${error?.response?.data?.message || error?.message}`);
+      },
+    },
+  );
+};

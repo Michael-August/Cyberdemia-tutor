@@ -1,55 +1,94 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import LabTable from '@/components/lab-table/LabTable';
+import { useGetCourses } from '@/hooks/react-query/course-creation/useCourses';
+import { useMakeLab } from '@/hooks/react-query/useCommunication';
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  IconButton,
+  Input,
+  Modal,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
-
-interface SelectInputProps {
-  title: string;
-  options: string[];
-  selectedOption: string;
-  onOptionSelect: (option: string) => void;
-}
-
-const SelectInput: React.FC<SelectInputProps> = ({
-  title,
-  options,
-  selectedOption,
-  onOptionSelect,
-}) => {
-  return (
-    <div className="relative ">
-      <select
-        className="w-full border-[0.5px] border-slate-300 bg-[#F5F5F5] py-4 px-4 text-[13px] text-gray-400"
-        value={selectedOption}
-        onChange={(e) => onOptionSelect(e.target.value)}
-      >
-        <option value="">{title}</option>
-        {options.map((option, index) => (
-          <option key={index} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
+import { IoArrowForward, IoMegaphoneOutline } from 'react-icons/io5';
+import { useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
 
 const Page: React.FC = () => {
-  const Router = useRouter();
-  const [category, setCategory] = useState<string>('');
-  const [difficulty, setDifficulty] = useState<string>('');
+  const queryClient = useQueryClient();
 
-  const categoryOptions = ['Option 1', 'Option 2', 'Option 3'];
-  const difficultyOptions = ['Easy', 'Medium', 'Hard'];
-  const handleNext = () => {
-    Router.push('/tutor/labs/confirmation');
+  const [title, setTitle] = useState('');
+  const [instruction, setInstruction] = useState('');
+  const [externalLink, setExternalLink] = useState('');
+
+  const { data: courses } = useGetCourses();
+
+  const [openFirstModal, setOpenFirstModal] = useState(false);
+  const [openSecondModal, setOpenSecondModal] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<any>('');
+
+  const handleOpenFirstModal = () => setOpenFirstModal(true);
+  const handleCloseFirstModal = () => setOpenFirstModal(false);
+  const handleOpenSecondModal = () => {
+    setOpenFirstModal(false); // Close the first modal
+    setOpenSecondModal(true); // Open the second modal
+  };
+  const handleCloseSecondModal = () => setOpenSecondModal(false);
+
+  const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    setSelectedCourse((event.target as HTMLInputElement).value);
+  };
+
+  const { mutate: createLab } = useMakeLab();
+
+  const handleLabCreation = () => {
+    createLab(
+      { courseId: selectedCourse, title, instruction, externalLink },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['labs']);
+          toast.success('Lab published!');
+          handleCloseFirstModal();
+          handleCloseSecondModal();
+        },
+        onError: (error) => {
+          console.error('Lab failed:', error);
+        },
+      },
+    );
   };
 
   return (
     <div className="md:w-[65%] px-5 grid gap-y-5 md:pb-20 pb-10 pt-5 md:pt-0">
       <div className="flex flex-col gap-2">
-        <h1 className="text-[16px] font-extrabold">
-          Create Virtual Labs Challenge
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-[16px] font-extrabold">
+            Create Virtual Labs Challenge
+          </h1>
+          <Button
+            variant="contained"
+            sx={{
+              display: 'flex',
+              gap: '8px',
+              justifyContent: 'end',
+              backgroundColor: '#AC1D7E',
+              '&:hover': {
+                backgroundColor: '#8C145E',
+              },
+            }}
+            onClick={handleOpenFirstModal}
+          >
+            Create Lab
+            <IoArrowForward size={20} />
+          </Button>
+        </div>
+
         <span className="text-[12px] font-normal text-gray-600">
           Lorem ipsum dolor sit amet consectetur. Ut porttitor et viverra
           malesuada fringilla. Dictum vitae mi nunc a tellus. Faucibus ac id
@@ -63,75 +102,233 @@ const Page: React.FC = () => {
           penatibus iaculis non ultrices augue.
         </span>
       </div>
-      <div className="flex flex-col gap-2">
-        <h1 className="text-[14px] font-bold">Virtual Labs Request Form</h1>
-        <div className="flex flex-col gap-2">
-          <span className="text-[11px] font-normal text-gray-700">
-            Scenario
-          </span>
-          <input
-            type="text"
-            placeholder="Enter text"
-            className="border-[0.5px] border-slate-300 bg-[#F5F5F5] pb-20 p-2 text-[12px] text-slate-300"
-          />
-        </div>
-      </div>
-      <div className="flex flex-col gap-5 w-full ">
-        <div className="flex gap-5 w-full">
-          <div className="flex flex-col gap-2 w-full">
-            <span className="text-[11px] font-normal text-gray-700">
-              Category
-            </span>
-            <SelectInput
-              title="Category"
-              options={categoryOptions}
-              selectedOption={category}
-              onOptionSelect={setCategory}
+
+      <LabTable />
+
+      {/* First Modal */}
+      <Modal open={openFirstModal} onClose={handleCloseFirstModal}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 600,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: '8px',
+          }}
+        >
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <IconButton color="primary">
+              <IoMegaphoneOutline size={60} color="black" />
+            </IconButton>
+            <Typography variant="h6" sx={{ mt: 2, mb: 2 }}>
+              Select the course you want to create a lab for
+            </Typography>
+          </Box>
+
+          <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 'bold' }}>
+            My courses
+          </Typography>
+          {courses?.data?.courses?.length === 0 && (
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 'bold' }}>
+              No courses available
+            </Typography>
+          )}
+          <RadioGroup value={selectedCourse} onChange={handleCourseChange}>
+            {courses?.data?.courses?.map((course: any) => (
+              <FormControlLabel
+                key={course}
+                value={course.id}
+                control={
+                  <Radio
+                    sx={{
+                      color: '#AC1D7E',
+                      '&.Mui-checked': { color: '#AC1D7E' },
+                    }}
+                  />
+                }
+                label={course?.title}
+              />
+            ))}
+          </RadioGroup>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: '#AC1D7E',
+                color: '#AC1D7E',
+                '&:hover': {
+                  borderColor: '#8C145E',
+                  color: '#8C145E',
+                },
+              }}
+              onClick={handleCloseFirstModal}
+            >
+              Cancel
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#AC1D7E',
+                '&:hover': {
+                  backgroundColor: '#8C145E',
+                },
+              }}
+              onClick={handleOpenSecondModal}
+            >
+              Next
+              <IoArrowForward size={20} />
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Second Modal */}
+      {/* Second Modal */}
+      <Modal open={openSecondModal} onClose={handleCloseSecondModal}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 600,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: '8px',
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 4 }}>
+            My courses
+          </Typography>
+
+          {/* Selected Course Radio Button */}
+          <RadioGroup value={selectedCourse}>
+            <FormControlLabel
+              value={selectedCourse}
+              control={
+                <Radio
+                  sx={{
+                    color: '#AC1D7E',
+                    '&.Mui-checked': { color: '#AC1D7E' },
+                  }}
+                />
+              }
+              label={selectedCourse}
             />
-          </div>
-          <div className="flex flex-col gap-2 w-full">
-            <span className="text-[11px] font-normal text-gray-700">
-              Difficulty
-            </span>
-            <SelectInput
-              title="Difficulty"
-              options={difficultyOptions}
-              selectedOption={difficulty}
-              onOptionSelect={setDifficulty}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
-          <span className="text-[11px] font-normal text-gray-700">
-            What kind of challenge files will be uploaded
-          </span>
-          <input
-            type="text"
-            placeholder="Enter text"
-            className="border-[0.5px] border-slate-300 bg-[#F5F5F5] pb-20 p-2 text-[12px] text-slate-300"
+          </RadioGroup>
+
+          <Input
+            fullWidth
+            placeholder="Enter Lab title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{
+              mt: 2, // Add some margin at the top for spacing
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#8C145E',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+              },
+            }}
           />
-        </div>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
-          <span className="text-[11px] font-normal text-gray-700">
-            What kind of challenge files will be uploaded
-          </span>
-          <input
-            type="text"
-            placeholder="Enter number"
-            className="border-[0.5px] border-slate-300 bg-[#F5F5F5] py-4 p-2 text-[12px] text-slate-300"
+
+          <Input
+            fullWidth
+            type="url"
+            placeholder="Enter External Link"
+            value={externalLink}
+            onChange={(e) => setExternalLink(e.target.value)}
+            sx={{
+              mt: 2, // Add some margin at the top for spacing
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#8C145E',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+              },
+            }}
           />
-        </div>
-      </div>
-      <button
-        className="w-full py-2 bg-cp-secondary hover:bg-cp-primary text-white text-[14px] font-bold mt-10"
-        onClick={handleNext}
-      >
-        Submit Request
-      </button>
+
+          {/* Multiline TextField */}
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            variant="outlined"
+            placeholder="Enter your Lab Instructions here"
+            value={instruction}
+            onChange={(e) => setInstruction(e.target.value)}
+            sx={{
+              mt: 2, // Add some margin at the top for spacing
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#8C145E',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#AC1D7E',
+                },
+              },
+            }}
+          />
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: '#AC1D7E',
+                color: '#AC1D7E',
+                '&:hover': {
+                  borderColor: '#8C145E',
+                  color: '#8C145E',
+                },
+              }}
+              onClick={handleCloseSecondModal}
+            >
+              Back
+            </Button>
+
+            <Button
+              variant="contained"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: '#AC1D7E',
+                '&:hover': {
+                  backgroundColor: '#8C145E',
+                },
+              }}
+              onClick={handleLabCreation}
+            >
+              Publish
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };

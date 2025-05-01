@@ -250,6 +250,19 @@ export const Course = ({ course }: any) => {
           </Typography>
 
           <FormGroup>
+            {courseStudents?.data?.length === 0 && (
+              <div className="flex flex-col items-center justify-center gap-2">
+                <Image
+                  src="/images/empty.svg"
+                  width={100}
+                  height={100}
+                  alt="empty"
+                />
+                <span className="text-sm font-semibold">
+                  No students enrolled in this course
+                </span>
+              </div>
+            )}
             {courseStudents?.data?.map((obj: any) => (
               <FormControlLabel
                 key={obj?.student?.id}
