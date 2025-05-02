@@ -69,7 +69,7 @@ export const useMakeLab = () => {
     async (data: any) => {
       const config = {
         method: 'post',
-        url: 'lab',
+        url: 'Labs',
         data,
       };
       const response = await request(config);
@@ -94,7 +94,7 @@ export const useGetLabs = () => {
     async () => {
       const config = {
         method: 'get',
-        url: `lab`,
+        url: `Labs/instructor`,
       };
       const responseData = await request(config);
       return responseData;
