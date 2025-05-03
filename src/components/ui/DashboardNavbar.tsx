@@ -78,7 +78,9 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                   <p className="text-gray-200 font-semibold capitalize text-justify">
                     {data && JSON.parse(data).fullName}
                   </p>
-                  <p className="text-gray-400">{data && JSON.parse(data).email}</p>
+                  <p className="text-gray-400">
+                    {data && JSON.parse(data).email}
+                  </p>
                 </div>
                 <button
                   onClick={handleLogout}
