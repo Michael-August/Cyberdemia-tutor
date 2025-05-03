@@ -54,13 +54,14 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
           </div>
         </div>
         <div className="md:flex items-center gap-2 hidden">
-          <Image
-            src="/images/profilePicture.svg"
-            alt="User Avatar"
-            width={28}
-            height={28}
-            className="h-7 w-7 rounded-full"
-          />
+          <div className="w-7 flex items-center bg-white p-2 justify-center h-7 rounded-[50%] border border-solid">
+            {
+              <span className="font-bold text-cp-secondary">
+                {data && JSON.parse(data).fullName.split(' ')[0][0]}
+                {data && JSON.parse(data).fullName.split(' ')[1][0]}
+              </span>
+            }
+          </div>
           <div>
             <p className="text-[10px] capitalize text-gray-300">
               {data && JSON.parse(data).fullName}
@@ -77,7 +78,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                   <p className="text-gray-200 font-semibold capitalize text-justify">
                     {data && JSON.parse(data).fullName}
                   </p>
-                  <p className="text-gray-400">JohnDoe@gmail.com</p>
+                  <p className="text-gray-400">{data && JSON.parse(data).email}</p>
                 </div>
                 <button
                   onClick={handleLogout}
