@@ -8,6 +8,7 @@ import { useTutorForgetPassword } from '@/hooks/react-query/useAuth';
 import { Input } from '../inputs';
 import { Label } from '../label';
 import Loader from '../loader';
+import { useRouter } from 'next/navigation';
 
 type FormValues = {
   email: string;
@@ -17,6 +18,8 @@ type FormValues = {
 const ForgotPassword: React.FC = () => {
   const { mutate: forgetPassword, isLoading } = useTutorForgetPassword();
 
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -24,7 +27,12 @@ const ForgotPassword: React.FC = () => {
   } = useForm<FormValues>();
 
   const submitForm: SubmitHandler<FormValues> = (data) => {
-    forgetPassword(data);
+    try {
+      forgetPassword(data);
+      router.push('/password-reset');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
